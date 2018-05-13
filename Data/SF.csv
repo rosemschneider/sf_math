@@ -1,0 +1,487 @@
+﻿SID,age,sex,experimenter,location,language,exclude,exclude_reason,trial,starting_num,alt_order,num_answer,correct,note,exclude_trial,exclude_trial_reason,double_coded
+020918-JB,4;11,M,KG,Lab,English,0,,1,1,less_first,2,1,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,2,3,greater_first,4,1,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,3,6,less_first,7,1,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,4,51,greater_first,52,1,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,5,84,less_first,85,1,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,6,62,greater_first,63,1,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,7,57,less_first,58,1,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,8,20,greater_first,21,1,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,9,32,less_first,33,0,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,10,93,greater_first,94,1,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,11,60,less_first,61,0,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,12,46,greater_first,47,0,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,13,81,less_first,82,0,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,14,15,greater_first,16,0,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,15,73,less_first,74,0,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,16,34,greater_first,35,1,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,17,95,less_first,96,0,,,,SL
+020918-JB,4;11,M,KG,Lab,English,0,,18,7,greater_first,8,0,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,1,1,less_first,2,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,2,3,greater_first,4,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,3,6,less_first,7,0,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,4,51,greater_first,52,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,5,84,less_first,85,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,6,62,greater_first,63,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,7,57,less_first,58,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,8,20,greater_first,21,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,9,32,less_first,33,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,10,93,greater_first,94,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,11,60,less_first,61,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,12,46,greater_first,47,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,13,81,less_first,82,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,14,15,greater_first,16,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,15,73,less_first,74,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,16,34,greater_first,35,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,17,95,less_first,96,1,,,,SL
+020918-CZ,4;5,F,KG,Lab,English,0,,18,7,greater_first,8,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,1,1,less_first,2,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,2,3,greater_first,4,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,3,6,less_first,7,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,4,51,greater_first,52,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,5,84,less_first,85,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,6,62,greater_first,63,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,7,57,less_first,58,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,8,20,greater_first,21,0,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,9,32,less_first,33,0,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,10,93,greater_first,94,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,11,60,less_first,61,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,12,46,greater_first,47,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,13,81,less_first,82,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,14,15,greater_first,16,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,15,73,less_first,74,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,16,34,greater_first,35,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,17,95,less_first,96,1,,,,SL
+021618-CC,5;0,F,KG,Lab,English,0,,18,7,greater_first,8,1,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,1,1,less_first,2,1,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,2,3,greater_first,4,1,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,3,6,less_first,8,0,switched order,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,4,51,greater_first,53,0,switched order,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,5,84,less_first,86,0,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,6,62,greater_first,63,1,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,7,57,less_first,59,0,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,8,20,greater_first,21,1,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,9,32,less_first,34,0,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,10,93,greater_first,95,0,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,11,60,less_first,62,0,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,12,46,greater_first,47,1,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,13,81,less_first,83,0,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,14,15,greater_first,16,1,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,15,73,less_first,75,0,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,16,34,greater_first,35,1,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,17,95,less_first,97,0,,,,SL
+022818-JB,5;7,M,KG,Gillispie,English,0,,18,7,greater_first,8,1,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,1,1,less_first,2,1,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,2,3,greater_first,4,1,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,3,6,less_first,7,1,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,4,51,greater_first,53,0,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,5,84,less_first,86,0,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,6,62,greater_first,64,0,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,7,57,less_first,58,1,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,8,20,greater_first,22,0,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,9,32,less_first,33,1,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,10,93,greater_first,94,1,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,11,60,less_first,61,1,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,12,46,greater_first,47,1,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,13,81,less_first,83,0,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,14,15,greater_first,17,0,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,15,73,less_first,75,0,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,16,34,greater_first,36,0,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,17,95,less_first,97,0,,,,SL
+022818-MH,4;3,F,KG,Gillispie,English,0,,18,7,greater_first,9,0,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,1,1,less_first,2,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,2,3,greater_first,4,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,3,6,less_first,7,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,4,51,greater_first,52,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,5,84,less_first,85,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,6,62,greater_first,63,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,7,57,less_first,58,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,8,20,greater_first,22,0,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,9,32,less_first,34,0,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,10,93,greater_first,94,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,11,60,less_first,62,0,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,12,46,greater_first,47,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,13,81,less_first,82,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,14,15,greater_first,16,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,15,73,less_first,75,0,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,16,34,greater_first,35,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,17,95,less_first,96,1,,,,SL
+022818-OT,5;6,M,KG,Gillispie,English,0,,18,7,greater_first,9,0,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,1,1,less_first,2,1,Gestures,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,2,3,greater_first,4,1,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,3,6,less_first,7,1,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,4,51,greater_first,52,1,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,5,84,less_first,86,0,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,6,62,greater_first,64,0,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,7,57,less_first,58,1,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,8,20,greater_first,22,0,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,9,32,less_first,34,0,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,10,93,greater_first,94,1,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,11,60,less_first,62,0,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,12,46,greater_first,47,1,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,13,81,less_first,83,0,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,14,15,greater_first,16,1,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,15,73,less_first,75,0,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,16,34,greater_first,35,1,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,17,95,less_first,97,0,,,,SL
+022818-TK,4;2,M,KG,Gillispie,English,0,,18,7,greater_first,8,1,,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,1,1,less_first,2,1,,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,2,3,greater_first,4,1,,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,3,6,less_first,7,1,,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,4,51,greater_first,52,1,,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,5,84,less_first,85,1,,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,6,62,greater_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,7,57,less_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,8,20,greater_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,9,32,less_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,10,93,greater_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,11,60,less_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,12,46,greater_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,13,81,less_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,14,15,greater_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,15,73,less_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,16,34,greater_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,17,95,less_first,NA,0,didn't want to play anymore,,,SL
+022818-AK,5;10,F,KG,Gillispie,English,1,,18,7,greater_first,NA,0,didn't want to play anymore,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,1,1,less_first,2,1,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,2,3,greater_first,4,1,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,3,6,less_first,7,1,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,4,51,greater_first,53,0,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,5,84,less_first,86,0,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,6,62,greater_first,63,1,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,7,57,less_first,59,0,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,8,20,greater_first,21,1,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,9,32,less_first,33,1,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,10,93,greater_first,95,0,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,11,60,less_first,62,0,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,12,46,greater_first,47,1,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,13,81,less_first,83,0,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,14,15,greater_first,16,1,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,15,73,less_first,75,0,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,16,34,greater_first,35,1,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,17,95,less_first,96,1,,,,SL
+040418-JO,4;1,F,KG,Gillispie,English,0,,18,7,greater_first,8,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,1,1,less_first,2,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,2,3,greater_first,4,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,3,6,less_first,7,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,4,51,greater_first,52,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,5,84,less_first,85,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,6,62,greater_first,64,0,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,7,57,less_first,59,0,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,8,20,greater_first,21,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,9,32,less_first,34,0,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,10,93,greater_first,94,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,11,60,less_first,62,0,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,12,46,greater_first,47,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,13,81,less_first,82,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,14,15,greater_first,17,0,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,15,73,less_first,74,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,16,34,greater_first,35,1,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,17,95,less_first,97,0,,,,SL
+041118-EB,5;3,M,KG,Little Lamb,English,0,,18,7,greater_first,8,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,1,1,less_first,2,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,2,3,greater_first,4,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,3,6,less_first,7,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,4,51,greater_first,52,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,5,84,less_first,85,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,6,62,greater_first,63,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,7,57,less_first,58,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,8,20,greater_first,21,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,9,32,less_first,33,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,10,93,greater_first,94,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,11,60,less_first,61,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,12,46,greater_first,47,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,13,81,less_first,82,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,14,15,greater_first,16,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,15,73,less_first,74,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,16,34,greater_first,35,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,17,95,less_first,96,1,,,,SL
+041118-SS,5;5,M,KG,Little Lamb,English,0,,18,7,greater_first,8,1,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,1,1,less_first,2,1,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,2,3,greater_first,5,0,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,3,6,less_first,7,1,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,4,51,greater_first,53,0,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,5,84,less_first,85,1,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,6,62,greater_first,64,0,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,7,57,less_first,58,1,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,8,20,greater_first,22,0,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,9,32,less_first,34,0,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,10,93,greater_first,95,0,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,11,60,less_first,62,0,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,12,46,greater_first,47,1,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,13,81,less_first,83,0,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,14,15,greater_first,17,0,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,15,73,less_first,75,0,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,16,34,greater_first,35,1,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,17,95,less_first,96,1,,,,SL
+041218-EC,5;6,F,KG,FUMCCV,English,0,,18,7,greater_first,8,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,1,1,less_first,2,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,2,3,greater_first,4,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,3,6,less_first,7,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,4,51,greater_first,52,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,5,84,less_first,85,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,6,62,greater_first,63,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,7,57,less_first,59,0,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,8,20,greater_first,21,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,9,32,less_first,34,0,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,10,93,greater_first,94,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,11,60,less_first,61,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,12,46,greater_first,47,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,13,81,less_first,82,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,14,15,greater_first,17,0,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,15,73,less_first,74,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,16,34,greater_first,36,0,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,17,95,less_first,96,1,,,,SL
+041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,18,7,greater_first,8,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,1,1,less_first,2,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,2,3,greater_first,4,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,3,6,less_first,7,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,4,51,greater_first,52,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,5,84,less_first,85,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,6,62,greater_first,64,0,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,7,57,less_first,58,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,8,20,greater_first,22,0,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,9,32,less_first,33,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,10,93,greater_first,95,0,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,11,60,less_first,61,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,12,46,greater_first,48,0,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,13,81,less_first,82,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,14,15,greater_first,17,0,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,15,73,less_first,74,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,16,34,greater_first,36,0,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,17,95,less_first,96,1,,,,SL
+041218-CL,5;0,M,KG,FUMCCV,English,0,,18,7,greater_first,8,1,,,,SL
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",1,1,less_first,2,1,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",2,3,greater_first,4,1,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",3,6,less_first,7,1,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",4,51,greater_first,52,1,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",5,84,less_first,85,1,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",6,62,greater_first,63,1,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",7,57,less_first,59,0,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",8,20,greater_first,21,1,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",9,32,less_first,34,0,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",10,93,greater_first,94,1,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",11,60,less_first,61,1,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",12,46,greater_first,47,1,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",13,81,less_first,83,0,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",14,15,greater_first,17,0,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",15,73,less_first,75,0,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",16,34,greater_first,35,1,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",17,95,less_first,97,0,,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",18,7,greater_first,8,1,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,1,1,less_first,2,1,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,2,3,greater_first,5,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,3,6,less_first,8,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,4,51,greater_first,53,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,5,84,less_first,85,1,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,6,62,greater_first,64,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,7,57,less_first,58,1,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,8,20,greater_first,22,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,9,32,less_first,34,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,10,93,greater_first,94,1,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,11,60,less_first,62,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,12,46,greater_first,48,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,13,81,less_first,83,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,14,15,greater_first,17,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,15,73,less_first,75,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,16,34,greater_first,36,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,17,95,less_first,97,0,,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,18,7,greater_first,8,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,1,1,less_first,2,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,2,3,greater_first,4,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,3,6,less_first,7,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,4,51,greater_first,52,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,5,84,less_first,85,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,6,62,greater_first,63,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,7,57,less_first,58,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,8,20,greater_first,21,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,9,32,less_first,34,0,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,10,93,greater_first,94,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,11,60,less_first,61,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,12,46,greater_first,47,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,13,81,less_first,82,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,14,15,greater_first,16,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,15,73,less_first,74,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,16,34,greater_first,35,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,17,95,less_first,96,1,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,18,7,greater_first,8,1,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,1,1,less_first,2,1,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,2,3,greater_first,5,0,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,3,6,less_first,8,0,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,4,51,greater_first,52,1,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,5,84,less_first,86,0,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,6,62,greater_first,63,1,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,7,57,less_first,59,0,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,8,20,greater_first,21,1,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,9,32,less_first,34,0,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,10,93,greater_first,95,0,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,11,60,less_first,62,0,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,12,46,greater_first,47,1,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,13,81,less_first,83,0,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,14,15,greater_first,16,1,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,15,73,less_first,75,0,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,16,34,greater_first,35,1,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,17,95,less_first,97,0,,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,18,7,greater_first,8,1,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,1,1,less_first,2,1,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,2,3,greater_first,4,1,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,3,6,less_first,7,1,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,4,51,greater_first,53,0,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,5,84,less_first,85,1,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,6,62,greater_first,64,0,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,7,57,less_first,59,0,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,8,20,greater_first,22,0,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,9,32,less_first,34,0,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,10,93,greater_first,94,1,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,11,60,less_first,62,0,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,12,46,greater_first,47,1,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,13,81,less_first,83,0,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,14,15,greater_first,16,1,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,15,73,less_first,74,1,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,16,34,greater_first,36,0,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,17,95,less_first,96,1,,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,18,7,greater_first,9,0,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,1,1,less_first,2,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,2,3,greater_first,4,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,3,6,less_first,7,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,4,51,greater_first,52,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,5,84,less_first,85,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,6,62,greater_first,64,0,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,7,57,less_first,58,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,8,20,greater_first,21,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,9,32,less_first,33,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,10,93,greater_first,94,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,11,60,less_first,62,0,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,12,46,greater_first,48,0,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,13,81,less_first,83,0,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,14,15,greater_first,16,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,15,73,less_first,74,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,16,34,greater_first,35,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,17,95,less_first,96,1,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,18,7,greater_first,8,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,1,1,less_first,2,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,2,3,greater_first,4,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,3,6,less_first,7,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,4,51,greater_first,52,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,5,84,less_first,85,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,6,62,greater_first,64,0,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,7,57,less_first,58,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,8,20,greater_first,21,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,9,32,less_first,34,0,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,10,93,greater_first,94,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,11,60,less_first,62,0,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,12,46,greater_first,47,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,13,81,less_first,82,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,14,15,greater_first,17,0,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,15,73,less_first,74,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,16,34,greater_first,35,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,17,95,less_first,96,1,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,18,7,greater_first,8,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,1,1,less_first,2,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,2,3,greater_first,4,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,3,6,less_first,7,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,4,51,greater_first,52,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,5,84,less_first,85,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,6,62,greater_first,64,0,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,7,57,less_first,58,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,8,20,greater_first,21,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,9,32,less_first,34,0,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,10,93,greater_first,94,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,11,60,less_first,61,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,12,46,greater_first,47,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,13,81,less_first,82,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,14,15,greater_first,16,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,15,73,less_first,74,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,16,34,greater_first,35,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,17,95,less_first,96,1,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,18,7,greater_first,9,0,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,1,1,less_first,2,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,2,3,greater_first,4,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,3,6,less_first,7,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,4,51,greater_first,52,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,5,84,less_first,85,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,6,62,greater_first,63,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,7,57,less_first,58,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,8,20,greater_first,21,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,9,32,less_first,34,0,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,10,93,greater_first,94,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,11,60,less_first,61,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,12,46,greater_first,47,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,13,81,less_first,83,0,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,14,15,greater_first,16,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,15,73,less_first,75,0,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,16,34,greater_first,35,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,17,95,less_first,96,1,,,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,18,7,greater_first,8,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,1,1,less_first,2,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,2,3,greater_first,4,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,3,6,less_first,8,0,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,4,51,greater_first,52,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,5,84,less_first,85,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,6,62,greater_first,63,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,7,57,less_first,58,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,8,20,greater_first,21,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,9,32,less_first,33,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,10,93,greater_first,95,0,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,11,60,less_first,61,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,12,46,greater_first,47,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,13,81,less_first,82,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,14,15,greater_first,17,0,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,15,73,less_first,74,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,16,34,greater_first,35,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,17,95,less_first,96,1,,,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,18,7,greater_first,8,1,,,,RMS
+042418-MB,5.442847365,F,KG,McKinley,English,0,,1,1,less_first,2,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,2,3,greater_first,4,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,3,6,less_first,7,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,4,51,greater_first,52,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,5,84,less_first,85,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,6,62,greater_first,63,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,7,57,less_first,58,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,8,20,greater_first,21,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,9,32,less_first,34,0,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,10,93,greater_first,94,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,11,60,less_first,61,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,12,46,greater_first,47,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,13,81,less_first,83,0,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,14,15,greater_first,17,0,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,15,73,less_first,74,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,16,34,greater_first,35,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,17,95,less_first,96,1,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,18,7,greater_first,8,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,1,1,less_first,2,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,2,3,greater_first,4,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,3,6,less_first,7,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,4,51,greater_first,52,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,5,84,less_first,85,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,6,62,greater_first,63,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,7,57,less_first,58,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,8,20,greater_first,21,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,9,32,less_first,33,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,10,93,greater_first,94,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,11,60,less_first,61,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,12,46,greater_first,48,0,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,13,81,less_first,82,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,14,15,greater_first,16,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,15,73,less_first,74,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,16,34,greater_first,35,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,17,95,less_first,96,1,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,18,7,greater_first,8,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,1,1,less_first,2,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,2,3,greater_first,4,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,3,6,less_first,7,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,4,51,greater_first,52,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,5,84,less_first,85,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,6,62,greater_first,63,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,7,57,less_first,58,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,8,20,greater_first,21,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,9,32,less_first,33,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,10,93,greater_first,94,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,11,60,less_first,61,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,12,46,greater_first,48,0,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,13,81,less_first,82,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,14,15,greater_first,16,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,15,73,less_first,74,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,16,34,greater_first,35,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,17,95,less_first,96,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,18,7,greater_first,8,1,,,,SL

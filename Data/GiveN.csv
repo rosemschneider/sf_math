@@ -1,0 +1,129 @@
+﻿SID,age,sex,experimenter,location,language,exclude,exclude_reason,trial,number,correct,note,double_coded
+020918-JB,4.925393566,M,KG,Lab,English,0,,1,6,1,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,2,9,1,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,3,7,1,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,4,5,1,,SL
+020818-CZ,4.421629021,F,KG,Lab,English,0,,1,6,1,,SL
+020818-CZ,4.421629021,F,KG,Lab,English,0,,2,9,1,,SL
+020818-CZ,4.421629021,F,KG,Lab,English,0,,3,7,1,,SL
+020818-CZ,4.421629021,F,KG,Lab,English,0,,4,5,1,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,1,6,1,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,2,9,1,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,3,7,1,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,4,5,1,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,1,6,1,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,2,9,1,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,3,7,1,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,4,5,1,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,1,6,1,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,2,9,1,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,3,7,1,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,4,5,1,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,1,6,1,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,2,9,1,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,3,7,1,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,4,5,1,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,1,6,1,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,2,9,1,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,3,7,1,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,4,5,1,,SL
+022818-AK,5.839835729,F,KG,Gillispie,English,0,,1,6,1,,SL
+022818-AK,5.839835729,F,KG,Gillispie,English,0,,2,9,1,,SL
+022818-AK,5.839835729,F,KG,Gillispie,English,0,,3,7,1,,SL
+022818-AK,5.839835729,F,KG,Gillispie,English,0,,4,5,1,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,1,6,1,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,2,9,1,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,3,7,1,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,4,5,1,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,1,6,1,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,2,9,1,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,3,7,1,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,4,5,1,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,1,6,1,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,2,9,1,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,3,7,1,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,4,5,1,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,1,6,1,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,2,9,1,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,3,7,1,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,4,5,1,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,1,6,1,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,2,9,1,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,3,7,1,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,4,5,1,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,1,6,1,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,2,9,1,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,3,7,1,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,4,5,1,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,1,6,1,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,2,9,1,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,3,7,1,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,4,5,1,,SL
+041318-AA1,4.605065024,M,SL,Ridge City,English,1,not CP knower,1,6,1,,RMS
+041318-AA1,4.605065024,M,SL,Ridge City,English,1,not CP knower,2,9,0,,RMS
+041318-AA1,4.605065024,M,SL,Ridge City,English,1,not CP knower,3,7,1,,RMS
+041318-AA1,4.605065024,M,SL,Ridge City,English,1,not CP knower,4,5,0,,RMS
+041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,1,6,0,,RMS
+041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,2,9,0,,RMS
+041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,3,7,0,,RMS
+041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,4,5,0,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",1,6,1,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",2,9,1,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",3,7,1,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",4,5,1,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,1,6,1,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,2,9,1,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,3,7,1,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,4,5,1,,RMS
+041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,1,6,0,,RMS
+041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,2,9,0,,RMS
+041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,3,7,0,,RMS
+041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,4,5,0,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,1,6,1,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,2,9,1,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,3,7,1,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,4,5,1,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,1,6,1,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,2,9,1,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,3,7,1,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,4,5,1,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,1,6,1,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,2,9,1,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,3,7,1,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,4,5,1,,RMS
+041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,1,6,0,,RMS
+041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,2,9,0,,RMS
+041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,3,7,0,,RMS
+041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,4,5,0,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,1,6,1,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,2,9,1,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,3,7,1,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,4,5,1,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,1,6,1,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,2,9,1,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,3,7,1,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,4,5,1,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,1,6,1,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,2,9,1,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,3,7,1,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,4,5,1,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,1,6,1,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,2,9,1,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,3,7,1,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,4,5,1,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,1,6,1,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,2,9,1,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,3,7,1,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,4,5,1,,RMS
+042418-MB,5.442847365,F,KG,McKinley,English,0,,1,6,1,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,2,9,1,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,3,7,1,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,4,5,1,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,1,6,1,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,2,9,1,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,3,7,1,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,4,5,1,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,1,6,1,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,2,9,1,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,3,7,1,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,4,5,1,,SL
