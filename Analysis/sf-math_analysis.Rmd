@@ -1,0 +1,24 @@
+---
+title: "SF-Math analysis"
+author: "Rose Schneider"
+date: "5/13/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+rm(list = ls())
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(magrittr)
+library(langcog)
+setwd("Documents/Projects/sf_math/") #this is specific filepath for RMS
+```
+
+#Setup
+
+##Loading data
+
+```{r}
+
+```
+
