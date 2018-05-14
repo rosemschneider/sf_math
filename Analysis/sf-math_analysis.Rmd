@@ -7,18 +7,130 @@ output: html_document
 
 ```{r setup, include=FALSE}
 rm(list = ls())
-knitr::opts_chunk$set(echo = TRUE)
+require("knitr")
+opts_knit$set(root.dir = "~/Documents/Projects/sf_math/")
 library(tidyverse)
 library(magrittr)
 library(langcog)
-setwd("Documents/Projects/sf_math/") #this is specific filepath for RMS
 ```
 
 #Setup
 
 ##Loading data
-
+Each task is stored as a separate CSV. Need to tidy and check each sheet individually.
 ```{r}
+#First load Give N
+given.raw <- read.csv("Data/GiveN.csv")
+
+#Then load Highest Count
+highestcount.raw <- read.csv("Data/HighestCount.csv")
+
+#Then load SF
+sf.raw <- read.csv("Data/SF.csv")
+
+#Then load Next Number
+nextnumber.raw <- read.csv("Data/NextNumber.csv")
+
+#Then load Math Facts
+mathfacts.raw <- read.csv("Data/MathFacts.csv")
+
+#Then load Indefinite
+indefinite.raw <- read.csv("Data/Indefinite.csv")
+```
+
+##Tidy data
+Remove all exclusions. Make sure that anyone who is excluded by Give N is not included in other analyses.
+```{r}
+#get list of SIDs excluded by GiveN
+given.exclusions <- given %>%
+  filter(exclude == 1)%>%
+  distinct(SID)
+
+given.exclusions <- as.vector(given.exclusions$SID)
+
+'%!in%' <- function(x,y)!('%in%'(x,y))
+
+#exclude these SIDS from other dfs 
+given.raw %<>%
+  filter(SID %!in% given.exclusions)
+
+highestcount.raw %<>%
+  filter(SID %!in% given.exclusions)
+
+sf.raw %<>%
+  filter(SID %!in% given.exclusions)
+
+nextnumber.raw %<>%
+  filter(SID %!in% given.exclusions)
+
+mathfacts.raw %<>%
+  filter(SID %!in% given.exclusions)
+
+indefinite.raw %<>%
+  filter(SID %!in% given.exclusions)
+
+#check to see if there are any other exclusions
+check_exclusions <- function(df) {
+  check <- df %>%
+    filter(exclude == 1)
+  
+  if(length(check$SID) >0) {
+    return(check)
+    return("exclusions remain, manually check")
+  } else {
+    "No problems"
+  }
+}
+
+#check exclusions for each df
+given.problem <- check_exclusions(given.raw)
+highestcount.problem <- check_exclusions(highestcount.raw)
+sf.problem <- check_exclusions(sf.raw)
+nextnumber.problem <- check_exclusions(nextnumber.raw)
+mathfacts.problem <- check_exclusions(mathfacts.raw)
+indefinite.problem <- check_exclusions(indefinite.raw)
+
+##if you have manually checked the exclusions above, exclude the participant from each task
+exclude.manual <- as.vector(highestcount.problem$SID)
+
+given.raw %<>%
+  filter(SID %!in% exclude.manual)
+
+highestcount.raw %<>%
+  filter(SID %!in% exclude.manual)
+
+sf.raw %<>%
+  filter(SID %!in% exclude.manual)
+
+nextnumber.raw %<>%
+  filter(SID %!in% exclude.manual)
+
+mathfacts.raw %<>%
+  filter(SID %!in% exclude.manual)
+
+indefinite.raw %<>%
+  filter(SID %!in% exclude.manual)
+```
+
+###Sanity check
+After exclusions, do you have the same number of participants in each task?
+```{r}
+get_distinct <- function(df){
+  distinct_SIDs <- df %>%
+    distinct(SID)
+}
+
+#note - this does not include indefinite, because not every participant did indefinite
+given.distinct <- as.vector(get_distinct(given.raw))
+highestcount.distinct <- as.vector(get_distinct(highestcount.raw))
+sf.distinct <- as.vector(get_distinct(sf.raw))
+nextnumber.distinct <- as.vector(get_distinct(nextnumber.raw))
+mathfacts.distinct <- as.vector(get_distinct(mathfacts.raw))
+
+#Need to make this word
+tmp <- given.distinct[given.distinct %!in% highestcount.distinct]
 
 ```
 
+##Coding check
+Is everything marked as correct actually correct?
