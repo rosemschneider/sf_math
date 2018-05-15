@@ -1,72 +1,83 @@
 ﻿SID,age,sex,experimenter,location,language,exclude,exclude_reason,last_successful,error,prompt,after_prompt,initial_highest,final_highest,special_count,note,exclude_trial,exclude_trial_reason,double_coded
-022818-JB,5;7,M,KG,Gillispie,English,0,,29,50,30,31,29,42,0,,,,SL
-022818-JB,5;7,M,KG,Gillispie,English,0,,39,12,40,41,29,42,0,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,19,21,20,21,19,34,0,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,29,22,30,31,19,34,0,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,33,44,34,45,19,34,1,Child started from 1,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,27,30,28,29,27,75,0,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,29,20-10,30,31,27,75,0,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,39,38,40,41,27,75,0,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,49,20,50,51,27,75,0,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,59,50-10,60,61,27,75,0,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,69,60-10,70,71,27,75,0,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,75,78,76,IDK,27,75,0,,,,SL
-022818-TK,4;2,M,KG,Gillispie,English,0,,15,17,16,17,15,19,0,,,,SL
-022818-TK,4;2,M,KG,Gillispie,English,0,,19,25,20,30,15,19,0,,,,SL
-022818-AK,5;10,F,KG,Gillispie,English,1,,109,IDK,110,111,109,121,0,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,28,90,29,29,28,28,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,14,16,15,done,14,14,0,,,,SL
-041118-EB,5;3,M,KG,Little Lamb,English,0,,100,102,101,102,100,109,0,,,,SL
-041118-EB,5;3,M,KG,Little Lamb,English,0,,109,111,110,30-100,100,109,0,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,109,IDK,110,11 - 100,109,109,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,29,40,30,32,29,29,0,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,69,IDK,70,71,69,109,0,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,79,IDK,80,81,69,109,0,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,89,IDK,90,91,69,109,0,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,99,IDK,100,101,69,109,0,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,109,IDK,110,IDK,69,109,0,,,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,27,29,28,29,27,39,0,,,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,37,39,38,39,27,39,1,"after prompt, started counting from 20 but KG corrected the child and the child started counting from 38",,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,39,IDK,40,31,27,39,0,,,,SL
-041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",14,IDK,15,1,14,NA,1,"after prompt started to count from 1; skipped numbers, but can't tell if correct count",,,RMS
+020918-JB,4.925393566,M,KG,Lab,English,0,,29,40,30,31,29,48,0,,,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,39,IDK,40,41,29,48,0,,,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,48,IDK,49,IDK,29,48,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,28,27,29,29,28,113,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,49,30,50,51,28,113,1,Child started from 1,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,59,30,60,61,28,113,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,69,30,70,71,28,113,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,79,IDK,80,81,28,113,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,109,46,110,111,28,113,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,113,IDK,114,IDK,28,113,0,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,109,1000,110,1000,109,109,0,,,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,29,50,30,31,29,42,0,,,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,39,12,40,41,29,42,0,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,19,21,20,21,19,34,0,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,29,22,30,31,19,34,0,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,33,44,34,45,19,34,0,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,27,30,28,29,27,75,0,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,29,20-10,30,31,27,75,0,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,39,38,40,41,27,75,0,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,49,20,50,51,27,75,0,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,59,50-10,60,61,27,75,0,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,69,60-10,70,71,27,75,0,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,75,78,76,IDK,27,75,0,,,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,15,17,16,17,15,19,0,,,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,19,25,20,30,15,19,0,,,,SL
+022818-AK,5.839835729,F,KG,Gillispie,English,1,,109,IDK,110,111,109,121,0,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,28,90,29,29,28,28,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,14,16,15,done,14,14,1,"after prompt, started counting from 20 but KG corrected the child and the child started counting from 38",,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,100,102,101,102,100,109,0,,,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,109,111,110,30-100,100,109,1,"after prompt started to count from 1; skipped numbers, but can't tell if correct count",,,RMS
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,109,IDK,110,11 - 100,109,109,0,,,,RMS
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,29,40,30,32,29,29,1,"after prompt,  started from 1",,,RMS
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,69,IDK,70,71,69,109,0,child asked to stop,,,RMS
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,79,IDK,80,81,69,109,0,,,,RMS
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,89,IDK,90,91,69,109,0,child asked to stop,,,RMS
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,99,IDK,100,101,69,109,0,,,,RMS
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,109,IDK,110,IDK,69,109,0,,,,RMS
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,27,29,28,29,27,39,0,,,,RMS
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,37,39,38,39,27,39,0,,,,RMS
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,39,IDK,40,31,27,39,0,child asked to stop,,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",14,IDK,15,1,14,NA,0,child asked to stop,,,RMS
 041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,14,16,15,1,14,14,0,,,,RMS
-041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,14,16,15,1,14,14,1,"after prompt,  started from 1",,,RMS
-041818-AM,4.27104723,F,KG,Seaside,English,0,,39,3010,40,IDK,40,40,0,child asked to stop,,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,14,16,15,1,14,14,0,,,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,39,3010,40,IDK,40,40,0,,,,RMS
 041818-OH,4.42984257,F,KG,Seaside,English,0,,59,40,60,61,59,63,0,,,,RMS
-041818-OH,4.42984257,F,KG,Seaside,English,0,,63,I'm tired,NA,NA,59,63,0,child asked to stop,,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,63,I'm tired,NA,NA,59,63,0,,,,RMS
 041818-G1,4.54757016,F,KG,Seaside,English,0,,15,14,16,17,15,54,0,,,,RMS
 041818-G1,4.54757016,F,KG,Seaside,English,0,,29,20,30,31,15,54,0,,,,RMS
-041818-G1,4.54757016,F,KG,Seaside,English,0,,39,IDK,40,41,15,54,0,,,,RMS
-041818-G1,4.54757016,F,KG,Seaside,English,0,,49,40,50,51,15,54,0,,,,RMS
-041818-G1,4.54757016,F,KG,Seaside,English,0,,54,15,55,IDK,15,54,0,child asked to stop,,,RMS
-041818-DM,5.0349076,M,KG,Seaside,English,0,,39,IDK,40,IDK,39,39,0,child asked to stop,,,RMS
-042418-RN,5.50308008,M,KG,McKinley,English,0,,109,IDK,110,111,109,120,0,,,,RMS
-042418-RN,5.50308008,M,KG,McKinley,English,0,,119,IDK,120,121,109,120,0,,,,RMS
-042418-RN,5.50308008,M,KG,McKinley,English,0,,129,120-ten,130,140,109,120,0,,,,RMS
-042418-LL,5.69199179,M,KG,McKinley,English,0,,119,IDK,120,121,119,120,0,,,,RMS
-042418-LC,5.44284736,M,KG,McKinley,English,0,,NA,NA,NA,NA,120,120,0,,,,RMS
-042418-LF,5.56605065,F,KG,McKinley,English,0,,59,70,60,61,59,109,0,,,,RMS
-042418-LF,5.56605065,F,KG,McKinley,English,0,,79,30,80,81,59,109,0,,,,RMS
-042418-LF,5.56605065,F,KG,McKinley,English,0,,88,90,89,89,59,109,0,"child kept skipping, 89, KG provided prompt, then child used prompt",,,RMS
-042418-LF,5.56605065,F,KG,McKinley,English,0,,89,40,90,91,59,109,1,child began counting again from 81,,,RMS
-042418-LF,5.56605065,F,KG,McKinley,English,0,,99,IDK,100,101,59,109,0,,,,RMS
-042418-LF,5.56605065,F,KG,McKinley,English,0,,109,IDK,110,NA,59,109,0,,,,RMS
-042418-MB,5.442847365,F,KG,McKinley,English,0,,NA,NA,NA,NA,120,120,0,,,,SL
-042418-MB2,5.681040383,F,KG,McKinley,English,0,,109,IDK,110,111,109,129,0,,,,SL
-042418-MB2,5.681040383,F,KG,McKinley,English,0,,129,IDK,NA,NA,109,129,0,,,,SL
-042418-RT,5.645448323,F,KG,McKinley,English,0,,NA,NA,NA,NA,130,130,0,,,,SL
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,19,100,20,21,19,35,0,,,,SL
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,29,28,30,31,19,35,0,,,,SL
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,35,37,36,39,19,35,0,,,,SL
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,39,50,40,41,39,109,0,,,,KG
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,49,90,50,51,39,109,0,,,,KG
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,59,70,60,61,39,109,0,,,,KG
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,69,80,70,71,39,109,0,,,,KG
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,99,20,100,101,39,109,0,,,,KG
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,109,infinity,110,101,39,109,0,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,KG
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,14,19,15,1,14,69,1,,,,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,11,13,12,1,14,69,1,,,,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,13,idk,14,15,14,69,1,,,,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,39,70,40,41,14,69,0,,,,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,49,70,50,41,14,69,0,,,,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,69,79,70,80,14,69,0,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,
+041818-G1,4.54757016,F,KG,Seaside,English,0,,39,IDK,40,41,15,54,0,"child kept skipping, 89, KG provided prompt, then child used prompt",,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,49,40,50,51,15,54,1,child began counting again from 81,,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,54,15,55,IDK,15,54,0,,,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,39,IDK,40,IDK,39,39,0,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,109,IDK,110,111,109,120,0,,,,SL
+042418-RN,5.50308008,M,KG,McKinley,English,0,,119,IDK,120,121,109,120,0,,,,SL
+042418-RN,5.50308008,M,KG,McKinley,English,0,,129,120-ten,130,140,109,120,0,,,,SL
+042418-LL,5.69199179,M,KG,McKinley,English,0,,119,IDK,120,121,119,120,0,,,,SL
+042418-LC,5.44284736,M,KG,McKinley,English,0,,NA,NA,NA,NA,120,120,0,,,,SL
+042418-LF,5.56605065,F,KG,McKinley,English,0,,59,70,60,61,59,109,0,,,,SL
+042418-LF,5.56605065,F,KG,McKinley,English,0,,79,30,80,81,59,109,0,,,,SL
+042418-LF,5.56605065,F,KG,McKinley,English,0,,88,90,89,89,59,109,0,,,,KG
+042418-LF,5.56605065,F,KG,McKinley,English,0,,89,40,90,91,59,109,0,,,,KG
+042418-LF,5.56605065,F,KG,McKinley,English,0,,99,IDK,100,101,59,109,0,,,,KG
+042418-LF,5.56605065,F,KG,McKinley,English,0,,109,IDK,110,NA,59,109,0,,,,KG
+042418-MB,5.442847365,F,KG,McKinley,English,0,,NA,NA,NA,NA,120,120,0,,,,KG
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,109,IDK,110,111,109,129,0,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,KG
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,129,IDK,NA,NA,109,129,1,,,,
+042418-RT,5.645448323,F,KG,McKinley,English,0,,NA,NA,NA,NA,130,130,1,,,,
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,19,100,20,21,19,35,1,,,,
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,29,28,30,31,19,35,0,,,,
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,35,37,36,39,19,35,0,,,,
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,39,50,40,41,39,109,0,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,49,90,50,51,39,109,,,,,
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,59,70,60,61,39,109,,,,,
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,69,80,70,71,39,109,,,,,
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,99,20,100,101,39,109,,,,,
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,109,infinity,110,101,39,109,,,,,
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,14,19,15,1,14,69,,,,,
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,11,13,12,1,14,69,,,,,
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,13,idk,14,15,14,69,,,,,
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,39,70,40,41,14,69,,,,,
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,49,70,50,41,14,69,,,,,
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,69,79,70,80,14,69,,,,,
