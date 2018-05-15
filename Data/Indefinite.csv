@@ -1,40 +1,40 @@
 ﻿SID,age,sex,experimenter,location,language,exclude,exclude_reason,trial,num_queried,num_answer,correct,note,exclude_trial,exclude_trial_reason,double_coded
-020918-CZ,4;11,F,KG,Lab,English,0,,1,1057,1008,0,,,,SL
-020918-CZ,4;11,F,KG,Lab,English,0,,2,1006,1007,1,,,,SL
-020918-CZ,4;11,F,KG,Lab,English,0,,3,Zillion and 41,40,0,,,,SL
-020918-CZ,4;11,F,KG,Lab,English,0,,4,Zillion and 73,71,0,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,1,1057,NA,NA,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,2,1006,1007,1,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,3,Zillion and 41,NA,NA,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,4,Zillion and 73,NA,NA,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,1,1057,57-8,0,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,2,1006,1007,1,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,3,Zillion and 41,Zillion 42,1,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,4,Zillion and 73,Zillion 74,1,,,,SL
-022818-TK,4;2,M,KG,Gillispie,English,0,,1,1057,39,0,,,,SL
-022818-TK,4;2,M,KG,Gillispie,English,0,,2,1006,38,0,,,,SL
-022818-TK,4;2,M,KG,Gillispie,English,0,,3,Zillion and 41,10,0,,,,SL
-022818-TK,4;2,M,KG,Gillispie,English,0,,4,Zillion and 73,4,0,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,1,1057,IDK,0,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,2,1006,60 thousand,0,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,3,Zillion and 41,zillion 38,0,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,4,Zillion and 73,zillion and a billion,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,1,1057,IDK,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,2,1006,IDK,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,3,Zillion and 41,IDK,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,4,Zillion and 73,IDK,0,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,1,1057,100 thousand,0,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,2,1006,1 thousand hundred,0,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,3,Zillion and 41,60 hundred,0,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,4,Zillion and 73,76,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,1,1057,80,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,2,1006,100,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,3,Zillion and 41,8,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,4,Zillion and 73,9,0,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,1,1057,IDK,0,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,2,1006,IDK,0,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,3,Zillion and 41,IDK,0,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,4,Zillion and 73,IDK,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,1,1057,1008,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,2,1006,1007,1,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,3,Zillion and 41,40,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,4,Zillion and 73,71,0,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,1,1057,NA,NA,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,2,1006,1007,1,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,3,Zillion and 41,NA,NA,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,4,Zillion and 73,NA,NA,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,1,1057,57-8,0,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,2,1006,1007,1,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,3,Zillion and 41,Zillion 42,1,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,4,Zillion and 73,Zillion 74,1,,,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,1,1057,39,0,,,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,2,1006,38,0,,,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,3,Zillion and 41,10,0,,,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,4,Zillion and 73,4,0,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,1,1057,IDK,0,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,2,1006,60 thousand,0,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,3,Zillion and 41,zillion 38,0,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,4,Zillion and 73,zillion and a billion,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,1,1057,IDK,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,2,1006,IDK,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,3,Zillion and 41,IDK,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,4,Zillion and 73,IDK,0,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,1,1057,100 thousand,0,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,2,1006,1 thousand hundred,0,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,3,Zillion and 41,60 hundred,0,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,4,Zillion and 73,76,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,1,1057,80,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,2,1006,100,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,3,Zillion and 41,8,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,4,Zillion and 73,9,0,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,1,1057,IDK,0,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,2,1006,IDK,0,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,3,Zillion and 41,IDK,0,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,4,Zillion and 73,IDK,0,,,,SL
 042418-RN,5.50308008,M,KG,McKinley,English,0,,1,1057,IDK,0,,,,RMS
 042418-RN,5.50308008,M,KG,McKinley,English,0,,2,1006,IDK,0,,,,RMS
 042418-RN,5.50308008,M,KG,McKinley,English,0,,3,Zillion and 41,IDK,0,,,,RMS
@@ -47,3 +47,11 @@
 042418-RT,5.645448323,F,KG,McKinley,English,0,,2,1006,Thousand 7,1,,,,SL
 042418-RT,5.645448323,F,KG,McKinley,English,0,,3,Zillion and 41,Zillion 51,0,,,,SL
 042418-RT,5.645448323,F,KG,McKinley,English,0,,4,Zillion and 73,Zillion 23,0,,,,SL
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,1,1057,1052,0,,,,KG
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,2,1006,1007,1,,,,KG
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,3,Zillion and 41,Zillion 55,0,,,,KG
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,4,Zillion and 73,Zillion 74,0,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,1,1057,1058,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,2,1006,1007,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,3,Zillion and 41,Zillion 42,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,4,Zillion and 73,Zillion 74,1,,,,KG

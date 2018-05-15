@@ -1,121 +1,121 @@
 ﻿SID,age,sex,experimenter,location,language,exclude,exclude_reason,trial,num_queried,num_answer,correct,notes,exclude_trial,exclude_trial_reason,double_coded
-020918-JB,4;11,M,KG,Lab,English,0,,1,1,2,1,,,,SL
-020918-JB,4;11,M,KG,Lab,English,0,,2,7,8,0,,,,SL
-020918-JB,4;11,M,KG,Lab,English,0,,3,26,8,0,,,,SL
-020918-JB,4;11,M,KG,Lab,English,0,,4,30,34,0,,,,SL
-020918-JB,4;11,M,KG,Lab,English,0,,5,62,80,0,,,,SL
-020918-JB,4;11,M,KG,Lab,English,0,,6,83,87,0,,,,SL
-020918-JB,4;11,M,KG,Lab,English,0,,7,95,94,0,,,,SL
-020918-JB,4;11,M,KG,Lab,English,0,,8,71,60,0,,,,SL
-020918-JB,4;11,M,KG,Lab,English,0,,9,24,28,0,,,,SL
-020918-CZ,4;5,F,KG,Lab,English,0,,1,1,2,1,,,,SL
-020918-CZ,4;5,F,KG,Lab,English,0,,2,7,8,1,,,,SL
-020918-CZ,4;5,F,KG,Lab,English,0,,3,26,27,1,,,,SL
-020918-CZ,4;5,F,KG,Lab,English,0,,4,30,31,1,,,,SL
-020918-CZ,4;5,F,KG,Lab,English,0,,5,62,63,1,,,,SL
-020918-CZ,4;5,F,KG,Lab,English,0,,6,83,84,1,,,,SL
-020918-CZ,4;5,F,KG,Lab,English,0,,7,95,96,1,,,,SL
-020918-CZ,4;5,F,KG,Lab,English,0,,8,71,73,1,,,,SL
-020918-CZ,4;5,F,KG,Lab,English,0,,9,24,25,1,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,1,1,2,1,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,2,7,NA,NA,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,3,26,NA,NA,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,4,30,NA,NA,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,5,62,NA,NA,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,6,83,NA,NA,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,7,95,NA,NA,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,8,71,NA,NA,,,,SL
-021618-CC,5;0,F,KG,Lab,English,0,,9,24,NA,NA,,,,SL
-022818-JB,5;7,M,KG,Gillispie,English,0,,1,1,2,1,,,,SL
-022818-JB,5;7,M,KG,Gillispie,English,0,,2,7,8,1,,,,SL
-022818-JB,5;7,M,KG,Gillispie,English,0,,3,26,28,0,,,,SL
-022818-JB,5;7,M,KG,Gillispie,English,0,,4,30,31,1,,,,SL
-022818-JB,5;7,M,KG,Gillispie,English,0,,5,62,63,1,,,,SL
-022818-JB,5;7,M,KG,Gillispie,English,0,,6,83,84,1,,,,SL
-022818-JB,5;7,M,KG,Gillispie,English,0,,7,95,96,1,,,,SL
-022818-JB,5;7,M,KG,Gillispie,English,0,,8,71,72,1,,,,SL
-022818-JB,5;7,M,KG,Gillispie,English,0,,9,24,25,1,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,1,1,2,1,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,2,7,IDK,0,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,3,26,24,0,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,4,30,42,0,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,5,62,41,0,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,6,83,IDK,0,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,7,95,IDK,0,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,8,71,72,1,,,,SL
-022818-MH,4;3,F,KG,Gillispie,English,0,,9,24,24,0,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,1,1,2,1,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,2,7,8,1,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,3,26,27,1,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,4,30,31,1,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,5,62,63,1,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,6,83,84,1,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,7,95,96,1,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,8,71,78,0,,,,SL
-022818-OT,5;6,M,KG,Gillispie,English,0,,9,24,25,1,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,1,1,2,1,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,2,7,8,1,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,3,26,27,1,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,4,30,31,1,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,5,62,63,1,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,6,83,84,1,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,7,95,96,1,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,8,71,72,1,,,,SL
-040418-LK,5;8,F,KG,Gillispie,English,0,,9,24,IDK,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,1,1,2,1,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,2,7,6,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,3,26,IDK,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,4,30,IDK,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,5,62,11,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,6,83,5,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,7,95,4,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,8,71,IDK,0,,,,SL
-040418-JO,4;1,F,KG,Gillispie,English,0,,9,24,IDK,0,,,,SL
-041118-EB,5;3,M,KG,Little Lamb,English,0,,1,1,2,1,,,,SL
-041118-EB,5;3,M,KG,Little Lamb,English,0,,2,7,8,1,,,,SL
-041118-EB,5;3,M,KG,Little Lamb,English,0,,3,26,27,1,,,,SL
-041118-EB,5;3,M,KG,Little Lamb,English,0,,4,30,31,1,,,,SL
-041118-EB,5;3,M,KG,Little Lamb,English,0,,5,62,63,1,,,,SL
-041118-EB,5;3,M,KG,Little Lamb,English,0,,6,83,84,1,,,,SL
-041118-EB,5;3,M,KG,Little Lamb,English,0,,7,95,96,1,,,,SL
-041118-EB,5;3,M,KG,Little Lamb,English,0,,8,71,32,0,,,,SL
-041118-EB,5;3,M,KG,Little Lamb,English,0,,9,24,45,0,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,1,1,2,1,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,2,7,8,1,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,3,26,27,1,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,4,30,31,1,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,5,62,63,1,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,6,83,84,1,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,7,95,96,1,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,8,71,72,1,,,,SL
-041118-SS,5;5,M,KG,Little Lamb,English,0,,9,24,24,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,1,1,2,1,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,2,7,8,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,3,26,8,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,4,30,50,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,5,62,76,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,6,83,90,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,7,95,80,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,8,71,100,0,,,,SL
-041218-EC,5;6,F,KG,FUMCCV,English,0,,9,24,18,0,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,1,1,2,1,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,2,7,8,1,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,3,26,27,1,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,4,30,31,1,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,5,62,63,1,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,6,83,84,1,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,7,95,96,1,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,8,71,72,1,,,,SL
-041218-AF,5;2,F,KG,FUMCCV,English; some Italian,0,,9,24,25,1,,,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,1,1,2,1,,,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,2,7,6,0,,,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,3,26,29,0,,,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,4,30,31,1,,,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,5,62,63,1,,,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,6,83,84,1,,,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,7,95,96,1,,,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,8,71,72,1,,,,SL
-041218-CL,5;0,M,KG,FUMCCV,English,0,,9,24,29,0,,,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,1,1,2,1,,,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,2,7,8,0,,,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,3,26,8,0,,,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,4,30,34,0,,,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,5,62,80,0,,,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,6,83,87,0,,,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,7,95,94,0,,,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,8,71,60,0,,,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,9,24,28,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,1,1,2,1,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,2,7,8,1,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,3,26,27,1,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,4,30,31,1,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,5,62,63,1,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,6,83,84,1,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,7,95,96,1,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,8,71,73,1,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,9,24,25,1,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,1,1,2,1,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,2,7,NA,NA,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,3,26,NA,NA,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,4,30,NA,NA,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,5,62,NA,NA,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,6,83,NA,NA,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,7,95,NA,NA,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,8,71,NA,NA,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,9,24,NA,NA,,,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,1,1,2,1,,,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,2,7,8,1,,,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,3,26,28,0,,,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,4,30,31,1,,,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,5,62,63,1,,,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,6,83,84,1,,,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,7,95,96,1,,,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,8,71,72,1,,,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,9,24,25,1,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,1,1,2,1,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,2,7,IDK,0,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,3,26,24,0,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,4,30,42,0,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,5,62,41,0,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,6,83,IDK,0,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,7,95,IDK,0,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,8,71,72,1,,,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,9,24,24,0,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,1,1,2,1,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,2,7,8,1,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,3,26,27,1,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,4,30,31,1,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,5,62,63,1,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,6,83,84,1,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,7,95,96,1,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,8,71,78,0,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,9,24,25,1,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,1,1,2,1,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,2,7,8,1,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,3,26,27,1,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,4,30,31,1,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,5,62,63,1,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,6,83,84,1,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,7,95,96,1,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,8,71,72,1,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,9,24,IDK,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,1,1,2,1,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,2,7,6,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,3,26,IDK,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,4,30,IDK,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,5,62,11,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,6,83,5,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,7,95,4,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,8,71,IDK,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,9,24,IDK,0,,,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,1,1,2,1,,,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,2,7,8,1,,,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,3,26,27,1,,,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,4,30,31,1,,,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,5,62,63,1,,,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,6,83,84,1,,,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,7,95,96,1,,,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,8,71,32,0,,,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,9,24,45,0,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,1,1,2,1,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,2,7,8,1,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,3,26,27,1,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,4,30,31,1,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,5,62,63,1,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,6,83,84,1,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,7,95,96,1,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,8,71,72,1,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,9,24,24,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,1,1,2,1,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,2,7,8,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,3,26,8,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,4,30,50,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,5,62,76,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,6,83,90,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,7,95,80,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,8,71,100,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,9,24,18,0,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,1,1,2,1,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,2,7,8,1,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,3,26,27,1,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,4,30,31,1,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,5,62,63,1,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,6,83,84,1,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,7,95,96,1,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,8,71,72,1,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,9,24,25,1,,,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,1,1,2,1,,,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,2,7,6,0,,,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,3,26,29,0,,,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,4,30,31,1,,,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,5,62,63,1,,,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,6,83,84,1,,,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,7,95,96,1,,,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,8,71,72,1,,,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,9,24,29,0,,,,SL
 041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",1,1,2,0,,,,RMS
 041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",2,7,2,0,,,,RMS
 041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",3,26,IDK,0,,,,RMS
@@ -233,3 +233,30 @@
 042418-RT,5.645448323,F,KG,McKinley,English,0,,7,95,96,1,,,,SL
 042418-RT,5.645448323,F,KG,McKinley,English,0,,8,71,72,1,,,,SL
 042418-RT,5.645448323,F,KG,McKinley,English,0,,9,24,25,1,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,1,1,2,1,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,2,7,8,1,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,3,26,90,0,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,4,30,50,0,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,5,62,34,0,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,6,83,34,0,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,7,95,36,0,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,8,71,38,0,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,9,24,29,0,,,,SL
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,1,1,2,1,,,,KG
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,2,7,8,1,,,,KG
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,3,26,27,1,,,,KG
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,4,30,31,1,,,,KG
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,5,62,63,1,,,,KG
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,6,83,84,1,,,,KG
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,7,95,96,1,,,,KG
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,8,71,72,1,,,,KG
+022218-CA,4.955509925,M,RMS,Gillispie,English,0,,9,24,25,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,1,1,2,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,2,7,8,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,3,26,27,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,4,30,31,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,5,62,63,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,6,83,84,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,7,95,96,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,8,71,72,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,9,24,25,1,,,,KG
