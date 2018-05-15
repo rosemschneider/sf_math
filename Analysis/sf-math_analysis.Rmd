@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 rm(list = ls())
 require("knitr")
-opts_knit$set(root.dir = "~/Documents/Projects/sf_math/")
+opts_knit$set(root.dir = "~/Documents/Projects/sf_math/") #this is specific to RMS, change accordingly
 library(tidyverse)
 library(magrittr)
 library(langcog)
@@ -36,13 +36,45 @@ mathfacts.raw <- read.csv("Data/MathFacts.csv")
 
 #Then load Indefinite
 indefinite.raw <- read.csv("Data/Indefinite.csv")
+
+#combine for looping
+tasks <- list(given.raw, highestcount.raw, sf.raw, 
+              nextnumber.raw, mathfacts.raw, indefinite.raw)
 ```
 
 ##Tidy data
 Remove all exclusions. Make sure that anyone who is excluded by Give N is not included in other analyses.
 ```{r}
+#make a df of total exclusions across all tasks
+problems <- data.frame(SID = character(), 
+                         age = character(), 
+                         sex = character(), 
+                         experimenter = character(), 
+                         location = character(), 
+                         exclude = numeric(), 
+                         exclude_reason = character(), 
+                         task = character())
+
+check_exclusions <- function(df){
+    exclusions <- df %>%
+      filter(exclude == 1)%>%
+      distinct(SID, age, sex, experimenter, location, exclude, exclude_reason)
+    
+    exclusions$task = deparse(substitute(df))
+    
+    problems <- bind_rows(problems, exclusions)
+}
+
+#check each task
+check_exclusions(given.raw)
+check_exclusions(highestcount.raw)
+check_exclusions(sf.raw)
+check_exclusions(nextnumber.raw)
+check_exclusions(mathfacts.raw)
+check_exclusions(indefinite.raw)
+
 #get list of SIDs excluded by GiveN
-given.exclusions <- given %>%
+given.exclusions <- given.raw %>%
   filter(exclude == 1)%>%
   distinct(SID)
 
@@ -50,7 +82,7 @@ given.exclusions <- as.vector(given.exclusions$SID)
 
 '%!in%' <- function(x,y)!('%in%'(x,y))
 
-#exclude these SIDS from other dfs 
+#exclude these SIDS from other dfs, also exclude anyone tested in lab (pilot) 
 given.raw %<>%
   filter(SID %!in% given.exclusions)
 
@@ -91,7 +123,8 @@ mathfacts.problem <- check_exclusions(mathfacts.raw)
 indefinite.problem <- check_exclusions(indefinite.raw)
 
 ##if you have manually checked the exclusions above, exclude the participant from each task
-exclude.manual <- as.vector(highestcount.problem$SID)
+##NB RMS: you should be doing this with if statements, hardcoding will lead to an issue if there are no errors here
+exclude.manual <- as.vector(c(unique(highestcount.problem$SID), unique(sf.problem$SID)))
 
 given.raw %<>%
   filter(SID %!in% exclude.manual)
@@ -118,6 +151,8 @@ After exclusions, do you have the same number of participants in each task?
 get_distinct <- function(df){
   distinct_SIDs <- df %>%
     distinct(SID)
+  sort(distinct_SIDs$SID)
+  return(distinct_SIDs)
 }
 
 #note - this does not include indefinite, because not every participant did indefinite
@@ -127,8 +162,52 @@ sf.distinct <- as.vector(get_distinct(sf.raw))
 nextnumber.distinct <- as.vector(get_distinct(nextnumber.raw))
 mathfacts.distinct <- as.vector(get_distinct(mathfacts.raw))
 
-#Need to make this word
-tmp <- given.distinct[given.distinct %!in% highestcount.distinct]
+#compare to make sure you have matching SIDs -- this needs to be turned into a for loop
+gn_hc_check <- as.data.frame(given.distinct$SID[!(given.distinct$SID %in% highestcount.distinct$SID)])
+
+if(length(gn_hc_check[,1]) > 0) {
+    gn_hc_check<- as.vector(gn_hc_check[,1])
+}
+
+gn_sf_check <- as.data.frame(given.distinct$SID[!(given.distinct$SID %in% sf.distinct$SID)])
+
+if(length(gn_sf_check[,1])> 0) {
+    gn_sf_check <- as.vector(gn_sf_check[,1])
+}
+
+gn_nn_check <- as.data.frame(given.distinct$SID[!(given.distinct$SID %in% nextnumber.distinct$SID)])
+
+if(length(gn_nn_check[,1])> 0) {
+    gn_nn_check <- as.vector(gn_nn_check[,1])
+}
+
+gn_mf_check <- as.data.frame(given.distinct$SID[!(given.distinct$SID %in% mathfacts.distinct$SID)])
+
+if(length(gn_mf_check[,1])> 0) {
+    gn_mf_check <- as.vector(gn_mf_check[,1])
+  }
+
+exclude.manual <- gn_hc_check
+#if you have manually checked these, exclude
+given.raw %<>%
+  filter(SID %!in% exclude.manual)
+
+highestcount.raw %<>%
+  filter(SID %!in% exclude.manual)
+
+sf.raw %<>%
+  filter(SID %!in% exclude.manual)
+
+nextnumber.raw %<>%
+  filter(SID %!in% exclude.manual)
+
+mathfacts.raw %<>%
+  filter(SID %!in% exclude.manual)
+
+indefinite.raw %<>%
+  filter(SID %!in% exclude.manual)
+
+
 
 ```
 
