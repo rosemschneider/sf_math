@@ -46,16 +46,15 @@ tasks <- list(given.raw, highestcount.raw, sf.raw,
 Remove all exclusions. Make sure that anyone who is excluded by Give N is not included in other analyses.
 ```{r}
 #make a df of total exclusions across all tasks
-
-
 check_exclusions <- function(df){
     exclusions <- df %>%
       filter(exclude == 1)%>%
       distinct(SID, age, sex, experimenter, location, exclude, exclude_reason)
     
     exclusions$task = deparse(substitute(df))
+    if (length(exclusions$SID) > 0) {
     return(exclusions)
-    if (length(exclusions$SID)==0) {
+    } else {
       return("No exclusions")
     }
 }
@@ -73,143 +72,80 @@ all_exclusions <- bind_rows(given.exclusions, highestcount.exclusions,
                             sf.exclusions, nextnumber.exclusions, 
                             mathfacts.exclusions)
 
-# #get list of SIDs excluded by GiveN
-# given.exclusions <- given.raw %>%
-#   filter(exclude == 1)%>%
-#   distinct(SID)
-# 
-# given.exclusions <- as.vector(given.exclusions$SID)
-# 
-# '%!in%' <- function(x,y)!('%in%'(x,y))
-# 
-# #exclude these SIDS from other dfs, also exclude anyone tested in lab (pilot) 
-# given.raw %<>%
-#   filter(SID %!in% given.exclusions)
-# 
-# highestcount.raw %<>%
-#   filter(SID %!in% given.exclusions)
-# 
-# sf.raw %<>%
-#   filter(SID %!in% given.exclusions)
-# 
-# nextnumber.raw %<>%
-#   filter(SID %!in% given.exclusions)
-# 
-# mathfacts.raw %<>%
-#   filter(SID %!in% given.exclusions)
-# 
-# indefinite.raw %<>%
-#   filter(SID %!in% given.exclusions)
-# 
-# #check to see if there are any other exclusions
-# check_exclusions <- function(df) {
-#   check <- df %>%
-#     filter(exclude == 1)
-#   
-#   if(length(check$SID) >0) {
-#     return(check)
-#     return("exclusions remain, manually check")
-#   } else {
-#     "No problems"
-#   }
-# }
-# 
-# #check exclusions for each df
-# given.problem <- check_exclusions(given.raw)
-# highestcount.problem <- check_exclusions(highestcount.raw)
-# sf.problem <- check_exclusions(sf.raw)
-# nextnumber.problem <- check_exclusions(nextnumber.raw)
-# mathfacts.problem <- check_exclusions(mathfacts.raw)
-# indefinite.problem <- check_exclusions(indefinite.raw)
-# 
-# ##if you have manually checked the exclusions above, exclude the participant from each task
-# ##NB RMS: you should be doing this with if statements, hardcoding will lead to an issue if there are no errors here
-# exclude.manual <- as.vector(c(unique(highestcount.problem$SID), unique(sf.problem$SID)))
-# 
-# given.raw %<>%
-#   filter(SID %!in% exclude.manual)
-# 
-# highestcount.raw %<>%
-#   filter(SID %!in% exclude.manual)
-# 
-# sf.raw %<>%
-#   filter(SID %!in% exclude.manual)
-# 
-# nextnumber.raw %<>%
-#   filter(SID %!in% exclude.manual)
-# 
-# mathfacts.raw %<>%
-#   filter(SID %!in% exclude.manual)
-# 
-# indefinite.raw %<>%
-#   filter(SID %!in% exclude.manual)
+#review these guys manually
+#NB RMS - you need to check on exclusion criteria
+
+##once you have reviewed these guys manually, run the below code
+exclusion_SIDs <- as.vector(all_exclusions$SID)
+
+'%!in%' <- function(x,y)!('%in%'(x,y))
+
+exclude <- function(df){
+  df %<>%
+    filter(SID %!in% exclusion_SIDs)
+}
+
+given.df <- exclude(given.raw)
+highestcount.df <- exclude(highestcount.raw)
+nextnumber.df <- exclude(nextnumber.raw)
+sf.df <- exclude(sf.raw)
+mathfacts.df <- exclude(mathfacts.raw)
 ```
 
-###Sanity check
-After exclusions, do you have the same number of participants in each task?
+##Sanity checks
+###Do we have the same number (and same participants) for each task?
 ```{r}
-get_distinct <- function(df){
-  distinct_SIDs <- df %>%
-    distinct(SID)
-  sort(distinct_SIDs$SID)
-  return(distinct_SIDs)
+#get unique IDs
+get_unique_SID <- function(df){
+  unique <- df %>%
+    distinct(SID, age)
+  
+  unique$task = deparse(substitute(df))
+  return(unique)
 }
 
-#note - this does not include indefinite, because not every participant did indefinite
-given.distinct <- as.vector(get_distinct(given.raw))
-highestcount.distinct <- as.vector(get_distinct(highestcount.raw))
-sf.distinct <- as.vector(get_distinct(sf.raw))
-nextnumber.distinct <- as.vector(get_distinct(nextnumber.raw))
-mathfacts.distinct <- as.vector(get_distinct(mathfacts.raw))
+unique.given <- get_unique_SID(given.df)
+unique.highestcount <- get_unique_SID(highestcount.df)
+unique.sf <- get_unique_SID(sf.df)
+unique.nextnumber <- get_unique_SID(nextnumber.df)
+unique.mathfacts <- get_unique_SID(mathfacts.df)
 
-#compare to make sure you have matching SIDs -- this needs to be turned into a for loop
-gn_hc_check <- as.data.frame(given.distinct$SID[!(given.distinct$SID %in% highestcount.distinct$SID)])
+#bind all unique IDs and ages together
+all_unique <- bind_rows(unique.given, unique.highestcount, unique.sf, 
+          unique.nextnumber, unique.mathfacts)%>%
+  mutate(SID = factor(SID))
 
-if(length(gn_hc_check[,1]) > 0) {
-    gn_hc_check<- as.vector(gn_hc_check[,1])
-}
+#dumb way to do this, but there need to be 5 tasks per participant
+#find all participants that do not have 5 tasks
+unique.check <- all_unique %>%
+  group_by(SID, age)%>%
+  summarise(n = n())%>%
+  filter(n != 5)
 
-gn_sf_check <- as.data.frame(given.distinct$SID[!(given.distinct$SID %in% sf.distinct$SID)])
-
-if(length(gn_sf_check[,1])> 0) {
-    gn_sf_check <- as.vector(gn_sf_check[,1])
-}
-
-gn_nn_check <- as.data.frame(given.distinct$SID[!(given.distinct$SID %in% nextnumber.distinct$SID)])
-
-if(length(gn_nn_check[,1])> 0) {
-    gn_nn_check <- as.vector(gn_nn_check[,1])
-}
-
-gn_mf_check <- as.data.frame(given.distinct$SID[!(given.distinct$SID %in% mathfacts.distinct$SID)])
-
-if(length(gn_mf_check[,1])> 0) {
-    gn_mf_check <- as.vector(gn_mf_check[,1])
-  }
-
-exclude.manual <- gn_hc_check
-#if you have manually checked these, exclude
-given.raw %<>%
-  filter(SID %!in% exclude.manual)
-
-highestcount.raw %<>%
-  filter(SID %!in% exclude.manual)
-
-sf.raw %<>%
-  filter(SID %!in% exclude.manual)
-
-nextnumber.raw %<>%
-  filter(SID %!in% exclude.manual)
-
-mathfacts.raw %<>%
-  filter(SID %!in% exclude.manual)
-
-indefinite.raw %<>%
-  filter(SID %!in% exclude.manual)
-
-
-
+##NB - you must manally review these. 
+##To-do for RMS: You should automate whether these are included or excluded
 ```
+
+
 
 ##Coding check
 Is everything marked as correct actually correct?
+
+#Highest count
+```{r}
+#relation between initial and final
+initial_final <- highestcount.df %>%
+  distinct(SID, age, initial_highest, final_highest)%>%
+  mutate(initial_highest = as.numeric(initial_highest), 
+         initial_final = as.numeric(final_highest))
+
+ggplot(initial_final, aes(x = initial_highest, y = final_highest, color = age)) +
+  geom_point()
+
+#distribution of initial
+ggplot(initial_final, aes(x = initial_highest)) + 
+  geom_histogram()
+
+ggplot(initial_final, aes(x = final_highest)) + 
+  geom_histogram()
+```
