@@ -46,14 +46,7 @@ tasks <- list(given.raw, highestcount.raw, sf.raw,
 Remove all exclusions. Make sure that anyone who is excluded by Give N is not included in other analyses.
 ```{r}
 #make a df of total exclusions across all tasks
-problems <- data.frame(SID = character(), 
-                         age = character(), 
-                         sex = character(), 
-                         experimenter = character(), 
-                         location = character(), 
-                         exclude = numeric(), 
-                         exclude_reason = character(), 
-                         task = character())
+
 
 check_exclusions <- function(df){
     exclusions <- df %>%
@@ -61,88 +54,95 @@ check_exclusions <- function(df){
       distinct(SID, age, sex, experimenter, location, exclude, exclude_reason)
     
     exclusions$task = deparse(substitute(df))
-    
-    problems <- bind_rows(problems, exclusions)
+    return(exclusions)
+    if (length(exclusions$SID)==0) {
+      return("No exclusions")
+    }
 }
 
 #check each task
-check_exclusions(given.raw)
-check_exclusions(highestcount.raw)
-check_exclusions(sf.raw)
-check_exclusions(nextnumber.raw)
-check_exclusions(mathfacts.raw)
-check_exclusions(indefinite.raw)
+given.exclusions <- check_exclusions(given.raw)
+highestcount.exclusions <- check_exclusions(highestcount.raw)
+sf.exclusions <- check_exclusions(sf.raw)
+nextnumber.exclusions <- check_exclusions(nextnumber.raw)
+mathfacts.exclusions <- check_exclusions(mathfacts.raw)
+indefinite.exclusions <- check_exclusions(indefinite.raw) #deal with this later
 
-#get list of SIDs excluded by GiveN
-given.exclusions <- given.raw %>%
-  filter(exclude == 1)%>%
-  distinct(SID)
+#bind these together
+all_exclusions <- bind_rows(given.exclusions, highestcount.exclusions, 
+                            sf.exclusions, nextnumber.exclusions, 
+                            mathfacts.exclusions)
 
-given.exclusions <- as.vector(given.exclusions$SID)
-
-'%!in%' <- function(x,y)!('%in%'(x,y))
-
-#exclude these SIDS from other dfs, also exclude anyone tested in lab (pilot) 
-given.raw %<>%
-  filter(SID %!in% given.exclusions)
-
-highestcount.raw %<>%
-  filter(SID %!in% given.exclusions)
-
-sf.raw %<>%
-  filter(SID %!in% given.exclusions)
-
-nextnumber.raw %<>%
-  filter(SID %!in% given.exclusions)
-
-mathfacts.raw %<>%
-  filter(SID %!in% given.exclusions)
-
-indefinite.raw %<>%
-  filter(SID %!in% given.exclusions)
-
-#check to see if there are any other exclusions
-check_exclusions <- function(df) {
-  check <- df %>%
-    filter(exclude == 1)
-  
-  if(length(check$SID) >0) {
-    return(check)
-    return("exclusions remain, manually check")
-  } else {
-    "No problems"
-  }
-}
-
-#check exclusions for each df
-given.problem <- check_exclusions(given.raw)
-highestcount.problem <- check_exclusions(highestcount.raw)
-sf.problem <- check_exclusions(sf.raw)
-nextnumber.problem <- check_exclusions(nextnumber.raw)
-mathfacts.problem <- check_exclusions(mathfacts.raw)
-indefinite.problem <- check_exclusions(indefinite.raw)
-
-##if you have manually checked the exclusions above, exclude the participant from each task
-##NB RMS: you should be doing this with if statements, hardcoding will lead to an issue if there are no errors here
-exclude.manual <- as.vector(c(unique(highestcount.problem$SID), unique(sf.problem$SID)))
-
-given.raw %<>%
-  filter(SID %!in% exclude.manual)
-
-highestcount.raw %<>%
-  filter(SID %!in% exclude.manual)
-
-sf.raw %<>%
-  filter(SID %!in% exclude.manual)
-
-nextnumber.raw %<>%
-  filter(SID %!in% exclude.manual)
-
-mathfacts.raw %<>%
-  filter(SID %!in% exclude.manual)
-
-indefinite.raw %<>%
-  filter(SID %!in% exclude.manual)
+# #get list of SIDs excluded by GiveN
+# given.exclusions <- given.raw %>%
+#   filter(exclude == 1)%>%
+#   distinct(SID)
+# 
+# given.exclusions <- as.vector(given.exclusions$SID)
+# 
+# '%!in%' <- function(x,y)!('%in%'(x,y))
+# 
+# #exclude these SIDS from other dfs, also exclude anyone tested in lab (pilot) 
+# given.raw %<>%
+#   filter(SID %!in% given.exclusions)
+# 
+# highestcount.raw %<>%
+#   filter(SID %!in% given.exclusions)
+# 
+# sf.raw %<>%
+#   filter(SID %!in% given.exclusions)
+# 
+# nextnumber.raw %<>%
+#   filter(SID %!in% given.exclusions)
+# 
+# mathfacts.raw %<>%
+#   filter(SID %!in% given.exclusions)
+# 
+# indefinite.raw %<>%
+#   filter(SID %!in% given.exclusions)
+# 
+# #check to see if there are any other exclusions
+# check_exclusions <- function(df) {
+#   check <- df %>%
+#     filter(exclude == 1)
+#   
+#   if(length(check$SID) >0) {
+#     return(check)
+#     return("exclusions remain, manually check")
+#   } else {
+#     "No problems"
+#   }
+# }
+# 
+# #check exclusions for each df
+# given.problem <- check_exclusions(given.raw)
+# highestcount.problem <- check_exclusions(highestcount.raw)
+# sf.problem <- check_exclusions(sf.raw)
+# nextnumber.problem <- check_exclusions(nextnumber.raw)
+# mathfacts.problem <- check_exclusions(mathfacts.raw)
+# indefinite.problem <- check_exclusions(indefinite.raw)
+# 
+# ##if you have manually checked the exclusions above, exclude the participant from each task
+# ##NB RMS: you should be doing this with if statements, hardcoding will lead to an issue if there are no errors here
+# exclude.manual <- as.vector(c(unique(highestcount.problem$SID), unique(sf.problem$SID)))
+# 
+# given.raw %<>%
+#   filter(SID %!in% exclude.manual)
+# 
+# highestcount.raw %<>%
+#   filter(SID %!in% exclude.manual)
+# 
+# sf.raw %<>%
+#   filter(SID %!in% exclude.manual)
+# 
+# nextnumber.raw %<>%
+#   filter(SID %!in% exclude.manual)
+# 
+# mathfacts.raw %<>%
+#   filter(SID %!in% exclude.manual)
+# 
+# indefinite.raw %<>%
+#   filter(SID %!in% exclude.manual)
 ```
 
 ###Sanity check
