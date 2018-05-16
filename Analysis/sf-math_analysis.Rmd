@@ -93,6 +93,23 @@ sf.df <- exclude(sf.raw)
 mathfacts.df <- exclude(mathfacts.raw)
 ```
 
+###General filtering
+Remove pilots, empty values, etc. 
+```{r}
+general_exclusions <- function(df) {
+  df %<>%
+    filter(location != "Lab", 
+           !is.na(SID))
+  
+  return(df)
+}
+
+highestcount.df <- general_exclusions(highestcount.df)
+sf.df <- general_exclusions(sf.df)
+nextnumber.df <- general_exclusions(nextnumber.df)
+mathfacts.df <- general_exclusions(mathfacts.df)
+```
+
 ##Sanity checks
 ###Do we have the same number (and same participants) for each task?
 ```{r}
@@ -179,6 +196,8 @@ nextnumber.df <- productivity_classification(nextnumber.df)
 mathfacts.df <- productivity_classification(mathfacts.df)
 ```
 
+
+
 #Highest count
 ```{r}
 #relation between initial and final
@@ -201,15 +220,13 @@ ggplot(initial_final, aes(x = final_highest, fill = productive)) +
 ```
 
 #SF
+
+This is a sanity check to make sure that performance doesn't significantly differ between experiment halves (i.e., checking to make sure that performance isn't dropping because kids are getting bored.)
 ```{r}
 #is there a significant accuracy difference between first and second half of experiment? 
 sf.df %<>%
   mutate(half = ifelse(trial < 10, "first", "second"))
 
-sf.half.check <- sf.df %>%
-  group_by(half)%>%
-  multi_boot_standard("correct", na.rm = TRUE)%>%
-  filter(!is.na(SID))
 
 #significant difference between first and second half?
 t.test(subset(sf.df, half == "first")$correct, subset(sf.df, half == "second")$correct, 
@@ -223,5 +240,45 @@ m0 <- glmer(correct ~  1  + (1 | SID), data=sf.df,
             family=binomial, control=glmerControl(optimizer="bobyqa",
                             optCtrl=list(maxfun=2e5)))
 anova(m0,m1)
+```
+
+##Accuracy by productivity
+```{r}
+#Meaningful way of classifying
+#Visualize
+sf.prod.ms <- sf.df %>%
+  group_by(productive)%>%
+  multi_boot_standard("correct", na.rm= TRUE)
+
+ggplot(sf.prod.ms, aes(x = productive, y = mean, fill = productive)) + 
+  geom_bar(stat = "identity", position= position_dodge()) + 
+  geom_linerange(aes(ymin = ci_lower,
+                      ymax = ci_upper),
+                  size = .3,
+                  show.legend = FALSE,
+                 position=position_dodge(width = 0.9)) +
+  labs(x = "Productivity", y = "Mean Correct") +
+  scale_fill_solarized() + guides(fill = FALSE)
+  
+```
+
+#Next number
+```{r}
+#Meaningful way of classifying
+#Visualize
+nn.prod.ms <- nextnumber.df %>%
+  group_by(productive)%>%
+  multi_boot_standard("correct", na.rm= TRUE)
+
+ggplot(nn.prod.ms, aes(x = productive, y = mean, fill = productive)) + 
+  geom_bar(stat = "identity", position= position_dodge()) + 
+  geom_linerange(aes(ymin = ci_lower,
+                      ymax = ci_upper),
+                  size = .3,
+                  show.legend = FALSE,
+                 position=position_dodge(width = 0.9)) +
+  labs(x = "Productivity", y = "Mean Correct") +
+  scale_fill_solarized() + guides(fill = FALSE)
+```
 
 ```
