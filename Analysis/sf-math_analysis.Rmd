@@ -155,23 +155,126 @@ nextnumber.df %<>%
 #                                    as.character(-1000), num_answer))
 ```
 
+#Productivity
+```{r}
+# determine_productivity <- function(df) {
+#   for (row in 1:nrow(df)) {  #this is for base productivity, count up to 120
+#     if (df[row, "initial_highest"] == 120 & df[row, "final_highest"] == 120) {
+#       df[row, "productivity"] = "productive"
+#     }
+#   }
+#   #now I'm going to pull out by SIDs and classify productivity
+#   SIDs <- as.vector(unique(df$SID))
+#   
+#   for (sub in SIDs)
+#   return(df)
+# }
+# 
+# number_errors <- function(df) {
+#   SIDs <- as.vector(unique(df$SID))
+#   tmp <- data.frame()
+#   for (sub in SIDs) {
+#     sub.errors <- df %>%
+#       filter(SID == sub)
+#   
+#     for (row in 1:nrow(sub.errors)) {
+#       tmp.errors <- sub.errors #make tmp error df for adding row nums
+#       tmp.errors[row, "error_num"] = row # add row number for each row
+#       tmp <- bind_rows(tmp, tmp.errors) #push this row back to the df
+#     }
+#     sub.errors <- df
+#     return(tmp)
+#   }
+# }
+#     
+# pro <- function(df) {
+#   SIDs <- as.vector(unique(df$SID))
+#   productivity.df <- data.frame()
+#   
+#   for (sub in SIDs) {
+#     sub.errors <- df %>%
+#       filter(SID == sub)
+#     
+#     for (row in 1:nrow(sub.errors)) {
+#       sub.errors[row, "error_num"] = row
+#       if (sub.errors$error_num == 1) { #on first error, check and see if the following error would classify them as productive
+#         error_1 = sub.errors[row, "error"]
+#         return(error_1)
+#       }
+#     }
+#   }
+# }    
+#     
+# 
+#     error <- df[row, "error"] #putting the error for the row into a variable
+#     last_successful <- sfhc_new[row, "last_successful"] #putting the last success of the same row into a variable
+#   if (error == 1099) #1099 means no error in this case #if the error equals 1099 (empty)
+#   {
+#     if (last_successful >= 120) # if the last successful is equal to or greater than 120
+#     {
+#       sfhc_new[row, "productivity"] = "Productive" #mark this row as produtive 
+#     }
+#     }
+#     else if (error == 1000) #1000 means idk in this case # if the error is 1000 (idk)
+#     {
+#     if(last_successful >= 120) #if the last successful is equal to or greater than 120
+#     {
+#       sfhc_new[row, "productivity"] = "Productive" #mark this row as productive
+#     }
+#     else #otherwise, not productive
+#     {
+#       sfhc_new[row, "productivity"] = "Not Productive"
+#     }
+#     }
+#   else #or error does not equal to 1000 (idk) or 1099 (no error), mark at NA
+#   {
+#     sfhc_new[row, "productivity"] = "NA"
+#   }
+#   {
+# }
+# }  
+# 
+# 
+# 
+# determine_productivity <- function() {
+#   for (i in 1:nrow(highestcount.df)) {
+#     print(i$SID)
+#       if (initial_highest == 120 & final_highest == 120) {
+#         highestcount.df$productive = "productive"
+#       }
+#     }
+#   #   if (df$initial_highest == 120 & df$final_highest == 120) {
+#   #     df$productive = "productive"
+#   #   } else if () {
+#   #     df$productive = "nonproductive"
+#   #   }
+#   # }
+#   # return(df)
+#   }
+# 
+# 
+# tmp <- determine_productivity(highestcount.df)
+```
+
 #Highest count
 ```{r}
 #relation between initial and final
 initial_final <- highestcount.df %>%
-  distinct(SID, age, initial_highest, final_highest)%>%
+  distinct(SID, age, initial_highest, final_highest, productive)%>%
   mutate(initial_highest = as.numeric(initial_highest), 
          initial_final = as.numeric(final_highest))
 
-ggplot(initial_final, aes(x = initial_highest, y = final_highest, color = age)) +
+ggplot(initial_final, aes(x = initial_highest, y = final_highest, color = productive)) +
   geom_point()
 
 #distribution of initial
-ggplot(initial_final, aes(x = initial_highest)) + 
-  geom_histogram()
+ggplot(initial_final, aes(x = initial_highest, fill = productive)) + 
+  geom_histogram(position = position_dodge()) +
+  scale_x_continuous(name="Initial highest count", breaks=seq(0,130,10))
 
-ggplot(initial_final, aes(x = final_highest)) + 
-  geom_histogram()
+ggplot(initial_final, aes(x = final_highest, fill = productive)) + 
+  geom_histogram(position = position_dodge()) + 
+  scale_x_continuous(name = "Final highest count", breaks=seq(0,130,10))
 ```
 
 #SF
