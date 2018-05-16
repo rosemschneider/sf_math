@@ -99,7 +99,8 @@ Remove pilots, empty values, etc.
 general_exclusions <- function(df) {
   df %<>%
     filter(location != "Lab", 
-           !is.na(SID))
+           !is.na(SID), 
+           !is.na(age))
   
   return(df)
 }
@@ -196,7 +197,34 @@ nextnumber.df <- productivity_classification(nextnumber.df)
 mathfacts.df <- productivity_classification(mathfacts.df)
 ```
 
+#Within and outside of count range
+Trials for SF, NN, and MF need to be classified as within or outside of count range for each participant
+```{r}
+#first, get initial highest count for each kiddo
+lookup <- highestcount.df %>%
+  distinct(SID, initial_highest)
 
+#I need to determine whether an indivudal number in a df for a participant is within or outside a given range 
+
+determine_count_range <- function(df) {
+  tmp <- df
+  for (row in 1:nrow(tmp)) {
+    sub = as.character(tmp[row, "SID"])
+    count_range = subset(lookup, SID == sub)$initial_highest
+    tmp[row, "highest_count"] = count_range
+    if (tmp[row, "starting_num"] > count_range) {
+      tmp[row, "count_range"] = "outside"
+    } else {
+      tmp[row, "count_range"] = "within"
+    }
+  }
+  return(tmp)
+}
+
+x <- determine_count_range(sf.df)
+
+
+```
 
 #Highest count
 ```{r}
