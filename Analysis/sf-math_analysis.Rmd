@@ -12,6 +12,7 @@ opts_knit$set(root.dir = "~/Documents/Projects/sf_math/") #this is specific to R
 library(tidyverse)
 library(magrittr)
 library(langcog)
+library(lme4)
 ```
 
 #Setup
@@ -147,10 +148,11 @@ nextnumber.df %<>%
 
 #math facts
 #need to to some cleanup for num_answer, because it's a little cray
-answers <- as.vector(c("2", '6', '22', '65', '58', '87', '33', '94', '21'))
-tmp <- mathfacts.df %>%
-  mutate(num_answer_check = ifelse(num_answer %!in% answers, -1000,
-                             as.numeric(as.character(num_answer))))
+# answers <- as.vector(c("2", '6', '22', '65', '58', '87', '33', '94', '21'))
+# tmp <- mathfacts.df %>%
+#   mutate(num_answer = as.character(num_answer))%>%
+#   mutate(num_answer_check = ifelse(num_answer == "IDK" | is.na(num_answer), 
+#                                    as.character(-1000), num_answer))
 ```
 
 #Highest count
@@ -170,4 +172,31 @@ ggplot(initial_final, aes(x = initial_highest)) +
 
 ggplot(initial_final, aes(x = final_highest)) + 
   geom_histogram()
+```
+
+#SF
+```{r}
+#is there a significant accuracy difference between first and second half of experiment? 
+sf.df %<>%
+  mutate(half = ifelse(trial < 10, "first", "second"))
+
+sf.half.check <- sf.df %>%
+  group_by(half)%>%
+  multi_boot_standard("correct", na.rm = TRUE)%>%
+  filter(!is.na(SID))
+
+#significant difference between first and second half?
+t.test(subset(sf.df, half == "first")$correct, subset(sf.df, half == "second")$correct, 
+       var.equal = TRUE)
+
+#use mem to account for subject-level variability
+m1 <- glmer(correct ~ half + (1 | SID), data=sf.df, 
+            family=binomial, control=glmerControl(optimizer="bobyqa",
+                            optCtrl=list(maxfun=2e5)))
+m0 <- glmer(correct ~  1  + (1 | SID), data=sf.df, 
+            family=binomial, control=glmerControl(optimizer="bobyqa",
+                            optCtrl=list(maxfun=2e5)))
+anova(m0,m1)
+
+
 ```
