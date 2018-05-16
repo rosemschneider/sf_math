@@ -58,26 +58,104 @@
 042418-LC,5.44284736,M,KG,McKinley,English,0,,NA,NA,NA,NA,120,120,0,,,,SL
 042418-LF,5.56605065,F,KG,McKinley,English,0,,59,70,60,61,59,109,0,,,,SL
 042418-LF,5.56605065,F,KG,McKinley,English,0,,79,30,80,81,59,109,0,,,,SL
-042418-LF,5.56605065,F,KG,McKinley,English,0,,88,90,89,89,59,109,0,,,,KG
-042418-LF,5.56605065,F,KG,McKinley,English,0,,89,40,90,91,59,109,0,,,,KG
-042418-LF,5.56605065,F,KG,McKinley,English,0,,99,IDK,100,101,59,109,0,,,,KG
-042418-LF,5.56605065,F,KG,McKinley,English,0,,109,IDK,110,NA,59,109,0,,,,KG
-042418-MB,5.442847365,F,KG,McKinley,English,0,,NA,NA,NA,NA,120,120,0,,,,KG
-042418-MB2,5.681040383,F,KG,McKinley,English,0,,109,IDK,110,111,109,129,0,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,KG
-042418-MB2,5.681040383,F,KG,McKinley,English,0,,129,IDK,NA,NA,109,129,1,,,,
-042418-RT,5.645448323,F,KG,McKinley,English,0,,NA,NA,NA,NA,130,130,1,,,,
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,19,100,20,21,19,35,1,,,,
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,29,28,30,31,19,35,0,,,,
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,35,37,36,39,19,35,0,,,,
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,39,50,40,41,39,109,0,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,49,90,50,51,39,109,,,,,
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,59,70,60,61,39,109,,,,,
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,69,80,70,71,39,109,,,,,
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,99,20,100,101,39,109,,,,,
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,109,infinity,110,101,39,109,,,,,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,14,19,15,1,14,69,,,,,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,11,13,12,1,14,69,,,,,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,13,idk,14,15,14,69,,,,,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,39,70,40,41,14,69,,,,,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,49,70,50,41,14,69,,,,,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,69,79,70,80,14,69,,,,,
+042418-LF,5.56605065,F,KG,McKinley,English,0,,88,90,89,89,59,109,0,,,,SL
+042418-LF,5.56605065,F,KG,McKinley,English,0,,89,40,90,91,59,109,0,,,,SL
+042418-LF,5.56605065,F,KG,McKinley,English,0,,99,IDK,100,101,59,109,0,,,,SL
+042418-LF,5.56605065,F,KG,McKinley,English,0,,109,IDK,110,NA,59,109,0,,,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,NA,NA,NA,NA,120,120,0,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,109,IDK,110,111,109,129,0,,,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,129,IDK,NA,NA,109,129,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,NA,NA,NA,NA,130,130,1,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,19,100,20,21,19,35,1,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,29,28,30,31,19,35,0,,,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,35,37,36,39,19,35,0,,,,SL
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,39,50,40,41,39,109,0,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,KG
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,49,90,50,51,39,109,0,,,,KG
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,59,70,60,61,39,109,0,,,,KG
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,69,80,70,71,39,109,0,,,,KG
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,99,20,100,101,39,109,0,,,,KG
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,109,infinity,110,101,39,109,0,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,14,19,15,1,14,69,0,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,11,13,12,1,14,69,0,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,13,idk,14,15,14,69,0,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,39,70,40,41,14,69,0,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,49,70,50,41,14,69,0,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,69,79,70,80,14,69,0,,,,KG
+022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,11,,prompt,12,11,14?,0,Experimentor prompt was unclear. No video to double check,,,KG
+022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,12,,13,NA,12,14?,0,,,,KG
+022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,13,,14,NA,13,14?,0,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,0,,49,idk,50,51,49,59,0,No video/ the format entered in data sheet is different in that the prompt encouraging children to count it included,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,0,,59,idk,NA,,49,59,0,,,,KG
+032218-LS,5.17453799,M,RMS,Northminster,English,0,,35,37,36,37,37,120,0,,,,KG
+032218-LS,5.17453799,M,RMS,Northminster,English,0,,118,idk,119,120,37,120,0,,,,KG
+032218-AS,4.93360712,F,RMS,Northminster,English,0,,115,idk,116,117,115,120,0,,,,KG
+032218-AS,4.93360712,F,RMS,Northminster,English,0,,120,,,,115,120,0,,,,KG
+032218-LM,4.17522245,F,RMS,Northminster,English,0,,12,15,13,1,12,25,1,,,,KG
+032218-LM,4.17522245,F,RMS,Northminster,English,0,,10,9,11,1,12,25,1,,,,KG
+032218-LM,5.17522245,F,RMS,Northminster,English,0,,25,,,,12,25,0,child asked to stop,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,29,90,31,31,29,109,0,,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,39,90,40,41,29,109,0,,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,49,90,50,51,29,109,0,,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,59,90,60,61,29,109,0,,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,69,90,70,71,29,109,0,,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,71,73,72,73,29,109,0,,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,79,90,80,81,29,109,0,,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,109,idk,110,101,29,109,0,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,KG
+032218-ER,4.19438741,F,RMS,Northminster,English,1,did not finish game,29,idk,30,31,29,31,0,Child asked to stop,,,KG
+041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,14,16,15,16,15,39,0,,,,KG
+041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,20,15,21,22,15,39,0,,,,KG
+041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,39,8,40,80,15,39,0,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,KG
+041118-IH,5.229295003,M,SL,Little Lamb,English,0,,19,21,20,1,19,19,1,,,,KG
+041118-IH,5.229295003,M,SL,Little Lamb,English,0,,19,21,,,19,19,0,Made the same mistake after being prompted,,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,27,idk,28,29,27,39,,,,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,29,idk,30,31,27,39,,,,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,31,33,32,33,27,39,,,,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,34,36,35,36,27,39,,,,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,39,idk,40,NA,27,39,,child asked to stop,,,KG
+042018-AA,4.262833676,F,RMS,FUMCCV,English,0,,29,2010,30,11,29,29,,"RMS prompted a few more, but since the child made a mistake after the prompt, it's not included here",,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,20,30,21,22,20,109,,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,49,60,50,51,20,109,,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,59,idk,60,61,20,109,,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,69,idk,70,71,20,109,,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,71,73,72,73,20,109,,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,79,idk,80,81,20,109,,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,89,idk,90,91,20,109,,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,99,idk,100,101,20,109,,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,109,idk,110,idk,20,109,,"RMS prompted a few more, but since the child could not continue after prompt, it's not included. ",,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
+,,,,,English,0,,,,,,,,,,,,KG
