@@ -13,6 +13,7 @@ library(tidyverse)
 library(magrittr)
 library(langcog)
 library(lme4)
+library(stringr)
 ```
 
 #Setup
@@ -27,7 +28,8 @@ given.raw <- read.csv("Data/GiveN.csv")
 highestcount.raw <- read.csv("Data/HighestCount.csv")
 
 #Then load SF
-sf.raw <- read.csv("Data/SF.csv")
+sf.raw <- read.csv("Data/SF.csv")%>%
+  rename(num_queried = starting_num) #to make life easier for within/outside
 
 #Then load Next Number
 nextnumber.raw <- read.csv("Data/NextNumber.csv")
@@ -149,7 +151,7 @@ unique.check <- all_unique %>%
 Is everything marked as correct actually correct?
 ```{r}
 sf.df %<>%
-  mutate(correct_check = ifelse(num_answer == (starting_num + 1), 1, 0))%>%
+  mutate(correct_check = ifelse(num_answer == (num_queried + 1), 1, 0))%>%
   mutate(correct = correct_check)
 
 #because nextnumber and mathfacts have IDK as answers, convert these to numbers
@@ -165,12 +167,37 @@ nextnumber.df %<>%
          correct = correct_check)
 
 #math facts
-#need to to some cleanup for num_answer, because it's a little cray
-# answers <- as.vector(c("2", '6', '22', '65', '58', '87', '33', '94', '21'))
-# tmp <- mathfacts.df %>%
-#   mutate(num_answer = as.character(num_answer))%>%
-#   mutate(num_answer_check = ifelse(num_answer == "IDK" | is.na(num_answer), 
-#                                    as.character(-1000), num_answer))
+#first need to get starting number
+mathfacts.df %<>%
+  mutate(num_queried = substr(as.character(problem), 1,2))
+
+mathfacts.df$num_queried <- as.numeric(str_replace(mathfacts.df$num_queried, "[+]", ""))
+
+#now I need to standardize the responses
+#there are a lot of answers here that don't make a ton of sense (text and numbers)
+mathfacts.df %<>%
+  mutate(num_answer_standard = ifelse(num_answer == "IDK", -1000, 
+                                      ifelse(num_answer == "idk", -1000, as.character(num_answer))))
+
+starting_num <- c(1, 20, 21, 32, 5, 57, 64, 86, 93)
+answer <- c(2, 21, 22, 33, 6, 58, 65, 87, 94)
+lookup <- data.frame(starting_num, answer)
+
+check_math_facts <- function() {
+  for (row in 1:nrow(mathfacts.df)) {
+    num = mathfacts.df[row, "num_queried"]
+    answer = subset(lookup, starting_num == num)$answer
+    if (answer != mathfacts.df[row, "num_answer_standard"]) {
+      mathfacts.df[row, "correct"] = 0
+    } else {
+     mathfacts.df[row, "correct"] = 1 
+    }
+  }
+  return(mathfacts.df)
+}
+
+mathfacts.df <- check_math_facts()
+
 ```
 
 #Productivity
@@ -212,7 +239,7 @@ determine_count_range <- function(df) {
     sub = as.character(tmp[row, "SID"])
     count_range = subset(lookup, SID == sub)$initial_highest
     tmp[row, "highest_count"] = count_range
-    if (tmp[row, "starting_num"] > count_range) {
+    if (tmp[row, "num_queried"] > count_range) {
       tmp[row, "count_range"] = "outside"
     } else {
       tmp[row, "count_range"] = "within"
@@ -221,9 +248,9 @@ determine_count_range <- function(df) {
   return(tmp)
 }
 
-x <- determine_count_range(sf.df)
-
-
+sf.df <- determine_count_range(sf.df)
+nextnumber.df <- determine_count_range(nextnumber.df)
+mathfacts.df <- determine_count_range(mathfacts.df)
 ```
 
 #Highest count
