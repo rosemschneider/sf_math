@@ -278,15 +278,15 @@
 022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,7,95,69,0,,,,KG
 022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,8,71,"80, 90",0,,,,KG
 022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,9,24,18,0,,,,KG
-022818-HVC,5.119780972,F,VM,Gillispie,English,0,,1,1,2,1,,,,KG
-022818-HVC,5.119780972,F,VM,Gillispie,English,0,,2,7,8,1,,,,KG
-022818-HVC,5.119780972,F,VM,Gillispie,English,0,,3,26,idk,0,,,,KG
-022818-HVC,5.119780972,F,VM,Gillispie,English,0,,4,30,40,0,,,,KG
-022818-HVC,5.119780972,F,VM,Gillispie,English,0,,5,62,forgot,0,,,,KG
-022818-HVC,5.119780972,F,VM,Gillispie,English,0,,6,83,forgot,0,,,,KG
-022818-HVC,5.119780972,F,VM,Gillispie,English,0,,7,95,96,1,,,,KG
-022818-HVC,5.119780972,F,VM,Gillispie,English,0,,8,71,72,1,,,,KG
-022818-HVC,5.119780972,F,VM,Gillispie,English,0,,9,24,25,1,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,1,1,2,1,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,2,7,8,1,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,3,26,idk,0,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,4,30,40,0,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,5,62,forgot,0,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,6,83,forgot,0,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,7,95,96,1,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,8,71,72,1,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,9,24,25,1,,,,KG
 032218-LS,5.17453799,M,RMS,Northminster,English,0,,1,1,2,1,,,,KG
 032218-LS,5.17453799,M,RMS,Northminster,English,0,,2,7,8,1,,,,KG
 032218-LS,5.17453799,M,RMS,Northminster,English,0,,3,26,27,1,,,,KG
@@ -404,3 +404,93 @@
 042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",7,95,96,1,,,,SL
 042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",8,71,72,1,,,,SL
 042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",9,24,25,1,,,,SL
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,1,1,2,1,,,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,2,7,8,1,,,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,3,26,27,1,,,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,4,30,31,1,,,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,5,62,63,1,,,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,6,83,84,1,,,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,7,95,96,1,,,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,8,71,72,1,,,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,9,24,25,1,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,1,1,2,1,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,2,7,8,1,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,3,26,29,0,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,4,30,31,1,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,5,62,63,1,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,6,83,84,1,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,7,95,96,1,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,8,71,72,1,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,9,24,25,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,1,1,2,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,2,7,8,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,3,26,28,0,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,4,30,31,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,5,62,63,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,6,83,84,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,7,95,96,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,8,71,72,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,9,24,25,1,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,1,1,2,1,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,2,7,8,1,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,3,26,27,1,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,4,30,31,1,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,5,62,63,1,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,6,83,84,1,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,7,95,96,1,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,8,71,72,1,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,9,24,25,1,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,1,1,2,1,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,2,7,8,1,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,3,26,29,0,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,4,30,31,1,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,5,62,61,0,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,6,83,84,1,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,7,95,96,1,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,8,71,72,1,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,9,24,25,1,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,1,1,2,1,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,2,7,8,1,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,3,26,27,1,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,4,30,31,1,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,5,62,63,1,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,6,83,84,1,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,7,95,96,1,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,8,71,72,1,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,9,24,25,1,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,1,1,2,1,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,2,7,8,1,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,3,26,28,0,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,4,30,31,1,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,5,62,idk,0,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,6,83,idk,0,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,7,95,96,1,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,8,71,idk,0,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,9,24,idk,0,,,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,1,1,2,0,,,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,2,7,6,0,,,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,3,26,idk,0,,,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,4,30,31,1,,,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,5,62,idk,0,,,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,6,83,idk,0,,,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,7,95,idk,0,,,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,8,71,idk,0,,,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,9,24,idk,0,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,1,1,2,1,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,2,7,8,1,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,3,26,27,1,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,4,30,31,1,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,5,62,63,1,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,6,83,84,1,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,7,95,96,1,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,8,71,72,1,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,9,24,27,0,,,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,1,1,2,1,,,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,2,7,8,1,,,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,3,26,idk,0,,,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,4,30,idk,0,,,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,5,62,idk,0,,,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,6,83,idk,0,,,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,7,95,idk,0,,,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,8,71,idk,0,,,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,9,24,idk,0,,,,KG
