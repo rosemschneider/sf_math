@@ -91,8 +91,15 @@
 042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,2,1006,70,0,,,,KG
 042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,3,Zillion and 41,46,0,,,,KG
 042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,4,Zillion and 73,46,0,,,,KG
-,,,,,English,0,,,,,,,,,KG
-,,,,,English,0,,,,,,,,,KG
-,,,,,English,,,,,,,,,,KG
-,,,,,,,,,,,,,,,KG
-,,,,,,,,,,,,,,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,1,1057,1059,0,,,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,2,1006,1007,1,,,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,3,Zillion and 41,Zillion 42,1,,,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,4,Zillion and 73,Zillion 74,1,,,,KG
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,1,1057,IDK,0,,,,SL
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,2,1006,IDK,0,,,,SL
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,3,Zillion and 41,Zillion 42,1,,,,SL
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,4,Zillion and 73,Zillion 94,0,,,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",1,1057,IDK,0,,,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",2,1006,50,0,,,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",3,Zillion and 41,80,0,,,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",4,Zillion and 73,90,0,,,,SL
