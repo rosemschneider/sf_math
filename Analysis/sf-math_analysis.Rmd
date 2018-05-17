@@ -94,6 +94,11 @@ nextnumber.df <- exclude(nextnumber.raw)
 sf.df <- exclude(sf.raw)
 mathfacts.df <- exclude(mathfacts.raw)
 ```
+Change the age for one participant with incorrect age
+```{r}
+sf.df %<>%
+  mutate(age = ifelse(SID == "040418-LK", 5.727584, age))
+```
 
 ###General filtering
 Remove pilots, empty values, etc. 
@@ -107,6 +112,7 @@ general_exclusions <- function(df) {
   return(df)
 }
 
+given.df <- general_exclusions(given.df)
 highestcount.df <- general_exclusions(highestcount.df)
 sf.df <- general_exclusions(sf.df)
 nextnumber.df <- general_exclusions(nextnumber.df)
@@ -275,7 +281,6 @@ ggplot(initial_final, aes(x = final_highest, fill = productive)) +
 ```
 
 #SF
-
 This is a sanity check to make sure that performance doesn't significantly differ between experiment halves (i.e., checking to make sure that performance isn't dropping because kids are getting bored.)
 ```{r}
 #is there a significant accuracy difference between first and second half of experiment? 
@@ -314,10 +319,29 @@ ggplot(sf.prod.ms, aes(x = productive, y = mean, fill = productive)) +
                  position=position_dodge(width = 0.9)) +
   labs(x = "Productivity", y = "Mean Correct") +
   scale_fill_solarized() + guides(fill = FALSE)
-  
+```
+
+##Accuracy by within/outside range by productivity
+```{r}
+sf.range.ms <- sf.df %>%
+  group_by(count_range, productive)%>%
+  multi_boot_standard("correct", na.rm = TRUE)
+
+ggplot(sf.range.ms, aes(x = productive, y = mean, fill = count_range)) + 
+  geom_bar(stat = "identity", position= position_dodge()) + 
+  geom_linerange(aes(ymin = ci_lower,
+                      ymax = ci_upper),
+                  size = .3,
+                  show.legend = FALSE,
+                 position=position_dodge(width = 0.9)) +
+  labs(x = "Productivity", y = "Mean Correct", ,  
+       title = "Accuracy by count range and productivity: Successor Function") +
+  scale_fill_solarized()
 ```
 
 #Next number
+
+##Accuracy by productivity
 ```{r}
 #Meaningful way of classifying
 #Visualize
@@ -336,4 +360,47 @@ ggplot(nn.prod.ms, aes(x = productive, y = mean, fill = productive)) +
   scale_fill_solarized() + guides(fill = FALSE)
 ```
 
+##Accuracy within/outside by productivity
+```{r}
+nn.range.ms <- nextnumber.df %>%
+  group_by(count_range, productive)%>%
+  multi_boot_standard("correct", na.rm = TRUE)
+
+ggplot(nn.range.ms, aes(x = productive, y = mean, fill = count_range)) + 
+  geom_bar(stat = "identity", position= position_dodge()) + 
+  geom_linerange(aes(ymin = ci_lower,
+                      ymax = ci_upper),
+                  size = .3,
+                  show.legend = FALSE,
+                 position=position_dodge(width = 0.9)) +
+  labs(x = "Productivity", y = "Mean Correct",
+       title = "Accuracy by count range and productivity: Next Number") +
+  scale_fill_solarized()
+```
+
+#Scatterplot by task 
+```{r}
+#first, compute mean performance for each kiddo for each task, so that you have one value per kid
+
+#then put all of these together for the scatterplot
+
+sf.mean <- sf.df %>%
+  group_by(SID, age, productive)%>%
+  summarise(mean.sf = mean(correct))
+
+nn.mean <- nextnumber.df %>%
+  group_by(SID)%>%
+  summarise(mean.nn = mean(correct))
+
+mf.mean <- mathfacts.df %>%
+  group_by(SID)%>%
+  summarise(mean.mf = mean(correct))
+
+tmp <- right_join(sf.mean, nn.mean, by = "SID")
+all.mean <- right_join(tmp, mf.mean, by = "SID")
+
+#now melt?
+all.melt <- gather(all.mean, task, mean, mean.sf:mean.mf)
+
+#scatterplot with three 
 ```
