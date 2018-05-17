@@ -14,6 +14,8 @@ library(magrittr)
 library(langcog)
 library(lme4)
 library(stringr)
+library(RColorBrewer)
+library(ggthemes)
 ```
 
 #Setup
@@ -26,10 +28,9 @@ given.raw <- read.csv("Data/GiveN.csv")
 
 #Then load Highest Count
 highestcount.raw <- read.csv("Data/HighestCount.csv")
-
 #Then load SF
-sf.raw <- read.csv("Data/SF.csv")%>%
-  rename(num_queried = starting_num) #to make life easier for within/outside
+sf.raw <- read.csv("Data/SF.csv") %>%
+  dplyr::rename(num_queried = starting_num) #to make life easier for within/outside
 
 #Then load Next Number
 nextnumber.raw <- read.csv("Data/NextNumber.csv")
@@ -43,6 +44,9 @@ indefinite.raw <- read.csv("Data/Indefinite.csv")
 #combine for looping
 tasks <- list(given.raw, highestcount.raw, sf.raw, 
               nextnumber.raw, mathfacts.raw, indefinite.raw)
+
+highestcount.raw %<>%
+  mutate(final_highest = as.numeric(as.character(final_highest))) #for some reason was being read in as a factor
 ```
 
 ##Tidy data
@@ -74,10 +78,10 @@ indefinite.exclusions <- check_exclusions(indefinite.raw) #deal with this later
 all_exclusions <- bind_rows(given.exclusions, highestcount.exclusions, 
                             sf.exclusions, nextnumber.exclusions, 
                             mathfacts.exclusions)
+all_exclusions
+```
 
-#review these guys manually
-#NB RMS - you need to check on exclusion criteria
-
+```{r}
 ##once you have reviewed these guys manually, run the below code
 exclusion_SIDs <- as.vector(all_exclusions$SID)
 
@@ -94,10 +98,26 @@ nextnumber.df <- exclude(nextnumber.raw)
 sf.df <- exclude(sf.raw)
 mathfacts.df <- exclude(mathfacts.raw)
 ```
-Change the age for one participant with incorrect age
+
+Change the age for two participants with incorrect age
 ```{r}
-sf.df %<>%
-  mutate(age = ifelse(SID == "040418-LK", 5.727584, age))
+change_ages <- function(df) { #update this manually
+  df %<>%
+     mutate(age = ifelse(SID == "040418-LK", 5.727584, age), 
+         age = ifelse(SID == "022818-BH", 5.278576, age), 
+         age = ifelse(SID == "032218-LM", 4.175222, age), 
+         age = ifelse(SID == "042418-ML", 5.615332, age))
+  return(df)
+}
+
+given.df <- change_ages(given.df)
+sf.df <- change_ages(sf.df)
+highestcount.df <- change_ages(highestcount.df)
+nextnumber.df <- change_ages(nextnumber.df)
+mathfacts.df <- change_ages(mathfacts.df)
+
+
+
 ```
 
 ###General filtering
@@ -151,6 +171,20 @@ unique.check <- all_unique %>%
 
 ##NB - you must manally review these. 
 ##To-do for RMS: You should automate whether these are included or excluded
+
+#Do we have the same number of participants in all tasks
+#note, this is necessary, but should be a red flag to check data more carefully if not
+check_unique <- function() {
+  if (length(unique.given$SID) == length(unique.highestcount$SID) &
+      length(unique.sf$SID) & length(unique.nextnumber$SID) & length(unique.mathfacts$SID)) {
+    print("Same number of subjects in each task")
+  } else {
+        print("WARNING: Differing numbers of participants in each task")
+      }
+}
+
+check_unique()
+
 ```
 
 ##Coding check
@@ -259,7 +293,44 @@ nextnumber.df <- determine_count_range(nextnumber.df)
 mathfacts.df <- determine_count_range(mathfacts.df)
 ```
 
+#Planned analyses
+Counting Productivity & Successor Task Performance: 
+Simple models: 
+Model 1: Successor.Performance ~ Highest.Next.Number  + Within/Outside range + Age + (1|subject)
+Model 2: Successor.Performance ~ Initial.Count + Within/Outside range + Age + (1|subject)
+Model 3: Successor.Performance ~ Final.Count + Within/Outside range + Age + (1|subject)
+Model 4: Successor.Performance ~ Productivity+ Within/Outside range + Age + (1|subject)
+
+After running these first four models, any predictor that significantly (p <.05) predicted Successor Performance will be added into Model 5, which will be our “Large” model (containing all predictors that significantly predicted Successor Performance in the simple models).
+
+We will construct model 5 hierarchically. Model comparisons will be performed at each stage by running a likelihood ratio test between reduced and full models, with significant effects retained in the full model (Model 5). Model selection will be done on the basis of AIC evaluation and significant Chi-square statistic.
+
+Math Facts & Successor Task Performance: To identify whether there is connection between math fact knowledge and Successor Task performance, we will conduct one primary analysis, which predict Successor Task performance from performance on the Math Facts task. 
+Model 6: Successor.Performance ~ Math.Facts + Within/Outside range + Age + (1|subject)
+
+After running this model, if there is a significant relationship between Math Facts and Successor performance, we will construct Model 7, which includes both Math Facts and all of the significant predictors from Model 5 (above). 
+
+To test whether Model 7 (containing Math Facts) fits the data significantly better than the reduced Model 5 (without Math Facts), we will conduct a likelihood ratio test of the two models, using AIC and Chi-square statistic to assess whether Math Facts performance significantly contributes to predicting SF performance. 
+
+17.5 Correlation between all continuous measures and all other continuous measures. 
+
+Error classification
+
+##Models
+```{r}
+
+```
+
+#Individual task visualizations
+1. Initial highest count and final highest count, grouped by productivity
+2. Performance on SF, NN, and MF, within/outside of range, grouped by productivity
+3. Scatterplot of relation between tasks, SF, NN, and MF
+4. Error classification on highest count
+
+
 #Highest count
+##Scatterplot
+Relation between initial and final highest count, grouped by productivity
 ```{r}
 #relation between initial and final
 initial_final <- highestcount.df %>%
@@ -267,17 +338,43 @@ initial_final <- highestcount.df %>%
   mutate(initial_highest = as.numeric(initial_highest), 
          initial_final = as.numeric(final_highest))
 
-ggplot(initial_final, aes(x = initial_highest, y = final_highest, color = productive)) +
-  geom_point()
+productivity.colors <- c("#4daf4a","#984ea3")
 
+ggplot(initial_final, aes(x = initial_highest, y = final_highest, color = factor(productive, 
+                                                                                 labels = c("Productive", "Nonproductive")))) +
+  geom_point(size = 2) + geom_jitter(width = .1) +
+  labs(x = "Final highest count", y = "Initial highest count",
+                      title = "Initial and final highest counts by productivity classification", 
+                      color = "Productivity Classification") +
+  theme_bw() + 
+  scale_x_continuous(breaks = seq(0, 120, 10)) + 
+  scale_y_continuous(breaks = seq(0, 120, 10)) + 
+  theme(panel.grid.minor = element_blank()) + 
+  scale_color_manual(values = productivity.colors)
+```
+##Histograms of initial and final highest count distributions, grouped by productivtiy
+```{r}
 #distribution of initial
-ggplot(initial_final, aes(x = initial_highest, fill = productive)) + 
-  geom_histogram(position = position_dodge()) +
-  scale_x_continuous(name="Initial highest count", breaks=seq(0,130,10))
+ggplot(initial_final, aes(x = initial_highest, 
+                          fill = factor(productive, labels = c("Productive", "Nonproductive")))) + 
+  geom_histogram(colour = "black") +
+  scale_x_continuous(name="Initial highest count", breaks=seq(0,120,10)) +
+  theme_bw() + 
+  labs(y = "Count", title = "Distribution of initial highest counts", 
+       fill = "Productivity Classification") + 
+  theme(panel.grid.minor = element_blank()) +
+  scale_fill_manual(values = productivity.colors)
 
-ggplot(initial_final, aes(x = final_highest, fill = productive)) + 
-  geom_histogram(position = position_dodge()) + 
-  scale_x_continuous(name = "Final highest count", breaks=seq(0,130,10))
+#Distribution of final count
+ggplot(initial_final, aes(x = final_highest, 
+                          fill = factor(productive, labels = c("Productive", "Nonproductive")))) + 
+  geom_histogram(colour = "black") +
+  scale_x_continuous(name="Final highest count", breaks=seq(0,120,10)) +
+  theme_bw() + 
+  labs(y = "Count", title = "Distribution of final highest counts", 
+       fill = "Productivity Classification") + 
+  theme(panel.grid.minor = element_blank()) +
+  scale_fill_manual(values = productivity.colors)
 ```
 
 #SF
@@ -302,81 +399,79 @@ m0 <- glmer(correct ~  1  + (1 | SID), data=sf.df,
 anova(m0,m1)
 ```
 
-##Accuracy by productivity
-```{r}
-#Meaningful way of classifying
-#Visualize
-sf.prod.ms <- sf.df %>%
-  group_by(productive)%>%
-  multi_boot_standard("correct", na.rm= TRUE)
-
-ggplot(sf.prod.ms, aes(x = productive, y = mean, fill = productive)) + 
-  geom_bar(stat = "identity", position= position_dodge()) + 
-  geom_linerange(aes(ymin = ci_lower,
-                      ymax = ci_upper),
-                  size = .3,
-                  show.legend = FALSE,
-                 position=position_dodge(width = 0.9)) +
-  labs(x = "Productivity", y = "Mean Correct") +
-  scale_fill_solarized() + guides(fill = FALSE)
-```
-
 ##Accuracy by within/outside range by productivity
 ```{r}
 sf.range.ms <- sf.df %>%
   group_by(count_range, productive)%>%
   multi_boot_standard("correct", na.rm = TRUE)
 
-ggplot(sf.range.ms, aes(x = productive, y = mean, fill = count_range)) + 
+
+countrange.colors <- c("#e41a1c","#377eb8")
+
+ggplot(sf.range.ms, aes(x = factor(productive, levels = c("productive", "nonproductive"), 
+                                   labels = c("Productive", "Nonproductive")), y = mean, 
+                        fill = factor(count_range, levels = c("within", "outside"), 
+                                      labels = c("Within initial highest count", "Outside initial highest count")))) + 
   geom_bar(stat = "identity", position= position_dodge()) + 
   geom_linerange(aes(ymin = ci_lower,
                       ymax = ci_upper),
                   size = .3,
                   show.legend = FALSE,
                  position=position_dodge(width = 0.9)) +
-  labs(x = "Productivity", y = "Mean Correct", ,  
-       title = "Accuracy by count range and productivity: Successor Function") +
-  scale_fill_solarized()
+  theme_bw() +
+  labs(x = "Productivity", y = "Mean Correct",  
+       title = "Accuracy by count range and productivity: Successor Function", 
+       fill = "Within/outside count range") +
+  scale_fill_manual(values = countrange.colors) 
 ```
 
 #Next number
-
-##Accuracy by productivity
-```{r}
-#Meaningful way of classifying
-#Visualize
-nn.prod.ms <- nextnumber.df %>%
-  group_by(productive)%>%
-  multi_boot_standard("correct", na.rm= TRUE)
-
-ggplot(nn.prod.ms, aes(x = productive, y = mean, fill = productive)) + 
-  geom_bar(stat = "identity", position= position_dodge()) + 
-  geom_linerange(aes(ymin = ci_lower,
-                      ymax = ci_upper),
-                  size = .3,
-                  show.legend = FALSE,
-                 position=position_dodge(width = 0.9)) +
-  labs(x = "Productivity", y = "Mean Correct") +
-  scale_fill_solarized() + guides(fill = FALSE)
-```
-
 ##Accuracy within/outside by productivity
 ```{r}
 nn.range.ms <- nextnumber.df %>%
   group_by(count_range, productive)%>%
   multi_boot_standard("correct", na.rm = TRUE)
 
-ggplot(nn.range.ms, aes(x = productive, y = mean, fill = count_range)) + 
+ggplot(nn.range.ms, aes(x = factor(productive, levels = c("productive", "nonproductive"), 
+                                                          labels = c("Productive", "Nonproductive")), y = mean, 
+                        fill = factor(count_range, levels = c("within", "outside"), 
+                                      labels = c("Within initial highest count", "Outside initial highest count")))) + 
   geom_bar(stat = "identity", position= position_dodge()) + 
   geom_linerange(aes(ymin = ci_lower,
                       ymax = ci_upper),
                   size = .3,
                   show.legend = FALSE,
                  position=position_dodge(width = 0.9)) +
-  labs(x = "Productivity", y = "Mean Correct",
-       title = "Accuracy by count range and productivity: Next Number") +
-  scale_fill_solarized()
+  theme_bw() +
+  labs(x = "Productivity", y = "Mean Correct",  
+       title = "Accuracy by count range and productivity: Next Number", 
+       fill = "Within/outside count range") +
+  scale_fill_manual(values = countrange.colors)
 ```
+#Math facts
+##Accuracy by productivity and range
+```{r}
+mf.range.ms <- mathfacts.df %>%
+  group_by(count_range, productive)%>%
+  multi_boot_standard("correct", na.rm = TRUE)
+
+ggplot(mf.range.ms, aes(x = factor(productive, levels = c("productive", "nonproductive"), 
+                                                          labels = c("Productive", "Nonproductive")), y = mean, 
+                        fill = factor(count_range, levels = c("within", "outside"), 
+                                      labels = c("Within initial highest count", "Outside initial highest count")))) + 
+  geom_bar(stat = "identity", position= position_dodge()) + 
+  geom_linerange(aes(ymin = ci_lower,
+                      ymax = ci_upper),
+                  size = .3,
+                  show.legend = FALSE,
+                 position=position_dodge(width = 0.9)) +
+  theme_bw() +
+  labs(x = "Productivity", y = "Mean Correct",  
+       title = "Accuracy by count range and productivity: Math Facts", 
+       fill = "Within/outside count range") +
+  scale_fill_manual(values = countrange.colors)
+```
+
 
 #Scatterplot by task 
 ```{r}
@@ -399,8 +494,45 @@ mf.mean <- mathfacts.df %>%
 tmp <- right_join(sf.mean, nn.mean, by = "SID")
 all.mean <- right_join(tmp, mf.mean, by = "SID")
 
+##Individual scatterplots for now, until I learn how to combine them all into one plot
+ggplot(all.mean, aes(x = mean.sf, y = mean.nn, 
+                     color = factor(productive, levels = c("productive", "nonproductive"), 
+                                    labels = c("Productive", "Nonproductive")))) +
+  geom_point(size = 2)  +
+  labs(x = "Mean performance: SF", y = "Mean performance: NN",
+                      title = "Mean performance on SF and NN", 
+                      color = "Productivity Classification") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) + 
+  scale_color_manual(values = productivity.colors)
+
+#nn and mf
+ggplot(all.mean, aes(x = mean.mf, y = mean.nn, 
+                     color = factor(productive, levels = c("productive", "nonproductive"), 
+                                    labels = c("Productive", "Nonproductive")))) +
+  geom_point(size = 2)  +
+  labs(x = "Mean performance: MF", y = "Mean performance: NN",
+                      title = "Mean performance on NN and MF", 
+                      color = "Productivity Classification") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) + 
+  scale_color_manual(values = productivity.colors)
+
+#mf and sf
+ggplot(all.mean, aes(x = mean.mf, y = mean.sf, 
+                     color = factor(productive, levels = c("productive", "nonproductive"), 
+                                    labels = c("Productive", "Nonproductive")))) +
+  geom_point(size = 2)  +
+  labs(x = "Mean performance: MF", y = "Mean performance: SF",
+                      title = "Mean performance on MF and SF", 
+                      color = "Productivity Classification") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) + 
+ scale_color_manual(values = productivity.colors)
+
+
 #now melt?
 all.melt <- gather(all.mean, task, mean, mean.sf:mean.mf)
 
-#scatterplot with three 
+#scatterplot with three - to come in the future
 ```
