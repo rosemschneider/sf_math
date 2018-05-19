@@ -332,7 +332,7 @@ add_highest_num <- function(df) {
   return(tmp)
 }
 
-sf.df <- add_highest_num(nextnumber.df)
+sf.df <- add_highest_num(sf.df)
 ```
 
 #Planned analyses
@@ -414,7 +414,6 @@ model.1 <- glmer(correct ~ highest_num + count_range + age + (1|SID),
 
 #Successor.Performance ~ Initial.Count + Within/Outside range + Age + (1|subject)
 model.2 <- glmer(correct ~ initial_highest + count_range + age + (1|SID), 
-
                                   family = "binomial", data = model.df)
 #Successor.Performance ~ Final.Count + Within/Outside range + Age + (1|subject)
 model.3 <- glmer(correct ~ final_highest + count_range + age + (1|SID), 
@@ -425,22 +424,22 @@ model.4 <- glmer(correct ~ productive + count_range + age + (1|SID),
                  family = "binomial", data = model.df)
 
 ##Any predictor that significantly (p <.05) predicted Successor Performance will be added into Model 5, which will be our “Large” model (containing all predictors that significantly predicted Successor Performance in the simple models).
-#Model 1: Highest next number (p < .0001)
-#Model 2: Initial highest (p = .07)
+#Model 1: Highest next number (p = .0183)
+#Model 2: Initial highest (p = .64)
 #Model 3: Final highest (p < .0001)
-#Model 4: Productive (p = .0002)
+#Model 4: Productive (p < .0001)
 
 model.5.base <- glmer(correct ~ count_range + age + (1|SID), 
                       family = "binomial", data = model.df)
 #add nn, compare
-model.5.highest_nn <- glmer(correct ~ count_range + age + highest_num + (1|SID), 
-                            family = "binomial", data = model.df)
+model.5.highest_nn <- glmer(correct ~ highest_num + count_range + age + (1|SID), 
+                 family = "binomial", data = model.df)
 
 anova(model.5.base, model.5.highest_nn, test = 'LRT') #significant, retain
 
 #add final highest
-model.5.final_highest <- glmer(correct ~ count_range + age + highest_num +
-                                 final_highest + (1|SID), family = "binomial", 
+model.5.final_highest <- glmer(correct ~ final_highest + highest_num + count_range +
+                                 (1|SID),family = "binomial", 
                                data = model.df)
 
 #model unstable, check and see if convergence warning is legit
@@ -449,12 +448,15 @@ with(model.5.final_highest@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3
 anova(model.5.highest_nn, model.5.final_highest, test = 'LRT') #significant, retain both
 
 ##add productive
-model.5.productive <- glmer(correct ~ count_range + age + highest_num + 
-                              final_highest + productive + (1|SID), family = "binomial", 
+model.5.productive <- glmer(correct ~ productive + final_highest + highest_num + 
+                              count_range + age + (1|SID), family = "binomial", 
                             data = model.df)
 
 #model failed to converge - check to see if this is a real issue
-with(model.5.productive@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #False, not converged -- this is most likely an issue because we don't have enough data at this point
+with(model.5.productive@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)#true, not an issue
+
+#now compare
+anova(model.5.productive, model.5.final_highest, test = 'LRT')
 
 #Model 6: Successor.Performance ~ Math.Facts + Within/Outside range + Age + (1|subject)
 model.6 <- glmer(correct ~ mf_mean + count_range + age + (1|SID), 
@@ -658,6 +660,80 @@ ggplot(mf.range.ms, aes(x = factor(productive, levels = c("productive", "nonprod
 
 #Difference in performance on same/novel numbers by task
 ```{r}
+#first, get a vector of all the numbers used in sf 
+sf_nums <- sf.df %>%
+  distinct(num_queried)
+
+sf_nums <- as.vector(sf_nums$num_queried)
+
+math_facts_nums <- mathfacts.df %>%
+  distinct(num_queried)
+
+mf_nums <- as.vector(math_facts_nums$num_queried)
+
+nn_nums <- nextnumber.df %>%
+  distinct(num_queried)
+
+nn_nums <- as.vector(nn_nums$num_queried)
+
+novel_same <- function(df) {
+  tmp <- df
+  for (row in 1:nrow(tmp)) {
+    num = tmp[row, "num_queried"]
+    if (num %!in% sf_nums) {
+     tmp[row, "novel_same"] = "novel" 
+    } else {
+      tmp[row, "novel_same"] = "same"
+    }
+  }
+  return(tmp)
+}
+
+math_nn <- function() {
+  for (row in 1:nrow(sf.df)) {
+    num = sf.df[row, "num_queried"]
+    if (num %in% mf_nums) {
+      sf.df[row, "novel_same"] = "same"
+    } else if (num %in% nn_nums) {
+      sf.df[row, "novel_same"] = "same"
+    } else {
+      sf.df[row, "novel_same"] = "novel"
+    }
+  }
+  return(sf.df)
+}
+
+sf.df <- math_nn()%>%
+  filter(num_queried != 1)
+
+nextnumber.df <- novel_same(nextnumber.df) %>%
+  filter(num_queried != 1)
+mathfacts.df <- novel_same(mathfacts.df)  %>%
+  filter(problem != "1+1")
+
+novel.nn <- nextnumber.df %>%
+  group_by(SID, age, productive, novel_same) %>%
+  multi_boot_standard("correct", na.rm = TRUE)%>%
+  mutate(task = "next number")
+
+novel.mf <- mathfacts.df %>%
+  group_by(SID, age, productive, novel_same)%>%
+  multi_boot_standard("correct", na.rm = TRUE)%>%
+  mutate(task = "math_facts")
+
+novel.sf <- sf.df %>%
+  group_by(SID, age, productive, novel_same)%>%
+  multi_boot_standard("correct", na.rm = TRUE)%>%
+  mutate(task = "successor")
+
+tmp <- bind_rows(novel.nn, novel.mf)
+all.novel <- bind_rows(tmp, novel.sf)
+
+#plot
+ggplot(all.novel, aes(x = task, y = mean, fill = task, group = task)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  facet_wrap(~novel_same)
+
 
 ```
 
