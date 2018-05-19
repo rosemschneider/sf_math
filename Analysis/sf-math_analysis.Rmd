@@ -656,6 +656,11 @@ ggplot(mf.range.ms, aes(x = factor(productive, levels = c("productive", "nonprod
 #   scale_fill_brewer(palette = "Set1")
 ```
 
+#Difference in performance on same/novel numbers by task
+```{r}
+
+```
+
 
 #Scatterplot by task (SF/NN/MF) 
 ```{r}
@@ -720,3 +725,30 @@ all.melt <- gather(all.mean, task, mean, mean.sf:mean.mf)
 
 #scatterplot with three - to come in the future
 ```
+
+#Exploratory analyses
+Exploratory data - To explore whether children’s performance on the Successor Task is related to their ability to generalize the Successor to all numbers, we will run a partial correlation between performance on both tasks, controlling for age.
+```{r}
+#SF and NN
+library(ppcor)
+
+sf.nn.pcor <- pcor.test(all.mean$mean.sf, all.mean$mean.nn, all.mean$age) #this is doing weird stuff, not sure how to deal with it right now
+sf.mf.pcor <- pcor.test(all.mean$mean.sf, all.mean$mean.mf, all.mean$age)
+```
+
+Using the Productive/Non-Productive categorical classification outlined above, we will compare mean performance between both groups on all tasks (Next Number, Successor, and Math Facts) in t-tests.
+```{r}
+#next number
+nn.t.test <- t.test(subset(all.mean, productive == "productive")$mean.nn, 
+                    subset(all.mean, productive == "nonproductive")$mean.nn, var.equal = TRUE)
+
+#successor function
+sf.t.test <- t.test(subset(all.mean, productive == "productive")$mean.sf, 
+                    subset(all.mean, productive == "nonproductive")$mean.sf, var.equal = TRUE)
+
+#math facts
+mf.t.test <- t.test(subset(all.mean, productive == "productive")$mean.mf, 
+                    subset(all.mean, productive == "nonproductive")$mean.mf, var.equal = TRUE)
+
+```
+Exploratory modeling of our counting data to test the predictions of Yang (2017). Here, we plan to use cluster analysis to identify distinct groups (or categories) of counters from our highest count data, assessing the likelihood of Successor Knowledge from cluster membership.
