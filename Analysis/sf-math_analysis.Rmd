@@ -335,6 +335,15 @@ add_highest_num <- function(df) {
 sf.df <- add_highest_num(sf.df)
 ```
 
+#Demographics
+```{r}
+sf.df %>%
+  distinct(SID, age, sex)%>%
+  group_by(sex)%>%
+  summarise(n = n(), mean_age = mean(age), sd_age = sd(age), median_age = median(age))
+```
+
+
 #Planned analyses
 
 ##Make model dataframe with all of the relevant variables
