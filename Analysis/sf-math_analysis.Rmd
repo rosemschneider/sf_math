@@ -129,12 +129,12 @@ general_exclusions <- function(df) {
     filter(location != "Lab", 
            !is.na(SID), 
            !is.na(age))
-  
   return(df)
 }
 
 given.df <- general_exclusions(given.df)
-highestcount.df <- general_exclusions(highestcount.df)
+highestcount.df <- general_exclusions(highestcount.df) %>%
+  mutate(exclude_trial = as.numeric(exclude_trial))
 sf.df <- general_exclusions(sf.df)
 nextnumber.df <- general_exclusions(nextnumber.df)
 mathfacts.df <- general_exclusions(mathfacts.df)
@@ -408,21 +408,34 @@ Error classification
 
 ##Models
 ```{r}
+#model 1
 #Successor.Performance ~ Highest.Next.Number  + Within/Outside range + Age + (1|subject)
 model.1 <- glmer(correct ~ highest_num + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
+summary(model.1)
 
+#model 2
 #Successor.Performance ~ Initial.Count + Within/Outside range + Age + (1|subject)
 model.2 <- glmer(correct ~ initial_highest + count_range + age + (1|SID), 
                                   family = "binomial", data = model.df)
+summary(model.2)
+
+#model 3
 #Successor.Performance ~ Final.Count + Within/Outside range + Age + (1|subject)
 model.3 <- glmer(correct ~ final_highest + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
+summary(model.3)
 
+#model 4
 #Successor.Performance ~ Productivity+ Within/Outside range + Age + (1|subject)
 model.4 <- glmer(correct ~ productive + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
+summary(model.4)
 
+```
+
+##Model 5
+```{r}
 ##Any predictor that significantly (p <.05) predicted Successor Performance will be added into Model 5, which will be our “Large” model (containing all predictors that significantly predicted Successor Performance in the simple models).
 #Model 1: Highest next number (p = .0183)
 #Model 2: Initial highest (p = .64)
@@ -431,41 +444,42 @@ model.4 <- glmer(correct ~ productive + count_range + age + (1|SID),
 
 model.5.base <- glmer(correct ~ count_range + age + (1|SID), 
                       family = "binomial", data = model.df)
-#add nn, compare
-model.5.highest_nn <- glmer(correct ~ highest_num + count_range + age + (1|SID), 
+#add final, compare
+model.5.final <- glmer(correct ~ final_highest + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
 
-anova(model.5.base, model.5.highest_nn, test = 'LRT') #significant, retain
+##add highest
+model.5.highest_nn <- glmer(correct ~ highest_num + final_highest + count_range + age + (1|SID), 
+                 family = "binomial", data = model.df)
 
-#add final highest
-model.5.final_highest <- glmer(correct ~ final_highest + highest_num + count_range +
-                                 (1|SID),family = "binomial", 
-                               data = model.df)
+model.5.prod <- glmer(correct ~ productive + final_highest + count_range + age + (1|SID), 
+                 family = "binomial", data = model.df)
+
+anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')
+
+summary(model.5.final)
+#final_highest seems to be doing the most work here, AIC and Chisq. don't seem to justify us retaining highest nn or productive in the model 
 
 #model unstable, check and see if convergence warning is legit
-with(model.5.final_highest@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #true, we've converged adequately
-#compare
-anova(model.5.highest_nn, model.5.final_highest, test = 'LRT') #significant, retain both
+# with(model.5.final_highest@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #true, we've converged adequately
+```
 
-##add productive
-model.5.productive <- glmer(correct ~ productive + final_highest + highest_num + 
-                              count_range + age + (1|SID), family = "binomial", 
-                            data = model.df)
-
-#model failed to converge - check to see if this is a real issue
-with(model.5.productive@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)#true, not an issue
-
-#now compare
-anova(model.5.productive, model.5.final_highest, test = 'LRT')
-
+##Model 6 - math facts
+Is mean performance on the math facts task predictive of SF performance?
+Not a significant predictor at this time
+```{r}
 #Model 6: Successor.Performance ~ Math.Facts + Within/Outside range + Age + (1|subject)
 model.6 <- glmer(correct ~ mf_mean + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
+model.6.base <- glmer(correct ~ count_range + age + (1|SID), 
+                 family = "binomial", data = model.df)
+anova(model.6, model.6.base, test = 'LRT')
 
 ```
 
 #Correlation between all continuous variables and all other continuous variables
 ```{r}
+#NB, for task correlations, do we want mean task performance?
 #continuous variables = age, highest counts
 cor.test(model.df$age, model.df$initial_highest)
 cor.test(model.df$age, model.df$final_highest)
@@ -476,7 +490,8 @@ cor.test(model.df$initial_highest, model.df$initial_highest)
 1. Initial highest count and final highest count, grouped by productivity
 2. Performance on SF, NN, and MF, within/outside of range, grouped by productivity
 3. Scatterplot of relation between tasks, SF, NN, and MF
-4. Error classification on highest count
+4. Mean performance on novel/same numbers on SF/NN/MF, grouped by productivity
+5. Error classification on highest count 
 
 
 #Highest count
@@ -660,7 +675,7 @@ ggplot(mf.range.ms, aes(x = factor(productive, levels = c("productive", "nonprod
 
 #Difference in performance on same/novel numbers by task
 ```{r}
-#first, get a vector of all the numbers used in sf 
+#first, get a vector of all the numbers used in each task
 sf_nums <- sf.df %>%
   distinct(num_queried)
 
@@ -676,6 +691,7 @@ nn_nums <- nextnumber.df %>%
 
 nn_nums <- as.vector(nn_nums$num_queried)
 
+##make a function to label novel or same
 novel_same <- function(df) {
   tmp <- df
   for (row in 1:nrow(tmp)) {
@@ -703,9 +719,10 @@ math_nn <- function() {
   return(sf.df)
 }
 
+#remove training
 sf.df <- math_nn()%>%
-  filter(num_queried != 1)
-
+  filter(num_queried != 1,
+         num_queried != 3)
 nextnumber.df <- novel_same(nextnumber.df) %>%
   filter(num_queried != 1)
 mathfacts.df <- novel_same(mathfacts.df)  %>%
@@ -729,10 +746,28 @@ novel.sf <- sf.df %>%
 tmp <- bind_rows(novel.nn, novel.mf)
 all.novel <- bind_rows(tmp, novel.sf)
 
+all.novel.ms <- all.novel %>%
+  group_by(novel_same, task, productive)%>%
+  multi_boot_standard("mean", na.rm = TRUE)%>%
+  mutate(productive = factor(productive, 
+                             levels = c("productive","nonproductive"), 
+                             labels = c("Productive", "Nonproductive")))
+
+task.colors = c("#9E0142", "#3288BD", "#5E4FA2")
 #plot
-ggplot(all.novel, aes(x = task, y = mean, fill = task, group = task)) +
+ggplot(all.novel.ms, aes(x = factor(novel_same, levels = c("novel", "same"), 
+                                    labels = c("Novel", "Same")), y = mean, 
+                         fill = factor(task, levels = c("math_facts", "next number", "successor"), labels = c("Math Facts", "Next Number", "Successor")))) +
   geom_bar(stat = "identity", position = position_dodge()) +
-  facet_wrap(~novel_same)
+  geom_linerange(aes(ymin = ci_lower,
+                      ymax = ci_upper),
+                  size = .3,
+                  show.legend = FALSE,
+                 position=position_dodge(width = 0.9))+
+  theme_bw() +
+  facet_wrap(~productive) + 
+  scale_fill_manual(values = task.colors) +
+  labs(x = "Novel/Same", y = "Mean performance", fill = "Task")
 
 
 ```
@@ -828,3 +863,14 @@ mf.t.test <- t.test(subset(all.mean, productive == "productive")$mean.mf,
 
 ```
 Exploratory modeling of our counting data to test the predictions of Yang (2017). Here, we plan to use cluster analysis to identify distinct groups (or categories) of counters from our highest count data, assessing the likelihood of Successor Knowledge from cluster membership.
+
+##Error classification on highest count
+```{r}
+##This might have to be coded manually, because the error coding is all over the place in the datasheet
+```
+
+#Post-hoc analyses
+1. Accuracy ~ Problem * Task
+```{r}
+
+```
