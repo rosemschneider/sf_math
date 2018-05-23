@@ -590,14 +590,15 @@ initial_final <- highestcount.df %>%
 
 highest_count <- ggplot(initial_final, aes(x = initial_highest, y = final_highest, 
                           color = factor(productive, levels = c("productive","nonproductive"), labels = c("Productive", "Nonproductive")))) +
-  geom_point(size = 2.7) + geom_jitter(width = .1) +
-  labs(x = "Initial highest count", y = "Final highest count",
-                      title = "Initial and final highest counts by productivity classification", 
-                      color = "Productivity Classification") +
-  theme_bw() + 
+  geom_point() + geom_jitter(width = .1) +
+  labs(x = "Initial highest count", y = "Final highest count", 
+                      color = "", title = "Initial/Final Highest Counts") +
+  theme_bw(base_size = 13) + 
   scale_x_continuous(breaks = seq(0, 120, 10)) + 
   scale_y_continuous(breaks = seq(0, 120, 10)) + 
-  theme(panel.grid.minor = element_blank()) + 
+  theme(panel.grid.minor = element_blank(), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 10)) + 
   scale_color_manual(values = productivity.colors)
 highest_count
 ```
@@ -666,21 +667,25 @@ sf.range.ms <- sf.df %>%
 
 countrange.colors <- c("#e41a1c","#377eb8")
 
-ggplot(sf.range.ms, aes(x = factor(productive, levels = c("productive", "nonproductive"), 
-                                   labels = c("Productive", "Nonproductive")), y = mean, 
-                        fill = factor(count_range, levels = c("within", "outside"), 
-                                      labels = c("Within initial highest count", "Outside initial highest count")))) + 
+sf <- ggplot(sf.range.ms, aes(x = factor(count_range, levels = c("within", "outside"), 
+                                      labels = c("Within initial highest count", "Outside initial highest count")), y = mean, 
+                        fill = factor(productive, levels = c("productive", "nonproductive"), 
+                                   labels = c("Productive", "Nonproductive")))) + 
   geom_bar(stat = "identity", position= position_dodge()) + 
   geom_linerange(aes(ymin = ci_lower,
                       ymax = ci_upper),
                   size = .3,
                   show.legend = FALSE,
                  position=position_dodge(width = 0.9)) +
-  theme_bw() +
-  labs(x = "Productivity", y = "Mean Correct",  
-       title = "Accuracy by count range and productivity: Successor Function", 
-       fill = "Within/outside count range") +
-  scale_fill_manual(values = countrange.colors) 
+  theme_bw(base_size = 13) +
+  theme(legend.position = "bottom", 
+        legend.text = element_text(size = 10)) +
+  labs(x = "Number queried within child's highest count?", y = "Mean Correct",  
+       fill = "", title = "Successor Task Performance") +
+  scale_fill_manual(values = productivity.colors) 
+sf
+  
+  
 ```
 
 ##Next number
@@ -830,23 +835,7 @@ all.novel.ms <- all.novel %>%
 
 task.colors = c("#9E0142", "#3288BD", "#5E4FA2")
 #plot
-novel <- ggplot(all.novel.ms, aes(x = factor(novel_same, levels = c("novel", "same"), 
-                                    labels = c("Novel", "Same")), y = mean, 
-                         fill = factor(task, levels = c("math_facts", "next number", "successor"), 
-                                       labels = c("Math Facts", "Next Number", "Successor")), 
-                         alpha = count_range)) +
-  geom_bar(stat = "identity", position = position_dodge()) +
-  geom_linerange(aes(ymin = ci_lower,
-                      ymax = ci_upper),
-                  size = .3,
-                  show.legend = FALSE,
-                 position=position_dodge(width = 0.9))+
-  theme_bw() +
-  facet_wrap(~productive) + 
-  scale_fill_manual(values = task.colors) + scale_alpha_discrete(range = c(1, .5))+
-  labs(x = "Novel/Same", y = "Mean performance", fill = "Task", 
-       alpha = "Within/Outside count range")
-novel
+q
 
 ggplot(all.novel.ms, aes(x = task, y = mean, fill = productive)) +
   geom_bar(stat = "identity", position = position_dodge()) +
@@ -959,6 +948,20 @@ mf.t.test
 ```
 Exploratory modeling of our counting data to test the predictions of Yang (2017). Here, we plan to use cluster analysis to identify distinct groups (or categories) of counters from our highest count data, assessing the likelihood of Successor Knowledge from cluster membership.
 
+```{r}
+library(mclust)
+clust <- highestcount.df %>%
+  select(initial_highest, final_highest)
+
+clPairs(clust)
+BIC <- mclustBIC(clust)
+plot(BIC)
+summary(BIC)
+mod1 <- Mclust(clust, x = BIC)
+summary(mod1, parameters = TRUE)
+plot(mod1, what = "classification")
+```
+
 #Post-hoc analyses
 1. Accuracy ~ Problem * Task
 ```{r}
@@ -993,4 +996,14 @@ model.post1 <- glmer(correct ~ task*novel_same + count_range + age + (1|SID),
 with(model.post1@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #false, take this with a grain of salt for now
 
 summary(model.post1)
+```
+
+#Correlation between final highest and mean SF performance
+```{r}
+sf.mean <- model.df %>%
+  group_by(SID, final_highest)%>%
+  summarise(mean_correct = mean(correct))
+
+hist(sf.mean$mean_correct)
+cor.test(sf.mean$final_highest, sf.mean$mean_correct, method = "spearman")
 ```
