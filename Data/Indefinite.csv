@@ -1,182 +1,165 @@
-﻿SID,age,sex,experimenter,location,language,exclude,exclude_reason,last_successful,error,prompt,after_prompt,initial_highest,final_highest,special_count,error_num,productive,note,exclude_trial,exclude_trial_reason,double_coded
-020918-JB,4.925393566,M,KG,Lab,English,0,,29,40,30,31,29,48,0,1,nonproductive,,,,RMS
-020918-JB,4.925393566,M,KG,Lab,English,0,,39,IDK,40,41,29,48,0,2,nonproductive,,,,RMS
-020918-JB,4.925393566,M,KG,Lab,English,0,,48,IDK,49,IDK,29,48,0,3,nonproductive,,,,RMS
-020918-CZ,4.421629021,F,KG,Lab,English,0,,28,27,29,29,28,113,0,1,productive,,,,RMS
-020918-CZ,4.421629021,F,KG,Lab,English,0,,49,30,50,51,28,113,1,2,productive,Child started from 1,,,RMS
-020918-CZ,4.421629021,F,KG,Lab,English,0,,59,30,60,61,28,113,0,3,productive,,,,RMS
-020918-CZ,4.421629021,F,KG,Lab,English,0,,69,30,70,71,28,113,0,4,productive,,,,RMS
-020918-CZ,4.421629021,F,KG,Lab,English,0,,79,IDK,80,81,28,113,0,5,productive,,,,RMS
-020918-CZ,4.421629021,F,KG,Lab,English,0,,109,46,110,111,28,113,0,6,productive,,,,RMS
-020918-CZ,4.421629021,F,KG,Lab,English,0,,113,IDK,114,IDK,28,113,0,7,productive,,,,RMS
-021618-CC,5.013004791,F,KG,Lab,English,0,,109,1000,110,1000,109,109,0,1,nonproductive,,,,RMS
-022818-JB,5.609856263,M,KG,Gillispie,English,0,,29,50,30,31,29,42,0,1,nonproductive,,,,SL
-022818-JB,5.609856263,M,KG,Gillispie,English,0,,39,12,40,41,29,42,0,2,nonproductive,,,,SL
-022818-MH,4.331279945,F,KG,Gillispie,English,0,,19,21,20,21,19,34,0,1,nonproductive,,,,SL
-022818-MH,4.331279945,F,KG,Gillispie,English,0,,29,22,30,31,19,34,0,2,nonproductive,,,,SL
-022818-MH,4.331279945,F,KG,Gillispie,English,0,,33,44,34,45,19,34,0,3,nonproductive,,,,SL
-022818-OT,5.574264203,M,KG,Gillispie,English,0,,27,30,28,29,27,75,0,1,productive,,,,SL
-022818-OT,5.574264203,M,KG,Gillispie,English,0,,29,20-10,30,31,27,75,0,2,productive,,,,SL
-022818-OT,5.574264203,M,KG,Gillispie,English,0,,39,38,40,41,27,75,0,3,productive,,,,SL
-022818-OT,5.574264203,M,KG,Gillispie,English,0,,49,20,50,51,27,75,0,4,productive,,,,SL
-022818-OT,5.574264203,M,KG,Gillispie,English,0,,59,50-10,60,61,27,75,0,5,productive,,,,SL
-022818-OT,5.574264203,M,KG,Gillispie,English,0,,69,60-10,70,71,27,75,0,6,productive,,,,SL
-022818-OT,5.574264203,M,KG,Gillispie,English,0,,75,78,76,IDK,27,75,0,7,productive,,,,SL
-022818-TK,4.249144422,M,KG,Gillispie,English,0,,15,17,16,17,15,19,0,1,nonproductive,,,,SL
-022818-TK,4.249144422,M,KG,Gillispie,English,0,,19,25,20,30,15,19,0,2,nonproductive,,,,SL
-022818-AK,5.839835729,F,KG,Gillispie,English,1,,109,IDK,110,111,109,121,0,1,productive,,,,SL
-040418-LK,5.727583847,F,KG,Gillispie,English,0,,28,90,29,29,28,28,0,1,nonproductive,,,,SL
-040418-JO,4.156057495,F,KG,Gillispie,English,0,,14,16,15,done,14,14,1,1,nonproductive,"after prompt, started counting from 20 but KG corrected the child and the child started counting from 38",,,SL
-041118-EB,5.284052019,M,KG,Little Lamb,English,0,,100,102,101,102,100,109,0,1,nonproductive,,,,SL
-041118-EB,5.284052019,M,KG,Little Lamb,English,0,,109,111,110,30-100,100,109,1,2,nonproductive,"after prompt started to count from 1; skipped numbers, but can't tell if correct count",,,RMS
-041118-SS,5.486652977,M,KG,Little Lamb,English,0,,109,IDK,110,11 - 100,109,109,0,1,nonproductive,,,,RMS
-041218-EC,5.533196441,F,KG,FUMCCV,English,0,,29,40,30,32,29,29,1,1,nonproductive,"after prompt,  started from 1",,,RMS
-041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,69,IDK,70,71,69,109,0,1,productive,child asked to stop,,,RMS
-041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,79,IDK,80,81,69,109,0,2,productive,,,,RMS
-041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,89,IDK,90,91,69,109,0,3,productive,child asked to stop,,,RMS
-041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,99,IDK,100,101,69,109,0,4,productive,,,,RMS
-041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,109,IDK,110,IDK,69,109,0,5,productive,,,,RMS
-041218-CL,5.01026694,M,KG,FUMCCV,English,0,,27,29,28,29,27,39,0,1,nonproductive,,,,RMS
-041218-CL,5.01026694,M,KG,FUMCCV,English,0,,37,39,38,39,27,39,0,2,nonproductive,,,,RMS
-041218-CL,5.01026694,M,KG,FUMCCV,English,0,,39,IDK,40,31,27,39,0,3,nonproductive,child asked to stop,,,RMS
-041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",14,IDK,15,1,14,NA,0,1,nonproductive,child asked to stop,,,RMS
-041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,14,16,15,1,14,14,0,1,nonproductive,,,,RMS
-041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,14,16,15,1,14,14,0,2,nonproductive,,,,RMS
-041818-AM,4.27104723,F,KG,Seaside,English,0,,39,3010,40,IDK,40,40,0,1,nonproductive,,,,RMS
-041818-OH,4.42984257,F,KG,Seaside,English,0,,59,40,60,61,59,63,0,1,nonproductive,,,,RMS
-041818-OH,4.42984257,F,KG,Seaside,English,0,,63,I'm tired,NA,NA,59,63,0,2,nonproductive,,,,RMS
-041818-G1,4.54757016,F,KG,Seaside,English,0,,15,14,16,17,15,54,0,1,productive,,,,RMS
-041818-G1,4.54757016,F,KG,Seaside,English,0,,29,20,30,31,15,54,0,2,productive,,,,RMS
-041818-G1,4.54757016,F,KG,Seaside,English,0,,39,IDK,40,41,15,54,0,3,productive,"child kept skipping, 89, KG provided prompt, then child used prompt",,,RMS
-041818-G1,4.54757016,F,KG,Seaside,English,0,,49,40,50,51,15,54,1,4,productive,child began counting again from 81,,,RMS
-041818-G1,4.54757016,F,KG,Seaside,English,0,,54,15,55,IDK,15,54,0,5,productive,,,,RMS
-041818-DM,5.0349076,M,KG,Seaside,English,0,,39,IDK,40,IDK,39,39,0,1,nonproductive,,,,RMS
-042418-RN,5.50308008,M,KG,McKinley,English,0,,109,IDK,110,111,109,120,0,1,productive,,,,SL
-042418-RN,5.50308008,M,KG,McKinley,English,0,,119,IDK,120,121,109,120,0,2,productive,,,,SL
-042418-RN,5.50308008,M,KG,McKinley,English,0,,129,120-ten,130,140,109,120,0,3,productive,,,,SL
-042418-LL,5.69199179,M,KG,McKinley,English,0,,119,IDK,120,121,119,120,0,1,productive,,,,SL
-042418-LC,5.44284736,M,KG,McKinley,English,0,,NA,NA,NA,NA,120,120,0,1,productive,,,,SL
-042418-LF,5.56605065,F,KG,McKinley,English,0,,59,70,60,61,59,109,0,1,productive,,,,SL
-042418-LF,5.56605065,F,KG,McKinley,English,0,,79,30,80,81,59,109,0,2,productive,,,,SL
-042418-LF,5.56605065,F,KG,McKinley,English,0,,88,90,89,89,59,109,0,3,productive,,,,SL
-042418-LF,5.56605065,F,KG,McKinley,English,0,,89,40,90,91,59,109,0,4,productive,,,,SL
-042418-LF,5.56605065,F,KG,McKinley,English,0,,99,IDK,100,101,59,109,0,5,productive,,,,SL
-042418-LF,5.56605065,F,KG,McKinley,English,0,,109,IDK,110,NA,59,109,0,6,productive,,,,SL
-042418-MB,5.442847365,F,KG,McKinley,English,0,,NA,NA,NA,NA,120,120,0,1,productive,,,,SL
-042418-MB2,5.681040383,F,KG,McKinley,English,0,,109,IDK,110,111,109,120,0,1,productive,,,,SL
-042418-MB2,5.681040383,F,KG,McKinley,English,0,,129,IDK,NA,NA,109,120,1,2,productive,,,,SL
-042418-RT,5.645448323,F,KG,McKinley,English,0,,NA,NA,NA,NA,120,120,1,1,productive,,,,SL
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,19,100,20,21,19,35,1,1,nonproductive,,,,SL
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,29,28,30,31,19,35,0,2,nonproductive,,,,SL
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,35,37,36,39,19,35,0,3,nonproductive,,,,SL
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,39,50,40,41,39,109,0,1,productive,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,KG
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,49,90,50,51,39,109,0,2,productive,,,,KG
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,59,70,60,61,39,109,0,3,productive,,,,KG
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,69,80,70,71,39,109,0,4,productive,,,,KG
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,99,20,100,101,39,109,0,5,productive,,,,KG
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,109,infinity,110,101,39,109,0,6,productive,,,,KG
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,14,19,15,1,14,69,0,1,productive,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,KG
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,11,13,12,1,14,69,0,2,productive,,,,KG
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,13,idk,14,15,14,69,0,3,productive,,,,KG
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,39,70,40,41,14,69,0,4,productive,,,,KG
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,49,70,50,41,14,69,0,5,productive,,,,KG
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,69,79,70,80,14,69,0,6,productive,,,,KG
-022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,11,,prompt,12,11,14?,0,1,nonproductive,Experimentor prompt was unclear. No video to double check,,,KG
-022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,12,,13,NA,12,14?,0,2,nonproductive,,,,KG
-022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,13,,14,NA,13,14?,0,3,nonproductive,,,,KG
-022818-HVC,5.119780972,F,VM,Gillispie,English,0,,49,idk,50,51,49,59,0,1,nonproductive,No video/ the format entered in data sheet is different in that the prompt encouraging children to count it included,,,KG
-022818-HVC,5.119780972,F,VM,Gillispie,English,0,,59,idk,NA,,49,59,0,2,nonproductive,,,,KG
-032218-LS,5.17453799,M,RMS,Northminster,English,0,,35,37,36,37,37,120,0,1,productive,,,,KG
-032218-LS,5.17453799,M,RMS,Northminster,English,0,,118,idk,119,120,37,120,0,2,productive,,,,KG
-032218-AS,4.93360712,F,RMS,Northminster,English,0,,115,idk,116,117,115,120,0,1,productive,,,,KG
-032218-AS,4.93360712,F,RMS,Northminster,English,0,,120,NA,NA,NA,115,120,0,2,productive,,,,KG
-032218-LM,4.17522245,F,RMS,Northminster,English,0,,12,15,13,1,12,25,1,1,nonproductive,counted from 1,,,KG
-032218-LM,4.17522245,F,RMS,Northminster,English,0,,10,9,11,1,12,25,1,2,nonproductive,counted from 1,,,KG
-032218-LM,5.17522245,F,RMS,Northminster,English,0,,25,,,,12,25,0,3,nonproductive,child asked to stop,,,KG
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,29,90,31,31,29,109,0,1,productive,,,,KG
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,39,90,40,41,29,109,0,2,productive,,,,KG
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,49,90,50,51,29,109,0,3,productive,,,,KG
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,59,90,60,61,29,109,0,4,productive,,,,KG
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,69,90,70,71,29,109,0,5,productive,,,,KG
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,71,73,72,73,29,109,0,6,productive,,,,KG
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,79,90,80,81,29,109,0,7,productive,,,,KG
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,109,idk,110,101,29,109,0,8,productive,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,KG
-032218-ER,4.19438741,F,RMS,Northminster,English,1,did not finish game,29,idk,30,31,29,31,0,1,nonproductive,Child asked to stop,,,KG
-041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,14,16,15,16,15,39,0,1,productive,,,,KG
-041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,20,15,21,22,15,39,0,2,productive,,,,KG
-041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,39,8,40,80,15,39,0,3,productive,"RMS prompted a few more after the child made the error after the prompt, it's not included here ",,,KG
-041118-IH,5.229295003,M,SL,Little Lamb,English,0,,19,21,20,1,19,19,1,1,nonproductive,counted from 1,,,KG
-041118-IH,5.229295003,M,SL,Little Lamb,English,0,,19,21,NA,NA,19,19,0,2,nonproductive,Made the same mistake after being prompted,,,KG
-042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,27,idk,28,29,27,39,0,1,nonproductive,,,,KG
-042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,29,idk,30,31,27,39,0,2,nonproductive,,,,KG
-042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,31,33,32,33,27,39,0,3,nonproductive,,,,KG
-042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,34,36,35,36,27,39,0,4,nonproductive,,,,KG
-042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,39,idk,40,NA,27,39,0,5,nonproductive,child asked to stop,,,KG
-042018-AA,4.262833676,F,RMS,FUMCCV,English,0,,29,2010,30,11,29,29,0,1,nonproductive,"RMS prompted a few more, but since the child made a mistake after the prompt, it's not included here",,,KG
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,20,30,21,22,20,109,0,1,productive,,,,KG
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,49,60,50,51,20,109,0,2,productive,,,,KG
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,59,idk,60,61,20,109,0,3,productive,,,,KG
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,69,idk,70,71,20,109,0,4,productive,,,,KG
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,71,73,72,73,20,109,0,5,productive,,,,KG
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,79,idk,80,81,20,109,0,6,productive,,,,KG
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,89,idk,90,91,20,109,0,7,productive,,,,KG
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,99,idk,100,101,20,109,0,8,productive,,,,KG
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,109,idk,110,idk,20,109,0,9,productive,"RMS prompted a few more, but since the child could not continue after prompt, it's not included. ",,,KG
-042418-HB,5.691991786,M,RMS,McKinley,English,0,,39,idk,40,41,39,120,0,1,productive,,,,KG
-042418-HB,5.691991786,M,RMS,McKinley,English,0,,49,90,50,51,39,120,0,2,productive,,,,KG
-042418-HB,5.691991786,M,RMS,McKinley,English,0,,59,40,60,61,39,120,0,3,productive,,,,KG
-042418-HB,5.691991786,M,RMS,McKinley,English,0,,66,68,67,68,39,120,0,4,productive,,,,KG
-042418-HB,5.691991786,M,RMS,McKinley,English,0,,69,80,70,71,39,120,0,5,productive,,,,KG
-042418-HB,5.691991786,M,RMS,McKinley,English,0,,90,100,91,92,39,120,0,6,productive,,,,KG
-042418-HB,5.691991786,M,RMS,McKinley,English,0,,120,Na,NA,NA,39,120,0,7,productive,,,,KG
-041318-AA,4.791238877,F,KG,Ridge City,English,0,,15,18,16,17,15,19,0,1,nonproductive,,,,SL
-041318-AA,4.791238877,F,KG,Ridge City,English,0,,19,18,20,18,15,19,0,2,nonproductive,,,,SL
-042018-ME,5.278576318,M,KG,FUMCCV,English,0,,10,IDK,11,12,10,29,0,1,nonproductive,,,,SL
-042018-ME,5.278576318,M,KG,FUMCCV,English,0,,29,20-10,30,IDK,10,29,0,2,nonproductive,asked to stop,,,SL
-042018-MM,5.106091718,M,KG,FUMCCV,English,0,,NA,NA,NA,NA,120,120,0,1,productive,,,,SL
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",10,IDK,11,12,10,71,1,1,productive,"after prompt,  started from 1",,,SL
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",14,18,15,19,10,71,0,2,productive,,,,SL
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",15,19,16,17,10,71,0,3,productive,,,,SL
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",39,90,40,41,10,71,0,4,productive,,,,SL
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",55,90,56,57,10,71,0,5,productive,"sounds like 50,11 but child seems to have speech impediment and could be 57",,,SL
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",57,59,58,59,10,71,0,6,productive,,,,SL
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",59, ,60,61,10,71,0,7,productive,,,,SL
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",69,90,70,71,10,71,0,8,productive,,,,SL
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",71,73,NA,NA,10,71,0,9,productive,experimenter error?? Didn't catch this mistake?,,,SL
-042418-ML,5.615331964,M,RMS,McKinley,English,0,,20,22,21,22,20,120,0,1,productive,,,,KG
-042418-ML,5.615331964,M,RMS,McKinley,English,0,,109,2000,110,111,20,120,0,2,productive,,,,KG
-042418-ML,6.615331964,M,RMS,McKinley,English,0,,120,NA,NA,NA,20,120,0,3,productive,,,,KG
-042418-JK,5.656399726,F,RMS,McKinley,English,0,,39,50,40,41,39,112,0,1,productive,,,,KG
-042418-JK,5.656399726,F,RMS,McKinley,English,0,,109,Idk,110,111,39,112,0,2,productive,,,,KG
-042418-JK,5.656399726,F,RMS,McKinley,English,0,,111,130,112,idk,39,112,0,3,productive,"RMS prompted a few more, but since the child could not continue after prompt, it's not included. ",,,KG
-042418-IH,5.667351129,M,RMS,McKinley,English,0,,120,NA,NA,NA,120,120,0,1,productive,,,,KG
-042418-MD,5.708418891,M,RMS,McKinley,English,0,,55,60,56,57,55,120,0,1,productive,,,,KG
-042418-MD,5.708418891,M,RMS,McKinley,English,0,,65,67,67,68,55,120,0,2,productive,"The kid actually skipped 66, but the last successful on the data sheet is marked as 66. Kid was then prompted with 67. ",,,KG
-042418-MD,5.708418891,M,RMS,McKinley,English,0,,69,80,70,71,55,120,0,3,productive,,,,KG
-042418-MD,5.708418891,M,RMS,McKinley,English,0,,120,,,,55,120,0,4,productive,,,,KG
-042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,32,34,33,idk,32,32,0,1,nonproductive,"Child claimed that's how high he can count to and did not give the next number, RMS prompted a few more, but were not included for the above reason.  ",,,KG
-022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,97,99,NA,,97,114,0,1,nonproductive,"Experimetor error, did not catch error",,,KG
-022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,114,NA,NA,,97,114,0,2,nonproductive,Child asked to stop,,,KG
-022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,49,idk,50,51,49,76,0,1,productive,,,,KG
-022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,59,40,60,,49,76,0,2,productive,,,,KG
-022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,65,67,66,67,49,76,0,3,productive,,,,KG
-022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,69,idk,70,71,49,76,0,4,productive,,,,KG
-022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,76,,,,49,76,0,5,productive,Child asked to stop,,,KG
-022818-BH,5.278576318,M,RMS,Gillispie,English,0,,16,18,17,19,16,58,0,1,productive,,,,KG
-022818-BH,6.278576318,M,RMS,Gillispie,English,0,,27,idk,28,29,16,58,0,2,productive,,,,KG
-022818-BH,7.278576318,M,RMS,Gillispie,English,0,,39,idk,40,41,16,58,0,3,productive,,,,KG
-022818-BH,8.278576318,M,RMS,Gillispie,English,0,,46,470,47,48,16,58,0,4,productive,,,,KG
-022818-BH,9.278576318,M,RMS,Gillispie,English,0,,49,idk,50,51,16,58,0,5,productive,,,,KG
-022818-BH,10.27857632,M,RMS,Gillispie,English,0,,58,idk,59,idk,16,58,0,6,productive,"Child could not continue after prompt, RMS prompted a few more but are not included because of that ",,,KG
-022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,20,idk,21,22,20,39,0,1,nonproductive,,,,KG
-022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,39,idk,40,,20,39,0,2,nonproductive,"Child asked to stop, VM prompted a few more but are not included because of that",,,KG
-,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,
+﻿SID,age,sex,experimenter,location,language,exclude,exclude_reason,trial,num_queried,num_answer,correct,note,exclude_trial,exclude_trial_reason,double_coded
+020918-CZ,4.421629021,F,KG,Lab,English,0,,1,1057,1008,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,2,1006,1007,1,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,3,Zillion and 41,40,0,,,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,4,Zillion and 73,71,0,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,1,1057,NA,NA,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,2,1006,1007,1,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,3,Zillion and 41,NA,NA,,,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,4,Zillion and 73,NA,NA,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,1,1057,57-8,0,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,2,1006,1007,1,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,3,Zillion and 41,Zillion 42,1,,,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,4,Zillion and 73,Zillion 74,1,,,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,1,1057,39,0,,,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,2,1006,38,0,,,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,3,Zillion and 41,10,0,,,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,4,Zillion and 73,4,0,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,1,1057,IDK,0,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,2,1006,60 thousand,0,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,3,Zillion and 41,zillion 38,0,,,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,4,Zillion and 73,zillion and a billion,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,1,1057,IDK,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,2,1006,IDK,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,3,Zillion and 41,IDK,0,,,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,4,Zillion and 73,IDK,0,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,1,1057,100 thousand,0,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,2,1006,1 thousand hundred,0,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,3,Zillion and 41,60 hundred,0,,,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,4,Zillion and 73,76,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,1,1057,80,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,2,1006,100,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,3,Zillion and 41,8,0,,,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,4,Zillion and 73,9,0,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,1,1057,IDK,0,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,2,1006,IDK,0,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,3,Zillion and 41,IDK,0,,,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,4,Zillion and 73,IDK,0,,,,SL
+042418-RN,5.50308008,M,KG,McKinley,English,0,,1,1057,IDK,0,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,2,1006,IDK,0,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,3,Zillion and 41,IDK,0,,,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,4,Zillion and 73,Zillion 24,0,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,1,1057,2000,0,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,2,1006,Thousand 17,0,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,3,Zillion and 41,145,0,,,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,4,Zillion and 73,77,0,,,,RMS
+042418-RT,5.645448323,F,KG,McKinley,English,0,,1,1057,Thousand 58,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,2,1006,Thousand 7,1,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,3,Zillion and 41,Zillion 51,0,,,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,4,Zillion and 73,Zillion 23,0,,,,SL
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,1,1057,1052,0,,,,KG
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,2,1006,1007,1,,,,KG
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,3,Zillion and 41,Zillion 55,0,,,,KG
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,4,Zillion and 73,Zillion 74,0,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,1,1057,1058,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,2,1006,1007,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,3,Zillion and 41,Zillion 42,1,,,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,4,Zillion and 73,Zillion 74,1,,,,KG
+022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,1,1057,9018,0,,,,KG
+022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,2,1006,1980,0,,,,KG
+022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,3,Zillion and 41,80908090,0,,,,KG
+022818-TB,4.394250513,M,VM,Gillispie,English,1,not cp knower,4,Zillion and 73,9018,0,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,1,1057,idk,0,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,2,1006,idk,0,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,3,Zillion and 41,idk,0,,,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,4,Zillion and 73,idk,0,,,,KG
+032218-LS,5.17453799,M,RMS,Northminster,English,0,,1,1057,1058,1,,,,KG
+032218-LS,5.17453799,M,RMS,Northminster,English,0,,2,1006,1007,1,,,,KG
+032218-LS,5.17453799,M,RMS,Northminster,English,0,,3,Zillion and 41,Zillion 42,1,,,,KG
+032218-LS,5.17453799,M,RMS,Northminster,English,0,,4,Zillion and 73,Zillion 74,1,,,,KG
+032218-AS,4.93360712,F,RMS,Northminster,English,0,,1,1057,idk,0,,,,KG
+032218-AS,4.93360712,F,RMS,Northminster,English,0,,2,1006,36,0,,,,KG
+032218-AS,4.93360712,F,RMS,Northminster,English,0,,3,Zillion and 41,idk,0,,,,KG
+032218-AS,4.93360712,F,RMS,Northminster,English,0,,4,Zillion and 73,NA,NA,,,,KG
+032218-LM,5.17522245,F,RMS,Northminster,English,0,,1,1057,100,0,,,,KG
+032218-LM,5.17522245,F,RMS,Northminster,English,0,,2,1006,9,0,,,,KG
+032218-LM,5.17522245,F,RMS,Northminster,English,0,,3,Zillion and 41,11,0,,,,KG
+032218-LM,5.17522245,F,RMS,Northminster,English,0,,4,Zillion and 73,11,0,,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,1,1057,102,0,,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,2,1006,10,0,,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,3,Zillion and 41,zillion,0,,,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,4,Zillion and 73,Jillion and one,0,,,,KG
+041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,1,1057,200,0,,,,KG
+041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,2,1006,100,0,,,,KG
+041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,3,Zillion and 41,80,0,,,,KG
+041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,4,Zillion and 73,84,0,,,,KG
+041118-IH,5.229295003,M,SL,Little Lamb,English,0,,1,1057,7,0,,,,KG
+041118-IH,5.229295003,M,SL,Little Lamb,English,0,,2,1006,80,0,,,,KG
+041118-IH,5.229295003,M,SL,Little Lamb,English,0,,3,Zillion and 41,19,0,,,,KG
+041118-IH,5.229295003,M,SL,Little Lamb,English,0,,4,Zillion and 73,70,0,,,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,1,1057,27,0,,,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,2,1006,70,0,,,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,3,Zillion and 41,46,0,,,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,4,Zillion and 73,46,0,,,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,1,1057,1059,0,,,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,2,1006,1007,1,,,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,3,Zillion and 41,Zillion 42,1,,,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,4,Zillion and 73,Zillion 74,1,,,,KG
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,1,1057,IDK,0,,,,SL
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,2,1006,IDK,0,,,,SL
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,3,Zillion and 41,Zillion 42,1,,,,SL
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,4,Zillion and 73,Zillion 94,0,,,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",1,1057,IDK,0,,,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",2,1006,50,0,,,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",3,Zillion and 41,80,0,,,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",4,Zillion and 73,90,0,,,,SL
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,1,1057,1008,0,,,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,2,1006,1007,1,,,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,3,Zillion and 41,Zillion 45,0,,,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,4,Zillion and 73,Zillion 74,1,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,1,1057,1076,0,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,2,1006,1007,1,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,3,Zillion and 41,Zillion 42,1,,,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,4,Zillion and 73,Zillion 74,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,1,1057,1058,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,2,1006,1007,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,3,Zillion and 41,Zillion 42,1,,,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,4,Zillion and 73,Zillion 74,1,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,1,1057,1060,0,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,2,1006,1007,1,,,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,3,Zillion and 41,1100,0,"Kid: ""Zillion is not even a real number""",,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,4,Zillion and 73,Zillion 8,0,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,1,1057,62,0,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,2,1006,41,0,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,3,Zillion and 41,100,0,,,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,4,Zillion and 73,41,0,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,1,1057,1008,0,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,2,1006,1007,1,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,3,Zillion and 41,Zillion 42,1,,,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,4,Zillion and 73,Zillion 73,1,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,0,,1,1057,"164 80,00092",0,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,0,,2,1006,83 hundred 64 thirty 5,0,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,0,,3,Zillion and 41,Zillion 42 83 hundred 64,0,,,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,0,,4,Zillion and 73,6480thousand….,0,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,1,1057,1038,0,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,2,1006,1000 and 100,0,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,3,Zillion and 41,Zillion and 200,0,,,,KG
+022818-BH,10.27857632,M,RMS,Gillispie,English,0,,4,Zillion and 73,Zillion and 104,0,,,,KG
+041218-CP,4.963723477,M,RMS,FUMCCV,English,0,,1,1057,9010,0,,,,KG
+041218-CP,4.963723477,M,RMS,FUMCCV,English,0,,2,1006,86,0,,,,KG
+041218-CP,4.963723477,M,RMS,FUMCCV,English,0,,3,Zillion and 41,8010,0,,,,KG
+041218-CP,4.963723477,M,RMS,FUMCCV,English,0,,4,Zillion and 73,Million,0,,,,KG
+041118-BD,4.65982204,F,RMS,Little Lamb,English,0,,1,1057,40,0,,,,KG
+041118-BD,4.65982204,F,RMS,Little Lamb,English,0,,2,1006,50,0,,,,KG
+041118-BD,4.65982204,F,RMS,Little Lamb,English,0,,3,Zillion and 41,50,0,,,,KG
+041118-BD,4.65982204,F,RMS,Little Lamb,English,0,,4,Zillion and 73,40,0,,,,KG
+041218-EF,5.311430527,F,RMS,FUMCCV,English,0,,1,1057,1058,1,,,,KG
+041218-EF,5.311430527,F,RMS,FUMCCV,English,0,,2,1006,1007,1,,,,KG
+041218-EF,5.311430527,F,RMS,FUMCCV,English,0,,3,Zillion and 41,Zillion 42,1,,,,KG
+041218-EF,5.311430527,F,RMS,FUMCCV,English,0,,4,Zillion and 73,Zillion 74,1,,,,KG
+041218-AK,5.393566051,M,RMS,FUMCCV,English,0,,1,1057,1006,0,,,,KG
+041218-AK,5.393566051,M,RMS,FUMCCV,English,0,,2,1006,1007,1,,,,KG
+041218-AK,5.393566051,M,RMS,FUMCCV,English,0,,3,Zillion and 41,1008,0,,,,KG
+041218-AK,5.393566051,M,RMS,FUMCCV,English,0,,4,Zillion and 73,Zillion 74,1,,,,KG
+042518-MH,5.787816564,M,RMS,FUMCCV,English,0,,1,1057,1058,1,,,,KG
+042518-MH,5.787816564,M,RMS,FUMCCV,English,0,,2,1006,1007,1,,,,KG
+042518-MH,5.787816564,M,RMS,FUMCCV,English,0,,3,Zillion and 41,Zillion 45,0,,,,KG
+042518-MH,5.787816564,M,RMS,FUMCCV,English,0,,4,Zillion and 73,Zillion 74,1,,,,KG
+051618-LG,4.887063655,M,KG,Seaside,English,0,,1,1057,79,0,,,,SL
+051618-LG,4.887063655,M,KG,Seaside,English,0,,2,1006,100,0,,,,SL
+051618-LG,4.887063655,M,KG,Seaside,English,0,,3,Zillion and 41,100 thousand and 20,0,,,,SL
+051618-LG,4.887063655,M,KG,Seaside,English,0,,4,Zillion and 73,73,0,,,,SL
+051618-RA,5.429158111,M,KG,Seaside,English,0,,1,1057,IDK,0,,,,SL
+051618-RA,5.429158111,M,KG,Seaside,English,0,,2,1006,thousand 8,0,,,,SL
+051618-RA,5.429158111,M,KG,Seaside,English,0,,3,Zillion and 41,zillion 42,1,,,,SL
+051618-RA,5.429158111,M,KG,Seaside,English,0,,4,Zillion and 73,zillioin 74,1,,,,SL

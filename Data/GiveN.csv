@@ -1,281 +1,337 @@
-﻿SID,age,sex,experimenter,location,language,exclude,exclude_reason,trial,number,correct,note,double_coded,
-020918-JB,4.925393566,M,KG,Lab,English,0,,1,6,1,,SL,
-020918-JB,4.925393566,M,KG,Lab,English,0,,2,9,1,,SL,
-020918-JB,4.925393566,M,KG,Lab,English,0,,3,7,1,,SL,
-020918-JB,4.925393566,M,KG,Lab,English,0,,4,5,1,,SL,
-020918-CZ,4.421629021,F,KG,Lab,English,0,,1,6,1,,SL,
-020918-CZ,4.421629021,F,KG,Lab,English,0,,2,9,1,,SL,
-020918-CZ,4.421629021,F,KG,Lab,English,0,,3,7,1,,SL,
-020918-CZ,4.421629021,F,KG,Lab,English,0,,4,5,1,,SL,
-021618-CC,5.013004791,F,KG,Lab,English,0,,1,6,1,,SL,
-021618-CC,5.013004791,F,KG,Lab,English,0,,2,9,1,,SL,
-021618-CC,5.013004791,F,KG,Lab,English,0,,3,7,1,,SL,
-021618-CC,5.013004791,F,KG,Lab,English,0,,4,5,1,,SL,
-022818-JB,5.609856263,M,KG,Gillispie,English,0,,1,6,1,,SL,
-022818-JB,5.609856263,M,KG,Gillispie,English,0,,2,9,1,,SL,
-022818-JB,5.609856263,M,KG,Gillispie,English,0,,3,7,1,,SL,
-022818-JB,5.609856263,M,KG,Gillispie,English,0,,4,5,1,,SL,
-022818-MH,4.331279945,F,KG,Gillispie,English,0,,1,6,1,,SL,
-022818-MH,4.331279945,F,KG,Gillispie,English,0,,2,9,1,,SL,
-022818-MH,4.331279945,F,KG,Gillispie,English,0,,3,7,1,,SL,
-022818-MH,4.331279945,F,KG,Gillispie,English,0,,4,5,1,,SL,
-022818-OT,5.574264203,M,KG,Gillispie,English,0,,1,6,1,,SL,
-022818-OT,5.574264203,M,KG,Gillispie,English,0,,2,9,1,,SL,
-022818-OT,5.574264203,M,KG,Gillispie,English,0,,3,7,1,,SL,
-022818-OT,5.574264203,M,KG,Gillispie,English,0,,4,5,1,,SL,
-022818-TK,4.249144422,M,KG,Gillispie,English,0,,1,6,1,,SL,
-022818-TK,4.249144422,M,KG,Gillispie,English,0,,2,9,1,,SL,
-022818-TK,4.249144422,M,KG,Gillispie,English,0,,3,7,1,,SL,
-022818-TK,4.249144422,M,KG,Gillispie,English,0,,4,5,1,,SL,
-022818-AK,5.839835729,F,KG,Gillispie,English,0,,1,6,1,,SL,
-022818-AK,5.839835729,F,KG,Gillispie,English,0,,2,9,1,,SL,
-022818-AK,5.839835729,F,KG,Gillispie,English,0,,3,7,1,,SL,
-022818-AK,5.839835729,F,KG,Gillispie,English,0,,4,5,1,,SL,
-040418-LK,5.727583847,F,KG,Gillispie,English,0,,1,6,1,,SL,
-040418-LK,5.727583847,F,KG,Gillispie,English,0,,2,9,1,,SL,
-040418-LK,5.727583847,F,KG,Gillispie,English,0,,3,7,1,,SL,
-040418-LK,5.727583847,F,KG,Gillispie,English,0,,4,5,1,,SL,
-040418-JO,4.156057495,F,KG,Gillispie,English,0,,1,6,1,,SL,
-040418-JO,4.156057495,F,KG,Gillispie,English,0,,2,9,1,,SL,
-040418-JO,4.156057495,F,KG,Gillispie,English,0,,3,7,1,,SL,
-040418-JO,4.156057495,F,KG,Gillispie,English,0,,4,5,1,,SL,
-041118-EB,5.284052019,M,KG,Little Lamb,English,0,,1,6,1,,SL,
-041118-EB,5.284052019,M,KG,Little Lamb,English,0,,2,9,1,,SL,
-041118-EB,5.284052019,M,KG,Little Lamb,English,0,,3,7,1,,SL,
-041118-EB,5.284052019,M,KG,Little Lamb,English,0,,4,5,1,,SL,
-041118-SS,5.486652977,M,KG,Little Lamb,English,0,,1,6,1,,SL,
-041118-SS,5.486652977,M,KG,Little Lamb,English,0,,2,9,1,,SL,
-041118-SS,5.486652977,M,KG,Little Lamb,English,0,,3,7,1,,SL,
-041118-SS,5.486652977,M,KG,Little Lamb,English,0,,4,5,1,,SL,
-041218-EC,5.533196441,F,KG,FUMCCV,English,0,,1,6,1,,SL,
-041218-EC,5.533196441,F,KG,FUMCCV,English,0,,2,9,1,,SL,
-041218-EC,5.533196441,F,KG,FUMCCV,English,0,,3,7,1,,SL,
-041218-EC,5.533196441,F,KG,FUMCCV,English,0,,4,5,1,,SL,
-041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,1,6,1,,SL,
-041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,2,9,1,,SL,
-041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,3,7,1,,SL,
-041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,4,5,1,,SL,
-041218-CL,5.01026694,M,KG,FUMCCV,English,0,,1,6,1,,SL,
-041218-CL,5.01026694,M,KG,FUMCCV,English,0,,2,9,1,,SL,
-041218-CL,5.01026694,M,KG,FUMCCV,English,0,,3,7,1,,SL,
-041218-CL,5.01026694,M,KG,FUMCCV,English,0,,4,5,1,,SL,
-041318-AA1,5.270362765,M,SL,Ridge City,English,1,not CP knower,1,6,1,,RMS,
-041318-AA1,5.270362765,M,SL,Ridge City,English,1,not CP knower,2,9,0,,RMS,
-041318-AA1,5.270362765,M,SL,Ridge City,English,1,not CP knower,3,7,1,,RMS,
-041318-AA1,5.270362765,M,SL,Ridge City,English,1,not CP knower,4,5,0,,RMS,
-041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,1,6,0,,RMS,
-041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,2,9,0,,RMS,
-041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,3,7,0,,RMS,
-041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,4,5,0,,RMS,
-041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",1,6,1,,RMS,
-041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",2,9,1,,RMS,
-041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",3,7,1,,RMS,
-041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",4,5,1,,RMS,
-041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,1,6,1,,RMS,
-041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,2,9,1,,RMS,
-041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,3,7,1,,RMS,
-041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,4,5,1,,RMS,
-041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,1,6,0,,RMS,
-041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,2,9,0,,RMS,
-041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,3,7,0,,RMS,
-041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,4,5,0,,RMS,
-041818-AM,4.27104723,F,KG,Seaside,English,0,,1,6,1,,RMS,
-041818-AM,4.27104723,F,KG,Seaside,English,0,,2,9,1,,RMS,
-041818-AM,4.27104723,F,KG,Seaside,English,0,,3,7,1,,RMS,
-041818-AM,4.27104723,F,KG,Seaside,English,0,,4,5,1,,RMS,
-041818-OH,4.42984257,F,KG,Seaside,English,0,,1,6,1,,RMS,
-041818-OH,4.42984257,F,KG,Seaside,English,0,,2,9,1,,RMS,
-041818-OH,4.42984257,F,KG,Seaside,English,0,,3,7,1,,RMS,
-041818-OH,4.42984257,F,KG,Seaside,English,0,,4,5,1,,RMS,
-041818-G1,4.54757016,F,KG,Seaside,English,0,,1,6,1,,RMS,
-041818-G1,4.54757016,F,KG,Seaside,English,0,,2,9,1,,RMS,
-041818-G1,4.54757016,F,KG,Seaside,English,0,,3,7,1,,RMS,
-041818-G1,4.54757016,F,KG,Seaside,English,0,,4,5,1,,RMS,
-041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,1,6,0,,RMS,
-041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,2,9,0,,RMS,
-041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,3,7,0,,RMS,
-041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,4,5,0,,RMS,
-041818-DM,5.0349076,M,KG,Seaside,English,0,,1,6,1,,RMS,
-041818-DM,5.0349076,M,KG,Seaside,English,0,,2,9,1,,RMS,
-041818-DM,5.0349076,M,KG,Seaside,English,0,,3,7,1,,RMS,
-041818-DM,5.0349076,M,KG,Seaside,English,0,,4,5,1,,RMS,
-042418-RN,5.50308008,M,KG,McKinley,English,0,,1,6,1,,RMS,
-042418-RN,5.50308008,M,KG,McKinley,English,0,,2,9,1,,RMS,
-042418-RN,5.50308008,M,KG,McKinley,English,0,,3,7,1,,RMS,
-042418-RN,5.50308008,M,KG,McKinley,English,0,,4,5,1,,RMS,
-042418-LL,5.69199179,M,KG,McKinley,English,0,,1,6,1,,RMS,
-042418-LL,5.69199179,M,KG,McKinley,English,0,,2,9,1,,RMS,
-042418-LL,5.69199179,M,KG,McKinley,English,0,,3,7,1,,RMS,
-042418-LL,5.69199179,M,KG,McKinley,English,0,,4,5,1,,RMS,
-042418-LC,5.44284736,M,KG,McKinley,English,0,,1,6,1,,RMS,
-042418-LC,5.44284736,M,KG,McKinley,English,0,,2,9,1,,RMS,
-042418-LC,5.44284736,M,KG,McKinley,English,0,,3,7,1,,RMS,
-042418-LC,5.44284736,M,KG,McKinley,English,0,,4,5,1,,RMS,
-042418-LF,5.56605065,F,KG,McKinley,English,0,,1,6,1,,RMS,
-042418-LF,5.56605065,F,KG,McKinley,English,0,,2,9,1,,RMS,
-042418-LF,5.56605065,F,KG,McKinley,English,0,,3,7,1,,RMS,
-042418-LF,5.56605065,F,KG,McKinley,English,0,,4,5,1,,RMS,
-042418-MB,5.442847365,F,KG,McKinley,English,0,,1,6,1,,SL,
-042418-MB,5.442847365,F,KG,McKinley,English,0,,2,9,1,,SL,
-042418-MB,5.442847365,F,KG,McKinley,English,0,,3,7,1,,SL,
-042418-MB,5.442847365,F,KG,McKinley,English,0,,4,5,1,,SL,
-042418-MB2,5.681040383,F,KG,McKinley,English,0,,1,6,1,,SL,
-042418-MB2,5.681040383,F,KG,McKinley,English,0,,2,9,1,,SL,
-042418-MB2,5.681040383,F,KG,McKinley,English,0,,3,7,1,,SL,
-042418-MB2,5.681040383,F,KG,McKinley,English,0,,4,5,1,,SL,
-042418-RT,5.645448323,F,KG,McKinley,English,0,,1,6,1,,SL,
-042418-RT,5.645448323,F,KG,McKinley,English,0,,2,9,1,,SL,
-042418-RT,5.645448323,F,KG,McKinley,English,0,,3,7,1,,SL,
-042418-RT,5.645448323,F,KG,McKinley,English,0,,4,5,1,,SL,
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,1,6,1,,SL,
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,2,9,1,,SL,
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,3,7,1,,SL,
-042018-IW,4.328542094,F,KG,FUMCCV,English,0,,4,5,1,,SL,
-042018-CA,4.06844627,F,KG,FUMCCV,English,1,not CP knower,1,6,0,,SL,
-042018-CA,4.06844627,F,KG,FUMCCV,English,1,not CP knower,2,9,0,,SL,
-042018-CA,4.06844627,F,KG,FUMCCV,English,1,not CP knower,3,7,0,,SL,
-042018-CA,4.06844627,F,KG,FUMCCV,English,1,not CP knower,4,5,0,,SL,
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,1,6,1,,KG,
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,2,9,1,,KG,
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,3,7,1,,KG,
-022818-CA,4.955509925,M,RMS,Gillispie,English,0,,4,5,1,,KG,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,1,6,1,,KG,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,2,9,1,,KG,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,3,7,1,,KG,
-022818-DB,5.492128679,M,RMS,Gillispie,English,0,,4,5,1,,KG,
-022818-TB,4.394250513,M,VM,Gillispie,English,1,not CP knower/but still placed game,1,6,1,,KG,
-022818-TB,4.394250513,M,VM,Gillispie,English,1,not CP knower/but still placed game,2,9,1,,KG,
-022818-TB,4.394250513,M,VM,Gillispie,English,1,not CP knower/but still placed game,3,7,0,,KG,
-022818-TB,4.394250513,M,VM,Gillispie,English,1,not CP knower/but still placed game,4,5,1,,KG,
-022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,1,6,1,,KG,
-022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,2,9,1,,KG,
-022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,3,7,1,,KG,
-022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,4,5,1,,KG,
-032218-LS,5.17453799,M,RMS,Northminster,English,0,,1,6,1,,KG,
-032218-LS,5.17453799,M,RMS,Northminster,English,0,,2,9,1,,KG,
-032218-LS,5.17453799,M,RMS,Northminster,English,0,,3,7,1,,KG,
-032218-LS,5.17453799,M,RMS,Northminster,English,0,,4,5,1,,KG,
-032218-AS,4.93360712,F,RMS,Northminster,English,0,,1,6,1,,KG,
-032218-AS,4.93360712,F,RMS,Northminster,English,0,,2,9,1,,KG,
-032218-AS,4.93360712,F,RMS,Northminster,English,0,,3,7,1,,KG,
-032218-AS,4.93360712,F,RMS,Northminster,English,0,,4,5,1,,KG,
-032218-LM,4.17522245,F,RMS,Northminster,English,0,,1,6,1,,KG,
-032218-LM,4.17522245,F,RMS,Northminster,English,0,,2,9,1,,KG,
-032218-LM,4.17522245,F,RMS,Northminster,English,0,,3,7,1,,KG,
-032218-LM,4.17522245,F,RMS,Northminster,English,0,,4,5,1,,KG,
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,1,6,1,,KG,
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,2,9,1,,KG,
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,3,7,1,,KG,
-032218-AM,4.92539357,F,RMS,Northminster,English,0,,4,5,1,,KG,
-032218-ER,4.19438741,F,RMS,Northminster,English,1,did not finish game,1,6,1,,KG,
-032218-ER,4.19438741,F,RMS,Northminster,English,1,did not finish game,2,9,1,,KG,
-032218-ER,4.19438741,F,RMS,Northminster,English,1,did not finish game,3,7,1,,KG,
-032218-ER,4.19438741,F,RMS,Northminster,English,1,did not finish game,4,5,1,,KG,
-041118-KS,5.292265572,M,RMS,Little Lamb,English,1,not CP knower,1,6,1,,KG,
-041118-KS,5.292265572,M,RMS,Little Lamb,English,1,not CP knower,2,9,1,,KG,
-041118-KS,5.292265572,M,RMS,Little Lamb,English,1,not CP knower,3,7,0,,KG,
-041118-KS,5.292265572,M,RMS,Little Lamb,English,1,not CP knower,4,5,0,,KG,
-041118-JC,5.223819302,M,RMS,Little Lamb,English,1,not CP knower,1,6,1,,KG,
-041118-JC,5.223819302,M,RMS,Little Lamb,English,1,not CP knower,2,9,0,,KG,
-041118-JC,5.223819302,M,RMS,Little Lamb,English,1,not CP knower,3,7,0,,KG,
-041118-JC,5.223819302,M,RMS,Little Lamb,English,1,not CP knower,4,5,0,,KG,
-041118-AF,5.223819302,F,RMS,Little Lamb,English,1,not CP knower,1,6,0,,KG,
-041118-AF,5.223819302,F,RMS,Little Lamb,English,1,not CP knower,2,9,0,,KG,
-041118-AF,5.223819302,F,RMS,Little Lamb,English,1,not CP knower,3,7,0,,KG,
-041118-AF,5.223819302,F,RMS,Little Lamb,English,1,not CP knower,4,5,0,,KG,
-041118-MH,4.353182752,F,RMS,Little Lamb,English,1,not CP knower,1,6,0,,KG,
-041118-MH,4.353182752,F,RMS,Little Lamb,English,1,not CP knower,2,9,0,,KG,
-041118-MH,4.353182752,F,RMS,Little Lamb,English,1,not CP knower,3,7,0,,KG,
-041118-MH,4.353182752,F,RMS,Little Lamb,English,1,not CP knower,4,5,0,,KG,
-041118-DC,4.977412731,M,RMS,Little Lamb,English,1,not CP knower,1,6,1,,KG,
-041118-DC,4.977412731,M,RMS,Little Lamb,English,1,not CP knower,2,9,0,,KG,
-041118-DC,4.977412731,M,RMS,Little Lamb,English,1,not CP knower,3,7,0,,KG,
-041118-DC,4.977412731,M,RMS,Little Lamb,English,1,not CP knower,4,5,0,,KG,
-041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,1,6,1,,KG,
-041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,2,9,1,,KG,
-041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,3,7,1,,KG,
-041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,4,5,1,,KG,
-041118-IH,5.229295003,M,SL,Little Lamb,English,0,,1,6,1,,KG,
-041118-IH,5.229295003,M,SL,Little Lamb,English,0,,2,9,1,,KG,
-041118-IH,5.229295003,M,SL,Little Lamb,English,0,,3,7,1,,KG,
-041118-IH,5.229295003,M,SL,Little Lamb,English,0,,4,5,1,,KG,
-042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,1,6,1,,KG,
-042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,2,9,1,,KG,
-042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,3,7,1,,KG,
-042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,4,5,1,,KG,
-042018-AA,4.262833676,F,RMS,FUMCCV,English,0,,1,6,1,,KG,
-042018-AA,4.262833676,F,RMS,FUMCCV,English,0,,2,9,1,,KG,
-042018-AA,4.262833676,F,RMS,FUMCCV,English,0,,3,7,1,,KG,
-042018-AA,4.262833676,F,RMS,FUMCCV,English,0,,4,5,1,,KG,
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,1,6,1,,KG,
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,2,9,1,,KG,
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,3,7,1,,KG,
-042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,4,5,1,,KG,
-042418-HB,5.691991786,M,RMS,McKinley,English,0,,1,6,1,,KG,
-042418-HB,5.691991786,M,RMS,McKinley,English,0,,2,9,1,,KG,
-042418-HB,5.691991786,M,RMS,McKinley,English,0,,3,7,1,,KG,
-042418-HB,5.691991786,M,RMS,McKinley,English,0,,4,5,1,,KG,
-042418-ML,5.615331964,M,RMS,McKinley,English,0,,1,6,1,,KG,
-042418-ML,5.615331964,M,RMS,McKinley,English,0,,2,9,1,,KG,
-042418-ML,5.615331964,M,RMS,McKinley,English,0,,3,7,1,,KG,
-042418-ML,5.615331964,M,RMS,McKinley,English,0,,4,5,1,,KG,
-042418-JK,5.656399726,F,RMS,McKinley,English,0,,1,6,1,,KG,
-042418-JK,5.656399726,F,RMS,McKinley,English,0,,2,9,1,,KG,
-042418-JK,5.656399726,F,RMS,McKinley,English,0,,3,7,1,,KG,
-042418-JK,5.656399726,F,RMS,McKinley,English,0,,4,5,1,,KG,
-042418-IH,5.667351129,M,RMS,McKinley,English,0,,1,6,1,,KG,
-042418-IH,5.667351129,M,RMS,McKinley,English,0,,2,9,1,,KG,
-042418-IH,5.667351129,M,RMS,McKinley,English,0,,3,7,1,,KG,
-042418-IH,5.667351129,M,RMS,McKinley,English,0,,4,5,1,,KG,
-042418-MD,5.708418891,M,RMS,McKinley,English,0,,1,6,1,,KG,
-042418-MD,5.708418891,M,RMS,McKinley,English,0,,2,9,1,,KG,
-042418-MD,5.708418891,M,RMS,McKinley,English,0,,3,7,1,,KG,
-042418-MD,5.708418891,M,RMS,McKinley,English,0,,4,5,1,,KG,
-041318-AA,4.791238877,F,KG,Ridge City,English,0,,1,6,1,,SL,
-041318-AA,4.791238877,F,KG,Ridge City,English,0,,2,9,1,,SL,
-041318-AA,4.791238877,F,KG,Ridge City,English,0,,3,7,1,,SL,
-041318-AA,4.791238877,F,KG,Ridge City,English,0,,4,5,1,,SL,
-042018-ME,5.278576318,M,KG,FUMCCV,English,0,,1,6,1,,SL,
-042018-ME,5.278576318,M,KG,FUMCCV,English,0,,2,9,1,,SL,
-042018-ME,5.278576318,M,KG,FUMCCV,English,0,,3,7,1,,SL,
-042018-ME,5.278576318,M,KG,FUMCCV,English,0,,4,5,1,,SL,
-042018-SS,4.657084189,F,KG,FUMCCV,English,1,not CP knower,1,6,1,,SL,
-042018-SS,4.657084189,F,KG,FUMCCV,English,1,not CP knower,2,9,1,,SL,
-042018-SS,4.657084189,F,KG,FUMCCV,English,1,not CP knower,3,7,1,,SL,
-042018-SS,4.657084189,F,KG,FUMCCV,English,1,not CP knower,4,5,1,,SL,
-042018-MM,5.106091718,M,KG,FUMCCV,English,0,,1,6,1,,SL,
-042018-MM,5.106091718,M,KG,FUMCCV,English,0,,2,9,1,,SL,
-042018-MM,5.106091718,M,KG,FUMCCV,English,0,,3,7,1,,SL,
-042018-MM,5.106091718,M,KG,FUMCCV,English,0,,4,5,1,,SL,
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",1,6,1,,SL,
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",2,9,1,,SL,
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",3,7,1,,SL,
-042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",4,5,1,,SL,
-042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,1,6,1,,KG,
-042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,2,9,1,,KG,
-042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,3,7,1,,KG,
-042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,4,5,1,,KG,
-042018-AB,4.202600958,F,RMS,FUMCCV,English,1,not CP knower,1,6,0,,KG,
-042018-AB,4.202600958,F,RMS,FUMCCV,English,1,not CP knower,2,9,0,,KG,
-042018-AB,4.202600958,F,RMS,FUMCCV,English,1,not CP knower,3,7,0,,KG,
-042018-AB,4.202600958,F,RMS,FUMCCV,English,1,not CP knower,4,5,0,,KG,
-041818-SS,4.651608487,F,KG,FUMCCV,English,1,not CP knower,1,6,1,,KG,
-041818-SS,4.651608487,F,KG,FUMCCV,English,1,not CP knower,2,9,0,,KG,
-041818-SS,4.651608487,F,KG,FUMCCV,English,1,not CP knower,3,7,1,,KG,
-041818-SS,4.651608487,F,KG,FUMCCV,English,1,not CP knower,4,5,1,,KG,
-022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,1,6,1,,KG,
-022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,2,9,1,,KG,
-022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,3,7,1,,KG,
-022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,4,5,1,,KG,
-022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,1,6,1,,KG,entering
-022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,2,9,1,,KG,entering
-022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,3,7,1,,KG,entering
-022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,4,5,1,,KG,entering
-022818-BH,5.278576318,M,RMS,Gillispie,English,0,,1,6,,,KG,entering
-022818-BH,5.278576318,M,RMS,Gillispie,English,0,,2,9,,,KG,entering
-022818-BH,5.278576318,M,RMS,Gillispie,English,0,,3,7,,,KG,entering
-022818-BH,5.278576318,M,RMS,Gillispie,English,0,,4,5,,"data sheet says tough, check recording/ but recording don't actually show the kid counting. ??",KG,entering
-022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,1,6,1,,KG,entering
-022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,2,9,1,,KG,entering
-022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,3,7,1,,KG,entering
-022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,4,5,1,,KG,entering
+﻿SID,age,sex,experimenter,location,language,exclude,exclude_reason,trial,number,correct,note,double_coded
+020918-JB,4.925393566,M,KG,Lab,English,0,,1,6,1,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,2,9,1,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,3,7,1,,SL
+020918-JB,4.925393566,M,KG,Lab,English,0,,4,5,1,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,1,6,1,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,2,9,1,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,3,7,1,,SL
+020918-CZ,4.421629021,F,KG,Lab,English,0,,4,5,1,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,1,6,1,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,2,9,1,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,3,7,1,,SL
+021618-CC,5.013004791,F,KG,Lab,English,0,,4,5,1,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,1,6,1,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,2,9,1,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,3,7,1,,SL
+022818-JB,5.609856263,M,KG,Gillispie,English,0,,4,5,1,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,1,6,1,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,2,9,1,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,3,7,1,,SL
+022818-MH,4.331279945,F,KG,Gillispie,English,0,,4,5,1,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,1,6,1,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,2,9,1,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,3,7,1,,SL
+022818-OT,5.574264203,M,KG,Gillispie,English,0,,4,5,1,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,1,6,1,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,2,9,1,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,3,7,1,,SL
+022818-TK,4.249144422,M,KG,Gillispie,English,0,,4,5,1,,SL
+022818-AK,5.839835729,F,KG,Gillispie,English,0,,1,6,1,,SL
+022818-AK,5.839835729,F,KG,Gillispie,English,0,,2,9,1,,SL
+022818-AK,5.839835729,F,KG,Gillispie,English,0,,3,7,1,,SL
+022818-AK,5.839835729,F,KG,Gillispie,English,0,,4,5,1,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,1,6,1,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,2,9,1,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,3,7,1,,SL
+040418-LK,5.727583847,F,KG,Gillispie,English,0,,4,5,1,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,1,6,1,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,2,9,1,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,3,7,1,,SL
+040418-JO,4.156057495,F,KG,Gillispie,English,0,,4,5,1,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,1,6,1,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,2,9,1,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,3,7,1,,SL
+041118-EB,5.284052019,M,KG,Little Lamb,English,0,,4,5,1,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,1,6,1,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,2,9,1,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,3,7,1,,SL
+041118-SS,5.486652977,M,KG,Little Lamb,English,0,,4,5,1,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,1,6,1,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,2,9,1,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,3,7,1,,SL
+041218-EC,5.533196441,F,KG,FUMCCV,English,0,,4,5,1,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,1,6,1,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,2,9,1,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,3,7,1,,SL
+041218-AF,4.531143053,F,KG,FUMCCV,English; some Italian,0,,4,5,1,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,1,6,1,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,2,9,1,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,3,7,1,,SL
+041218-CL,5.01026694,M,KG,FUMCCV,English,0,,4,5,1,,SL
+041318-AA1,5.270362765,M,SL,Ridge City,English,1,not CP knower,1,6,1,,RMS
+041318-AA1,5.270362765,M,SL,Ridge City,English,1,not CP knower,2,9,0,,RMS
+041318-AA1,5.270362765,M,SL,Ridge City,English,1,not CP knower,3,7,1,,RMS
+041318-AA1,5.270362765,M,SL,Ridge City,English,1,not CP knower,4,5,0,,RMS
+041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,1,6,0,,RMS
+041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,2,9,0,,RMS
+041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,3,7,0,,RMS
+041318-LS,4.224503765,F,KG,Ridge City,English,1,not CP knower,4,5,0,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",1,6,1,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",2,9,1,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",3,7,1,,RMS
+041318-RB,5.505817933,M,SL,Ridge City,English,1,"speech impediment, can't distinguish numbers in count list",4,5,1,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,1,6,1,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,2,9,1,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,3,7,1,,RMS
+041318-AJ,4.47638604,M,SL,Ridge City,English,1,experimenter did not provide max number of prompts in HC,4,5,1,,RMS
+041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,1,6,0,,RMS
+041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,2,9,0,,RMS
+041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,3,7,0,,RMS
+041818-WE,4.1724846,M,KG,Seaside,English,1,not CP knower,4,5,0,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,1,6,1,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,2,9,1,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,3,7,1,,RMS
+041818-AM,4.27104723,F,KG,Seaside,English,0,,4,5,1,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,1,6,1,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,2,9,1,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,3,7,1,,RMS
+041818-OH,4.42984257,F,KG,Seaside,English,0,,4,5,1,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,1,6,1,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,2,9,1,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,3,7,1,,RMS
+041818-G1,4.54757016,F,KG,Seaside,English,0,,4,5,1,,RMS
+041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,1,6,0,,RMS
+041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,2,9,0,,RMS
+041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,3,7,0,,RMS
+041818-CB,4.3449692,M,KG,Seaside,English,1,not CP knower,4,5,0,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,1,6,1,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,2,9,1,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,3,7,1,,RMS
+041818-DM,5.0349076,M,KG,Seaside,English,0,,4,5,1,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,1,6,1,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,2,9,1,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,3,7,1,,RMS
+042418-RN,5.50308008,M,KG,McKinley,English,0,,4,5,1,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,1,6,1,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,2,9,1,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,3,7,1,,RMS
+042418-LL,5.69199179,M,KG,McKinley,English,0,,4,5,1,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,1,6,1,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,2,9,1,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,3,7,1,,RMS
+042418-LC,5.44284736,M,KG,McKinley,English,0,,4,5,1,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,1,6,1,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,2,9,1,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,3,7,1,,RMS
+042418-LF,5.56605065,F,KG,McKinley,English,0,,4,5,1,,RMS
+042418-MB,5.442847365,F,KG,McKinley,English,0,,1,6,1,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,2,9,1,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,3,7,1,,SL
+042418-MB,5.442847365,F,KG,McKinley,English,0,,4,5,1,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,1,6,1,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,2,9,1,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,3,7,1,,SL
+042418-MB2,5.681040383,F,KG,McKinley,English,0,,4,5,1,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,1,6,1,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,2,9,1,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,3,7,1,,SL
+042418-RT,5.645448323,F,KG,McKinley,English,0,,4,5,1,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,1,6,1,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,2,9,1,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,3,7,1,,SL
+042018-IW,4.328542094,F,KG,FUMCCV,English,0,,4,5,1,,SL
+042018-CA,4.06844627,F,KG,FUMCCV,English,1,not CP knower,1,6,0,,SL
+042018-CA,4.06844627,F,KG,FUMCCV,English,1,not CP knower,2,9,0,,SL
+042018-CA,4.06844627,F,KG,FUMCCV,English,1,not CP knower,3,7,0,,SL
+042018-CA,4.06844627,F,KG,FUMCCV,English,1,not CP knower,4,5,0,,SL
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,1,6,1,,KG
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,2,9,1,,KG
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,3,7,1,,KG
+022818-CA,4.955509925,M,RMS,Gillispie,English,0,,4,5,1,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,1,6,1,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,2,9,1,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,3,7,1,,KG
+022818-DB,5.492128679,M,RMS,Gillispie,English,0,,4,5,1,,KG
+022818-TB,4.394250513,M,VM,Gillispie,English,1,not CP knower/but still placed game,1,6,1,,KG
+022818-TB,4.394250513,M,VM,Gillispie,English,1,not CP knower/but still placed game,2,9,1,,KG
+022818-TB,4.394250513,M,VM,Gillispie,English,1,not CP knower/but still placed game,3,7,0,,KG
+022818-TB,4.394250513,M,VM,Gillispie,English,1,not CP knower/but still placed game,4,5,1,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,1,6,1,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,2,9,1,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,3,7,1,,KG
+022818-HVC,5.119780972,F,VM,Gillispie,English,1,Experimentor error in SF,4,5,1,,KG
+032218-LS,5.17453799,M,RMS,Northminster,English,0,,1,6,1,,KG
+032218-LS,5.17453799,M,RMS,Northminster,English,0,,2,9,1,,KG
+032218-LS,5.17453799,M,RMS,Northminster,English,0,,3,7,1,,KG
+032218-LS,5.17453799,M,RMS,Northminster,English,0,,4,5,1,,KG
+032218-AS,4.93360712,F,RMS,Northminster,English,0,,1,6,1,,KG
+032218-AS,4.93360712,F,RMS,Northminster,English,0,,2,9,1,,KG
+032218-AS,4.93360712,F,RMS,Northminster,English,0,,3,7,1,,KG
+032218-AS,4.93360712,F,RMS,Northminster,English,0,,4,5,1,,KG
+032218-LM,4.17522245,F,RMS,Northminster,English,0,,1,6,1,,KG
+032218-LM,4.17522245,F,RMS,Northminster,English,0,,2,9,1,,KG
+032218-LM,4.17522245,F,RMS,Northminster,English,0,,3,7,1,,KG
+032218-LM,4.17522245,F,RMS,Northminster,English,0,,4,5,1,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,1,6,1,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,2,9,1,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,3,7,1,,KG
+032218-AM,4.92539357,F,RMS,Northminster,English,0,,4,5,1,,KG
+032218-ER,4.19438741,F,RMS,Northminster,English,1,did not finish game,1,6,1,,KG
+032218-ER,4.19438741,F,RMS,Northminster,English,1,did not finish game,2,9,1,,KG
+032218-ER,4.19438741,F,RMS,Northminster,English,1,did not finish game,3,7,1,,KG
+032218-ER,4.19438741,F,RMS,Northminster,English,1,did not finish game,4,5,1,,KG
+041118-KS,5.292265572,M,RMS,Little Lamb,English,1,not CP knower,1,6,1,,KG
+041118-KS,5.292265572,M,RMS,Little Lamb,English,1,not CP knower,2,9,1,,KG
+041118-KS,5.292265572,M,RMS,Little Lamb,English,1,not CP knower,3,7,0,,KG
+041118-KS,5.292265572,M,RMS,Little Lamb,English,1,not CP knower,4,5,0,,KG
+041118-JC,5.223819302,M,RMS,Little Lamb,English,1,not CP knower,1,6,1,,KG
+041118-JC,5.223819302,M,RMS,Little Lamb,English,1,not CP knower,2,9,0,,KG
+041118-JC,5.223819302,M,RMS,Little Lamb,English,1,not CP knower,3,7,0,,KG
+041118-JC,5.223819302,M,RMS,Little Lamb,English,1,not CP knower,4,5,0,,KG
+041118-AF,5.223819302,F,RMS,Little Lamb,English,1,not CP knower,1,6,0,,KG
+041118-AF,5.223819302,F,RMS,Little Lamb,English,1,not CP knower,2,9,0,,KG
+041118-AF,5.223819302,F,RMS,Little Lamb,English,1,not CP knower,3,7,0,,KG
+041118-AF,5.223819302,F,RMS,Little Lamb,English,1,not CP knower,4,5,0,,KG
+041118-MH,4.353182752,F,RMS,Little Lamb,English,1,not CP knower,1,6,0,,KG
+041118-MH,4.353182752,F,RMS,Little Lamb,English,1,not CP knower,2,9,0,,KG
+041118-MH,4.353182752,F,RMS,Little Lamb,English,1,not CP knower,3,7,0,,KG
+041118-MH,4.353182752,F,RMS,Little Lamb,English,1,not CP knower,4,5,0,,KG
+041118-DC,4.977412731,M,RMS,Little Lamb,English,1,not CP knower,1,6,1,,KG
+041118-DC,4.977412731,M,RMS,Little Lamb,English,1,not CP knower,2,9,0,,KG
+041118-DC,4.977412731,M,RMS,Little Lamb,English,1,not CP knower,3,7,0,,KG
+041118-DC,4.977412731,M,RMS,Little Lamb,English,1,not CP knower,4,5,0,,KG
+041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,1,6,1,,KG
+041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,2,9,1,,KG
+041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,3,7,1,,KG
+041118-ZJ,4.793976728,M,RMS,Little Lamb,English,0,,4,5,1,,KG
+041118-IH,5.229295003,M,SL,Little Lamb,English,0,,1,6,1,,KG
+041118-IH,5.229295003,M,SL,Little Lamb,English,0,,2,9,1,,KG
+041118-IH,5.229295003,M,SL,Little Lamb,English,0,,3,7,1,,KG
+041118-IH,5.229295003,M,SL,Little Lamb,English,0,,4,5,1,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,1,6,1,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,2,9,1,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,3,7,1,,KG
+042018-AL,5.514031485,F,RMS,FUMCCV,English,0,,4,5,1,,KG
+042018-AA,4.262833676,F,RMS,FUMCCV,English,0,,1,6,1,,KG
+042018-AA,4.262833676,F,RMS,FUMCCV,English,0,,2,9,1,,KG
+042018-AA,4.262833676,F,RMS,FUMCCV,English,0,,3,7,1,,KG
+042018-AA,4.262833676,F,RMS,FUMCCV,English,0,,4,5,1,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,1,6,1,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,2,9,1,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,3,7,1,,KG
+042018-DG,5.360711841,F,RMS,FUMCCV,English,0,,4,5,1,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,1,6,1,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,2,9,1,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,3,7,1,,KG
+042418-HB,5.691991786,M,RMS,McKinley,English,0,,4,5,1,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,1,6,1,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,2,9,1,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,3,7,1,,KG
+042418-ML,5.615331964,M,RMS,McKinley,English,0,,4,5,1,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,1,6,1,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,2,9,1,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,3,7,1,,KG
+042418-JK,5.656399726,F,RMS,McKinley,English,0,,4,5,1,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,1,6,1,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,2,9,1,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,3,7,1,,KG
+042418-IH,5.667351129,M,RMS,McKinley,English,0,,4,5,1,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,1,6,1,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,2,9,1,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,3,7,1,,KG
+042418-MD,5.708418891,M,RMS,McKinley,English,0,,4,5,1,,KG
+041318-AA,4.791238877,F,KG,Ridge City,English,0,,1,6,1,,SL
+041318-AA,4.791238877,F,KG,Ridge City,English,0,,2,9,1,,SL
+041318-AA,4.791238877,F,KG,Ridge City,English,0,,3,7,1,,SL
+041318-AA,4.791238877,F,KG,Ridge City,English,0,,4,5,1,,SL
+042018-ME,5.278576318,M,KG,FUMCCV,English,0,,1,6,1,,SL
+042018-ME,5.278576318,M,KG,FUMCCV,English,0,,2,9,1,,SL
+042018-ME,5.278576318,M,KG,FUMCCV,English,0,,3,7,1,,SL
+042018-ME,5.278576318,M,KG,FUMCCV,English,0,,4,5,1,,SL
+042018-SS,4.657084189,F,KG,FUMCCV,English,1,not CP knower,1,6,1,,SL
+042018-SS,4.657084189,F,KG,FUMCCV,English,1,not CP knower,2,9,1,,SL
+042018-SS,4.657084189,F,KG,FUMCCV,English,1,not CP knower,3,7,1,,SL
+042018-SS,4.657084189,F,KG,FUMCCV,English,1,not CP knower,4,5,1,,SL
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,1,6,1,,SL
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,2,9,1,,SL
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,3,7,1,,SL
+042018-MM,5.106091718,M,KG,FUMCCV,English,0,,4,5,1,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",1,6,1,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",2,9,1,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",3,7,1,,SL
+042518-PN,5.804243669,M,KG,McKinley,English,1,"speech impediment, can't distinguish numbers in count list",4,5,1,,SL
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,1,6,1,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,2,9,1,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,3,7,1,,KG
+042018-JH,4.769336071,M,RMS,FUMCCV,English,0,,4,5,1,,KG
+042018-AB,4.202600958,F,RMS,FUMCCV,English,1,not CP knower,1,6,0,,KG
+042018-AB,4.202600958,F,RMS,FUMCCV,English,1,not CP knower,2,9,0,,KG
+042018-AB,4.202600958,F,RMS,FUMCCV,English,1,not CP knower,3,7,0,,KG
+042018-AB,4.202600958,F,RMS,FUMCCV,English,1,not CP knower,4,5,0,,KG
+041818-SS,4.651608487,F,KG,FUMCCV,English,1,not CP knower,1,6,1,,KG
+041818-SS,4.651608487,F,KG,FUMCCV,English,1,not CP knower,2,9,0,,KG
+041818-SS,4.651608487,F,KG,FUMCCV,English,1,not CP knower,3,7,1,,KG
+041818-SS,4.651608487,F,KG,FUMCCV,English,1,not CP knower,4,5,1,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,1,6,1,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,2,9,1,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,3,7,1,,KG
+022818-MC,5.034907598,M,VM,Gillispie,English,1,Experimentor error in SF,4,5,1,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,1,6,1,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,2,9,1,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,3,7,1,,KG
+022818-ED,4.810403833,M,VM,Gillispie,English,1,Experimentor error in SF,4,5,1,,KG
+022818-BH,5.278576318,M,RMS,Gillispie,English,0,,1,6,,,KG
+022818-BH,5.278576318,M,RMS,Gillispie,English,0,,2,9,,,KG
+022818-BH,5.278576318,M,RMS,Gillispie,English,0,,3,7,,,KG
+022818-BH,5.278576318,M,RMS,Gillispie,English,0,,4,5,,"data sheet says tough, check recording/ but recording don't actually show the kid counting. ??",KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,1,6,1,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,2,9,1,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,3,7,1,,KG
+022818-EW,4.887063655,M,VM,Gillispie,English,1,Experimentor error in SF,4,5,1,,KG
+041218-CP,4.963723477,M,RMS,FUMCCV,English,0,,1,6,1,,KG
+041218-CP,4.963723477,M,RMS,FUMCCV,English,0,,2,9,1,,KG
+041218-CP,4.963723477,M,RMS,FUMCCV,English,0,,3,7,1,,KG
+041218-CP,4.963723477,M,RMS,FUMCCV,English,0,,4,5,1,,KG
+041118-BD,4.65982204,F,RMS,Little Lamb,English,0,,1,6,1,,KG
+041118-BD,4.65982204,F,RMS,Little Lamb,English,0,,2,9,1,,KG
+041118-BD,4.65982204,F,RMS,Little Lamb,English,0,,3,7,1,,KG
+041118-BD,4.65982204,F,RMS,Little Lamb,English,0,,4,5,1,,KG
+041218-J,,,RMS,FUMCCV,English,1,Did not finish game,1,6,1,,KG
+041218-J,,,RMS,FUMCCV,English,1,Did not finish game,2,9,1,,KG
+041218-J,,,RMS,FUMCCV,English,1,Did not finish game,3,7,1,,KG
+041218-J,,,RMS,FUMCCV,English,1,Did not finish game,4,5,1,,KG
+041218-EF,5.311430527,F,RMS,FUMCCV,English,0,,1,6,1,,KG
+041218-EF,5.311430527,F,RMS,FUMCCV,English,0,,2,9,1,,KG
+041218-EF,5.311430527,F,RMS,FUMCCV,English,0,,3,7,1,,KG
+041218-EF,5.311430527,F,RMS,FUMCCV,English,0,,4,5,1,,KG
+041218-AK,5.393566051,M,RMS,FUMCCV,English,0,,1,6,1,,KG
+041218-AK,5.393566051,M,RMS,FUMCCV,English,0,,2,9,1,,KG
+041218-AK,5.393566051,M,RMS,FUMCCV,English,0,,3,7,1,,KG
+041218-AK,5.393566051,M,RMS,FUMCCV,English,0,,4,5,1,,KG
+042518-MH,5.787816564,M,RMS,FUMCCV,English,0,,1,6,1,,KG
+042518-MH,5.787816564,M,RMS,FUMCCV,English,0,,2,9,1,,KG
+042518-MH,5.787816564,M,RMS,FUMCCV,English,0,,3,7,1,,KG
+042518-MH,5.787816564,M,RMS,FUMCCV,English,0,,4,5,1,,KG
+042618-ES,5.42642026,F,SL,McKinley,English,0,,1,6,1,,KG
+042618-ES,5.42642026,F,SL,McKinley,English,0,,2,9,1,,KG
+042618-ES,5.42642026,F,SL,McKinley,English,0,,3,7,1,,KG
+042618-ES,5.42642026,F,SL,McKinley,English,0,,4,5,1,,KG
+050218-MC,5.00752909,F,KG,Gillispie,English,0,,1,6,1,,SL
+050218-MC,5.00752909,F,KG,Gillispie,English,0,,2,9,1,,SL
+050218-MC,5.00752909,F,KG,Gillispie,English,0,,3,7,1,,SL
+050218-MC,5.00752909,F,KG,Gillispie,English,0,,4,5,1,,SL
+050218-GL,4.142368241,F,KG,Gillispie,English,1,not CP knower,1,6,0,,SL
+050218-GL,4.142368241,F,KG,Gillispie,English,1,not CP knower,2,9,1,,SL
+050218-GL,4.142368241,F,KG,Gillispie,English,1,not CP knower,3,7,0,,SL
+050218-GL,4.142368241,F,KG,Gillispie,English,1,not CP knower,4,5,0,,SL
+051618-WE,4.249144422,M,KG,Seaside,English,1,not CP knower,1,6,0,,SL
+051618-WE,4.249144422,M,KG,Seaside,English,1,not CP knower,2,9,0,,SL
+051618-WE,4.249144422,M,KG,Seaside,English,1,not CP knower,3,7,0,,SL
+051618-WE,4.249144422,M,KG,Seaside,English,1,not CP knower,4,5,1,,SL
+051618-CB,4.421629021,M,KG,Seaside,English,1,not CP knower,1,6,1,,SL
+051618-CB,4.421629021,M,KG,Seaside,English,1,not CP knower,2,9,0,,SL
+051618-CB,4.421629021,M,KG,Seaside,English,1,not CP knower,3,7,0,,SL
+051618-CB,4.421629021,M,KG,Seaside,English,1,not CP knower,4,5,1,,SL
+051618-LG,4.887063655,M,KG,Seaside,English,0,,1,6,1,,SL
+051618-LG,4.887063655,M,KG,Seaside,English,0,,2,9,1,,SL
+051618-LG,4.887063655,M,KG,Seaside,English,0,,3,7,1,,SL
+051618-LG,4.887063655,M,KG,Seaside,English,0,,4,5,1,,SL
+051618-ET,4.93908282,F,KG,Seaside,English,0,,1,6,1,,SL
+051618-ET,4.93908282,F,KG,Seaside,English,0,,2,9,1,,SL
+051618-ET,4.93908282,F,KG,Seaside,English,0,,3,7,1,,SL
+051618-ET,4.93908282,F,KG,Seaside,English,0,,4,5,1,,SL
+051618-RA,5.429158111,M,KG,Seaside,English,0,,1,6,1,,SL
+051618-RA,5.429158111,M,KG,Seaside,English,0,,2,9,1,,SL
+051618-RA,5.429158111,M,KG,Seaside,English,0,,3,7,1,,SL
+051618-RA,5.429158111,M,KG,Seaside,English,0,,4,5,1,,SL
