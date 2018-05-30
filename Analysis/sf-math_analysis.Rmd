@@ -21,7 +21,7 @@ library(ggthemes)
 ```
 
 #Setup
-##Loading data
+###Loading data
 Each task is stored as a separate CSV. Need to tidy and check each sheet individually.
 ```{r}
 #First load Give N
@@ -47,7 +47,7 @@ highestcount.raw %<>%
   mutate(final_highest = as.numeric(as.character(final_highest))) #for some reason was being read in as a factor
 ```
 
-##Tidy data
+###Tidy data
 Remove all exclusions. Make sure that anyone who is excluded by Give N is not included in other analyses.
 ```{r}
 ##This is a function that checks a dataframe for anyone marked as "excluded", pulls out those participants, and puts them into a dataframe
@@ -71,12 +71,12 @@ highestcount.exclusions <- check_exclusions(highestcount.raw)
 sf.exclusions <- check_exclusions(sf.raw)
 nextnumber.exclusions <- check_exclusions(nextnumber.raw)
 mathfacts.exclusions <- check_exclusions(mathfacts.raw)
-indefinite.exclusions <- check_exclusions(indefinite.raw) #deal with this later
+indefinite.exclusions <- check_exclusions(indefinite.raw) 
 
 #bind all of these individual exclusion dfs together. NB, this will include duplicate SIDs, because an excluded participant might appear in more than one task
 all_exclusions <- bind_rows(given.exclusions, highestcount.exclusions, 
                             sf.exclusions, nextnumber.exclusions, 
-                            mathfacts.exclusions)
+                            mathfacts.exclusions, indefinite.exclusions)
 
 #pull out the distinct SIDs that need to be excluded
 exclude <- all_exclusions %>%
@@ -109,6 +109,7 @@ sf.df <- exclude(sf.raw)
 mathfacts.df <- exclude(mathfacts.raw)
 indefinite.df <- exclude(indefinite.raw)
 ```
+
 ###Manual changes
 Change the age for participants with incorrect age.
 ```{r}
@@ -154,7 +155,7 @@ mathfacts.df <- general_exclusions(mathfacts.df)
 indefinite.df <- general_exclusions(indefinite.df)
 ```
 
-##Sanity checks
+###Sanity checks
 Do we have the same number (and same participants) for each task? Check unique ids across tasks, make sure there's a match.
 ```{r}
 #this is a function for getting unique IDs in each task
@@ -205,7 +206,7 @@ check_unique()
 
 ```
 
-Round age
+###Round age
 ```{r}
 #this is a function for rounding age
 round_age <- function(df) {
@@ -222,7 +223,7 @@ mathfacts.df <- round_age(mathfacts.df)
 highestcount.df <- round_age(highestcount.df)
 ```
 
-##Coding check
+###Coding check
 Is everything marked as correct actually correct? I'm recoding here.
 ```{r}
 #SF task
@@ -280,8 +281,7 @@ mathfacts.df <- check_math_facts()
 
 ```
 
-##Productivity
-
+###Productivity
 Productivity is manually coded for now because it's a bear to do programmatically. Here, spreading manual productivity classification to other tasks.
 ```{r}
 #NB, productivity is manually coded for now, will need to be done programmatically in the future.
@@ -308,7 +308,7 @@ mathfacts.df <- productivity_classification(mathfacts.df)
 indefinite.df <- productivity_classification(indefinite.df)
 ```
 
-##Within and outside of count range
+###Within and outside of count range
 Trials for SF, NN, and MF need to be classified as within or outside of count range for each participant
 ```{r}
 #first, get initial highest count for each kiddo
@@ -338,7 +338,7 @@ nextnumber.df <- determine_count_range(nextnumber.df)
 mathfacts.df <- determine_count_range(mathfacts.df)
 ```
 
-##Highest next number
+###Highest next number
 Find the highest next number answered correctly for each participant.
 ```{r}
 #Create a lookup table with the highest NN correctly answered
@@ -463,7 +463,7 @@ model.1 <- glmer(correct ~ highest_num + count_range + age + (1|SID),
 summary(model.1)
 anova(base, model.1, test = 'LRT')
 ```
-In comparison to base model, there is a significant effect of Highest Next Number (Chisq.(5) = 5.2922, p = .02).
+In comparison to base model, there is a significant effect of Highest Next Number (Chisq(5) = `r anova(base, model.1, test = 'LRT')$Chisq[2]`, p = `r anova(base, model.1, test = 'LRT')$Pr[2]`.)
 
 ###Model 2: Initial Highest Count
 ```{r}
@@ -474,7 +474,7 @@ model.2 <- glmer(correct ~ initial_highest + count_range + age + (1|SID),
 summary(model.2)
 anova(base, model.2)
 ```
-Interestingly, we do not find a signficant effect of Initial Highest Count. In comparison to base model, adding IHC does not significantly improve the fit of the model (Chisq(5) = .22, p = .64).
+Interestingly, we do not find a signficant effect of Initial Highest Count. In comparison to base model, adding IHC does not significantly improve the fit of the model (Chisq(5) = `r anova(base, model.2)$Chisq[2]`, p = `r anova(base, model.2)$Pr[2]`.)
 
 ###Model 3: Final Highest Count
 ```{r}
@@ -485,7 +485,7 @@ model.3 <- glmer(correct ~ final_highest + count_range + age + (1|SID),
 summary(model.3)
 anova(base, model.3, test = 'LRT')
 ```
-Final highest count is a significant predictor of Successor performance. In comparison to base model, the model fit is significantly improved by adding FHC (Chisq(5) = 12.96, p = .0003).
+Final highest count is a significant predictor of Successor performance. In comparison to base model, the model fit is significantly improved by adding FHC (Chisq(5) = `r anova(base, model.3, test = 'LRT')$Chisq[2]`, p = `r anova(base, model.3, test = 'LRT')$Pr[2]`.)
 
 ###Model 4: Productive Classification
 ```{r}
@@ -496,7 +496,7 @@ model.4 <- glmer(correct ~ productive + count_range + age + (1|SID),
 summary(model.4)
 anova(base, model.4, test = 'LRT')
 ```
-Our productive classification is a significant predictor of Successor task performance. In comparison to base model, adding Productive classification significantly improves the fit of the model (Chisq(5) = 8.00, p = .005). 
+Our productive classification is a significant predictor of Successor task performance. In comparison to base model, adding Productive classification significantly improves the fit of the model (Chisq(5) = `r anova(base, model.4, test = 'LRT')$Chisq[2]`, p = `r anova(base, model.4, test = 'LRT')$Pr[2]`.)
 
 ###Model 5: Large Model, all significant from 1-4
 Because we have more than one signficant predictor, we are putting all significant Productivity predictors into one large model. We are usinga stepwise process to build this model, with comparisons performed at each step using a Likelihood Ratio Test. Model selection is done on the basis of AIC and significant (p < .05) Chisq. 
@@ -515,7 +515,7 @@ model.5.final <- glmer(correct ~ final_highest + count_range + age + (1|SID),
                  family = "binomial", data = model.df)
 anova(model.5.base, model.5.final, test = 'LRT')
 ```
-Step 1: Add FHC, compare to base model. Significantly improves model fit (Chisq(5) = 12.96, p = .0003).
+Step 1: Add FHC, compare to base model. Significantly improves model fit (Chisq(5) = `r anova(model.5.base, model.5.final, test = 'LRT')$Chisq[2]`, p = `r anova(model.5.base, model.5.final, test = 'LRT')$Pr[2]`.)
 
 Now add Highest Next Number and Productivity, and compare to FHC model fit.
 ```{r}
@@ -530,8 +530,8 @@ summary(model.5.final)
 anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')
 ```
 Final highest count seems to be doing the best job predicting SF performance. In model comparisons:
-FHC alone vs. FHC + Highest NN: Chisq(6) = .7415,p = .39
-FHC alone vs. FHC + Productivity: Chisq(6) = 0, p = 1
+FHC alone vs. FHC + Highest NN: Chisq(6) = `r anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$Chisq[2]`, p = `r anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$Pr[2]`.
+FHC alone vs. FHC + Productivity: Chisq(6) = `r anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$Chisq[3]`, p = `r anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$Pr[3]`.
 
 Issues with model convergence in FHC + Highest NN, R is complaining. This code is checking whether these convergence issues are anything to worry about.
 ```{r}
@@ -550,7 +550,23 @@ model.6.base <- glmer(correct ~ count_range + age + (1|SID),
 anova(model.6, model.6.base, test = 'LRT')
 
 ```
-Math Facts not a significant predictor of SF performance. Model comparison with base indicates that adding Math Facts does not significantly improve model fit (Chisq(5) = .003, p = .08).
+Math Facts *is* a significant predictor of SF performance. Model comparison with base indicates that adding Math Facts does significantly improve model fit (Chisq(5) = `r anova(model.6, model.6.base, test = 'LRT')$Chisq[2]`, p = `r anova(model.6, model.6.base, test = 'LRT')$Pr[2]`.)
+
+###Model 7: Productivity vs. Math Facts
+Because Math Facts is a significant predictor of SF performance, we're adding it to our Productivity model, which currently contains just Final Highest count, and doing a model comparison to see if it significantly improves the fit of the model. 
+```{r}
+model.7.base <- glmer(correct ~ final_highest + count_range + age + (1|SID), 
+                 family = "binomial", data = model.df)
+model.7.mf <- glmer(correct ~ mf_mean + final_highest + count_range + age + (1|SID), 
+                 family = "binomial", data = model.df)
+anova(model.7.base, model.7.mf, test = 'LRT')
+```
+Math Facts does not significantly improve the model fit, indicating that our Productivity Measure (Final Highest Count) is doing the majority of the work in predicting SF performance (Chisq(6) = `r anova(model.7.base, model.7.mf, test = 'LRT')$Chisq[2]`, p = `r anova(model.7.base, model.7.mf, test = 'LRT')$Pr[2]`.)
+
+###Exploratory model: Highest contiguous NN
+We did not account for accuracy in highest NN. Thus, it is possible for a child to answer a very high NN by chance, which would add some noise to this measure. Below, I'm pulling out the 
+
+
 
 ##Correlation between all continuous variables and all other continuous variables
 Here, we have correlations between the following variables:
@@ -583,7 +599,9 @@ cor.mean <- right_join(tmp, nextnumber.mean, by = "SID") #dataframe for correlat
 cor.test(cor.mean$age, cor.mean$initial_highest)
 cor.test(cor.mean$age, cor.mean$final_highest)
 ```
-Significant correlation between age and IHC (r = .37, p = .02), and age and FHC (r = .53, p = .0003).
+Significant correlation:
+Age and IHC: r = `r as.numeric(cor.test(cor.mean$age, cor.mean$initial_highest)$estimate)`, p = `r as.numeric(cor.test(cor.mean$age, cor.mean$initial_highest)$p.value)`
+Age and FHC: r = `r as.numeric(cor.test(cor.mean$age, cor.mean$final_highest)$estimate)`, p = `r as.numeric(cor.test(cor.mean$age, cor.mean$final_highest)$p.value)`
 
 ###Successor task
 ```{r}
@@ -595,11 +613,11 @@ cor.test(cor.mean$mean.sf, cor.mean$mean.mf)
 cor.test(cor.mean$mean.sf, cor.mean$mean.nn)
 ```
 Significant correlations between:
-SF and age (r = .45, p = .003)
-SF and IHC (r = .48, p = .0011)
-SF and FHC (r = .75, p < .0001)
-SF and MF (r = .46, p = .002)
-SF and NN (r = .7, p < .0001)
+SF and age: r = `as.numeric(cor.test(cor.mean$mean.sf, cor.mean$age)$estimate)`, p = `as.numeric(r cor.test(cor.mean$mean.sf, cor.mean$age)$p.value)`
+SF and IHC: r = `as.numeric(cor.test(cor.mean$mean.sf, cor.mean$initial_highest)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.sf, cor.mean$initial_highest)$p.value)`
+SF and FHC: r = `as.numeric(cor.test(cor.mean$mean.sf, cor.mean$final_highest)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.sf, cor.mean$final_highest)$p.value)`
+SF and MF: r = `as.numeric(cor.test(cor.mean$mean.sf, cor.mean$mean.mf)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.sf, cor.mean$mean.mf)$p.value)`
+SF and NN:  r = `as.numeric(cor.test(cor.mean$mean.nn, cor.mean$mean.mf)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.sf, cor.mean$mean.nn)$p.value)`
 
 ###Math Facts
 ```{r}
@@ -611,11 +629,11 @@ cor.test(cor.mean$mean.mf, cor.mean$mean.sf)
 cor.test(cor.mean$mean.mf, cor.mean$mean.nn)
 ```
 Significant correlations between: 
-MF and age (r = .34, p = .03)
-MF and IHC (r = .6, p < .0001)
-MF and FHC (r = .53, p = .0003)
-MF and SF (r = .46, p = .002)
-MF and NN (r = .34, p = .02)
+MF and age: r = `as.numeric(cor.test(cor.mean$mean.mf, cor.mean$age)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.mf, cor.mean$age)$p.value)`
+MF and IHC: r = `as.numeric(cor.test(cor.mean$mean.mf, cor.mean$initial_highest)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.mf, cor.mean$initial_highest)$p.value)`
+MF and FHC: r = `as.numeric(cor.test(cor.mean$mean.mf, cor.mean$final_highest)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.mf, cor.mean$final_highest)$p.value)`
+MF and SF: r = `as.numeric(cor.test(cor.mean$mean.mf, cor.mean$mean.sf)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.mf, cor.mean$mean.sf)$p.value)`
+MF and NN: r = `as.numeric(cor.test(cor.mean$mean.mf, cor.mean$mean.nn)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.mf, cor.mean$mean.nn)$p.value)`
 
 ###Next Number
 ```{r}
@@ -627,11 +645,11 @@ cor.test(cor.mean$mean.nn, cor.mean$mean.sf)
 cor.test(cor.mean$mean.nn, cor.mean$mean.mf)
 ```
 Significant correlations between: 
-NN and age (r = .43, p = .003)
-NN and IHC (r = .46, p = .002)
-NN and FHC (r = .7, p < .0001)
-NN and SF (r = .7, p < .0001)
-NN and MF (r = .34, p = .02)
+NN and age: r = `as.numeric(cor.test(cor.mean$mean.nn, cor.mean$age)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.nn, cor.mean$age)$p.value)`
+NN and IHC: r = `as.numeric(cor.test(cor.mean$mean.nn, cor.mean$initial_highest)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.nn, cor.mean$initial_highest)$p.value)`
+NN and FHC: r = `as.numeric(cor.test(cor.mean$mean.nn, cor.mean$final_highest)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.nn, cor.mean$final_highest)$p.value)`
+NN and SF: r = `as.numeric(cor.test(cor.mean$mean.nn, cor.mean$mean.sf)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.nn, cor.mean$mean.sf)$p.value)`
+NN and MF: r = `as.numeric(cor.test(cor.mean$mean.nn, cor.mean$mean.mf)$estimate)`, p = `r as.numeric(cor.test(cor.mean$mean.nn, cor.mean$mean.mf)$p.value)`
 
 ##Error classification on Highest count
 We did not plan any analyses here. Below is the total numbers of each error type (decade-beginning, decade-final, mid-decade); note that there are more errors for Productive rather than Nonproductive because Productive errors as a group counted higher, and were more likely to make errors).
@@ -664,6 +682,102 @@ error_plot <- ggplot(errors, aes(x = error_type, y = n, fill = factor(productive
   scale_fill_manual(values = productivity.colors) +
   labs(x = "Error type", y = "Number of errors", fill = "")
 error_plot
+```
+
+#Exploratory analyses
+##Partial correlation between Indefinite and SF, controlling for age
+Exploratory data - To explore whether children’s performance on the Successor Task is related to their ability to generalize the Successor to all numbers, we will run a partial correlation between performance on both tasks, controlling for age.
+```{r}
+#First, get all participants who completed indefinite number
+indefinite.subs <- indefinite.df %>%
+  distinct(SID, age)
+
+indefinite.subs <- as.vector(indefinite.subs$SID)
+
+#Now, get only those SIDs from the SF df
+indef.sf <- sf.df %>%
+  filter(SID %in% indefinite.subs)
+
+#compute means for both tasks
+indef.mean <- indefinite.df %>%
+  group_by(SID, age)%>%
+  summarise(mean.indef = mean(correct, na.rm = TRUE))
+
+indef.sf.mean <- indef.sf %>%
+  group_by(SID)%>%
+  summarise(mean.sf = mean(correct, na.rm = TRUE))
+
+#join the two dfs together
+indef.pcor <- right_join(indef.mean, indef.sf.mean, by = "SID")
+
+library(ppcor)
+partial <- pcor.test(indef.pcor$mean.indef, indef.pcor$mean.sf, indef.pcor$age)
+partial
+```
+Significant correlation between mean performance on SF and Indefinite tasks when controlling for age (r = `r as.numeric(partial$estimate)`, p = `r as.numeric(partial$p.value)`). 
+
+##T-tests by productivity on SF/MF/NN
+Using the Productive/Non-Productive categorical classification outlined above, we will compare mean performance between both groups on all tasks (Next Number, Successor, and Math Facts) in t-tests.
+```{r}
+##create a dataframe for mean task performance for each subject for each task
+#next number
+mean.nn <- nextnumber.df %>%
+  group_by(SID, age, productive) %>%
+  summarise(mean.nn = mean(correct, na.rm = TRUE))
+
+#math facts
+mean.mf <- mathfacts.df %>%
+  group_by(SID) %>%
+  summarise(mean.mf = mean(correct, na.rm = TRUE))
+
+#successor
+mean.sf <- sf.df %>%
+  group_by(SID) %>%
+  summarise(mean.sf = mean(correct, na.rm = TRUE))
+
+#bind these together
+tmp <- right_join(mean.nn, mean.mf, by = "SID")
+all.mean <- right_join(tmp, mean.sf, by = "SID")
+
+#take mean of means
+# all.mean.ms <- all.mean %>%
+#   group_by(task)%>%
+#   multi_boot_standard("mean", na.rm = TRUE)
+
+#t-tests
+#next number
+nn.t.test <- t.test(subset(all.mean, productive == "productive")$mean.nn,
+                    subset(all.mean, productive == "nonproductive")$mean.nn, var.equal = TRUE)
+nn.t.test
+#successor function
+sf.t.test <- t.test(subset(all.mean, productive == "productive")$mean.sf,
+                    subset(all.mean, productive == "nonproductive")$mean.sf, var.equal = TRUE)
+sf.t.test
+#math facts
+mf.t.test <- t.test(subset(all.mean, productive == "productive")$mean.mf,
+                    subset(all.mean, productive == "nonproductive")$mean.mf, var.equal = TRUE)
+mf.t.test
+```
+There is a significant difference between Productive and Nonproductive counters on all tasks:
+Next Number: t(51) = `r as.numeric(nn.t.test$statistic)`, p = `r as.numeric(nn.t.test$p.value)`
+Successor: t(51) = `r as.numeric(sf.t.test$statistic)`, p = `r as.numeric(sf.t.test$p.value)`
+Math Facts: t(51) = `r as.numeric(mf.t.test$statistic)`, p = `r as.numeric(mf.t.test$p.value)`
+
+Exploratory modeling of our counting data to test the predictions of Yang (2017). Here, we plan to use cluster analysis to identify distinct groups (or categories) of counters from our highest count data, assessing the likelihood of Successor Knowledge from cluster membership.
+
+**NB**I am working on this, but still learning. So far, it looks like I can identify some clusters, but that's pretty much it. There's a lot of tweaking that can be done, I think. Note that this seems to be working fairly well for the nonproductive-low counters!
+
+```{r}
+library(mclust)
+clust <- highestcount.df %>%
+  dplyr::select(initial_highest, final_highest)
+
+BIC <- mclustBIC(clust)
+plot(BIC)
+summary(BIC)
+mod1 <- Mclust(clust, x = BIC)
+summary(mod1, parameters = TRUE)
+plot(mod1, what = "classification")
 ```
 
 #Individual task visualizations
@@ -797,9 +911,7 @@ sf <- ggplot(sf.range.ms, aes(x = factor(productive, levels = c("productive", "n
        fill = "") +
   langcog::scale_fill_solarized("Within/outside count range")
 sf
-  
 
-  
 ```
 
 ##Next number
@@ -810,8 +922,8 @@ nn.range.ms <- nextnumber.df %>%
   group_by(count_range, productive)%>%
   multi_boot_standard("correct", na.rm = TRUE)
 
-ggplot(nn.range.ms, aes(x = factor(productive, levels = c("productive", "nonproductive"), 
-                                                          labels = c("Productive", "Nonproductive")), y = mean, 
+nn <- ggplot(nn.range.ms, aes(x = factor(productive, levels = c("productive", "nonproductive"), 
+                                   labels = c("Productive", "Nonproductive")), y = mean, 
                         fill = factor(count_range, levels = c("within", "outside"), 
                                       labels = c("Within initial highest count", "Outside initial highest count")))) + 
   geom_bar(stat = "identity", position= position_dodge()) + 
@@ -820,11 +932,14 @@ ggplot(nn.range.ms, aes(x = factor(productive, levels = c("productive", "nonprod
                   size = .3,
                   show.legend = FALSE,
                  position=position_dodge(width = 0.9)) +
-  theme_bw() +
-  labs(x = "Productivity", y = "Mean Correct",  
-       title = "Accuracy by count range and productivity: Next Number", 
-       fill = "Within/outside count range") +
-  scale_fill_manual(values = countrange.colors)
+  theme_bw(base_size = 13) +
+  theme(legend.text = element_text(size = 10), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank()) +
+  labs(x = "Productivity", y = "Mean Next Number performance",  
+       fill = "") +
+  langcog::scale_fill_solarized("Within/outside count range")
+nn
 ```
 
 ##Math facts
@@ -835,8 +950,8 @@ mf.range.ms <- mathfacts.df %>%
   group_by(count_range, productive)%>%
   multi_boot_standard("correct", na.rm = TRUE)
 
-ggplot(mf.range.ms, aes(x = factor(productive, levels = c("productive", "nonproductive"), 
-                                                          labels = c("Productive", "Nonproductive")), y = mean, 
+mf <- ggplot(mf.range.ms, aes(x = factor(productive, levels = c("productive", "nonproductive"), 
+                                   labels = c("Productive", "Nonproductive")), y = mean, 
                         fill = factor(count_range, levels = c("within", "outside"), 
                                       labels = c("Within initial highest count", "Outside initial highest count")))) + 
   geom_bar(stat = "identity", position= position_dodge()) + 
@@ -845,16 +960,21 @@ ggplot(mf.range.ms, aes(x = factor(productive, levels = c("productive", "nonprod
                   size = .3,
                   show.legend = FALSE,
                  position=position_dodge(width = 0.9)) +
-  theme_bw() +
-  labs(x = "Productivity", y = "Mean Correct",  
-       title = "Accuracy by count range and productivity: Math Facts", 
-       fill = "Within/outside count range") +
-  scale_fill_manual(values = countrange.colors)
+  theme_bw(base_size = 13) +
+  theme(legend.text = element_text(size = 10), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank()) +
+  labs(x = "Productivity", y = "Mean Math Facts performance",  
+       fill = "") +
+  langcog::scale_fill_solarized("Within/outside count range")
+mf
 ```
-
-##SF, NN, MF
-###Difference in performance on same/novel numbers by task
+###SF/NN/MF - visualizations of all three tasks together
+These are essentially the same graphs as above - I just combined all the tasks so we can make comparisons more easily. 
 ```{r}
+##This is determining whether the numbers queried were novel or same
+##Same = numbers seen in more than one task (either SF + NN, or SF + MF)
+##Novel = numbers only appeared in that task
 #first, get a vector of all the numbers used in each task
 sf_nums <- sf.df %>%
   distinct(num_queried)
@@ -908,37 +1028,17 @@ nextnumber.df <- novel_same(nextnumber.df) %>%
 mathfacts.df <- novel_same(mathfacts.df)  %>%
   filter(problem != "1+1")
 
-mean.nn <- nextnumber.df %>%
-  group_by(SID, age) %>%
-  multi_boot_standard("correct", na.rm = TRUE)%>%
-  mutate(task = "next number")
-
-mean.mf <- mathfacts.df %>%
-  group_by(SID, age) %>%
-  multi_boot_standard("correct", na.rm = TRUE)%>%
-  mutate(task = "math_facts")
-
-mean.sf <- sf.df %>%
-  group_by(SID, age) %>%
-  multi_boot_standard("correct", na.rm = TRUE)%>%
-  mutate(task = "successor")
-
-tmp <- bind_rows(mean.nn, mean.mf)
-all.mean <- bind_rows(tmp, mean.sf)
-
-
-all.mean.ms <- all.mean %>%
-  group_by(task)%>%
-  multi_boot_standard("mean", na.rm = TRUE)
-
-
-task.colors = c("#9E0142", "#3288BD", "#5E4FA2")
-#plot
 
 ```
 
 ##Mean task performance
 ```{r}
+
+
+
+task.colors = c("#9E0142", "#3288BD", "#5E4FA2")
+
+#plot
 mean_tasks <- ggplot(all.mean.ms, aes(x = factor(task, 
                                              levels = c("successor", "next number", "math_facts"), 
                                              labels = c("Successor", "Next Number", "Math Facts")), 
@@ -958,10 +1058,12 @@ mean_tasks <- ggplot(all.mean.ms, aes(x = factor(task,
         panel.grid.major = element_blank()) +
   labs(x = "Task", y = "Mean performance", 
        fill = "") + guides(fill = FALSE)
+mean_tasks
 ```
 
 ##Mean task performance, within/outside count range
 ```{r}
+#make dataframe for mean performance within/outside of count range
 novel.nn <- nextnumber.df %>%
   mutate(count_range = factor(count_range, levels = c("within", "outside"),
                               labels = c("Within", "Outside")))%>%
@@ -983,9 +1085,11 @@ novel.sf <- sf.df %>%
   multi_boot_standard("correct", na.rm = TRUE)%>%
   mutate(task = "successor")
 
+#bind these together
 tmp <- bind_rows(novel.nn, novel.mf)
 all.novel <- bind_rows(tmp, novel.sf)
 
+#take mean of means
 all.novel.ms <- all.novel %>%
   group_by(task, count_range)%>%
   multi_boot_standard("mean", na.rm = TRUE)
@@ -1006,9 +1110,12 @@ novel_tasks <- ggplot(all.novel.ms, aes(x = count_range,
         panel.grid.major = element_blank()) +
   labs(x = "Within/outside count range", y = "Mean performance", 
        fill = "")
+novel_tasks
 ```
+
 ##Mean performance by productivity
 ```{r}
+#make df for mean performance
 productive.nn <- nextnumber.df %>%
   mutate(productive = factor(productive, levels = c("productive", "nonproductive"), 
                              labels = c("Productive", "Nonproductive")))%>%
@@ -1030,9 +1137,11 @@ productive.sf <- sf.df %>%
   multi_boot_standard("correct", na.rm = TRUE)%>%
   mutate(task = "successor")
 
+#bind these together
 tmp <- bind_rows(productive.nn, productive.mf)
 all.productive <- bind_rows(tmp, productive.sf)
 
+#take mean of means
 all.productive.ms <- all.productive %>%
   group_by(task, productive)%>%
   multi_boot_standard("mean", na.rm = TRUE)
@@ -1053,131 +1162,49 @@ productive_tasks <- ggplot(all.productive.ms, aes(x = productive,
         panel.grid.major = element_blank()) +
   labs(x = "Productivity", y = "Mean performance", 
        fill = "")
+productive_tasks
 ```
-###t-tests of mean performance
+
+##Scatterplot of FHC and SF and MF and SF 
 ```{r}
-#sf-nn
-t.test(mean.sf$mean, mean.nn$mean, var.equal = TRUE)
+#sf and FHC
+sf.hc.ms <- sf.df %>%
+  group_by(SID, highest_count)%>%
+  summarise(mean = mean(correct), 
+            log.mean = log10(mean))
 
-#sf-mf
-t.test(mean.sf$mean, mean.mf$mean, var.equal = TRUE)
+sf.hc.scatter <- ggplot(sf.hc.ms, aes(x = highest_count, y = mean)) +
+  geom_point(stat = "identity") +
+  geom_smooth(method = "lm", color = "blue") + 
+  theme_bw(base_size = 15) +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank()) +
+  labs(x = "Final Highest Count", y = "Mean Successor Performance")
+sf.hc.scatter
 
-#nn-mf
-t.test(mean.nn$mean, mean.mf$mean, var.equal = TRUE)
-```
-##Scatterplot by task (SF/NN/MF) 
-```{r}
-#first, compute mean performance for each kiddo for each task, so that you have one value per kid
+##Math Facts and SF
+#get mean math facts performance
+mf.sf.ms <- model.df %>%
+  dplyr::select(SID, mf_mean)
 
-#then put all of these together for the scatterplot
+#Join with SF, get distinct SIDs
+scatter.mf.sf <- right_join(sf.hc.ms, mf.sf.ms, by = "SID")%>%
+  distinct(SID, mean, mf_mean)
 
-sf.mean <- sf.df %>%
-  filter(num_queried != 1 | num_queried != 3)%>%
-  group_by(SID, age, productive)%>%
-  summarise(mean.sf = mean(correct))
-
-nn.mean <- nextnumber.df %>%
-  filter(num_queried != 1)%>%
-  group_by(SID)%>%
-  summarise(mean.nn = mean(correct))
-
-mf.mean <- mathfacts.df %>%
-  filter(problem != "1+1")%>%
-  group_by(SID)%>%
-  summarise(mean.mf = mean(correct))
-
-tmp <- right_join(sf.mean, nn.mean, by = "SID")
-all.mean <- right_join(tmp, mf.mean, by = "SID")
-
-##Individual scatterplots for now, until I learn how to combine them all into one plot
-ggplot(all.mean, aes(x = mean.sf, y = mean.nn, 
-                     color = factor(productive, levels = c("productive", "nonproductive"), 
-                                    labels = c("Productive", "Nonproductive")))) +
-  geom_point(size = 2)  +
-  labs(x = "Mean performance: SF", y = "Mean performance: NN",
-                      title = "Mean performance on SF and NN", 
-                      color = "Productivity Classification") +
-  theme_bw() +
-  theme(panel.grid.minor = element_blank()) + 
-  scale_color_manual(values = productivity.colors)
-
-#nn and mf
-ggplot(all.mean, aes(x = mean.mf, y = mean.nn, 
-                     color = factor(productive, levels = c("productive", "nonproductive"), 
-                                    labels = c("Productive", "Nonproductive")))) +
-  geom_point(size = 2)  +
-  labs(x = "Mean performance: MF", y = "Mean performance: NN",
-                      title = "Mean performance on NN and MF", 
-                      color = "Productivity Classification") +
-  theme_bw() +
-  theme(panel.grid.minor = element_blank()) + 
-  scale_color_manual(values = productivity.colors)
-
-#mf and sf
-ggplot(all.mean, aes(x = mean.mf, y = mean.sf, 
-                     color = factor(productive, levels = c("productive", "nonproductive"), 
-                                    labels = c("Productive", "Nonproductive")))) +
-  geom_point(size = 2)  +
-  labs(x = "Mean performance: MF", y = "Mean performance: SF",
-                      title = "Mean performance on MF and SF", 
-                      color = "Productivity Classification") +
-  theme_bw() +
-  theme(panel.grid.minor = element_blank()) + 
- scale_color_manual(values = productivity.colors)
-
-
-#now melt?
-all.melt <- gather(all.mean, task, mean, mean.sf:mean.mf)
-
-#scatterplot with three - to come in the future
+mfsf.scatter <- ggplot(scatter.mf.sf, aes(x = mf_mean, y = mean)) +
+  geom_point(stat = "identity") +
+  geom_smooth(method = "lm", color = "blue") + 
+  theme_bw(base_size = 15) +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank()) +
+  labs(x = "Mean Math Facts performance", y = "Mean Successor performance")
+mfsf.scatter
 ```
 
-#Exploratory analyses
-##Partial correlation, SF/MF/NN performance, controlling for age
-Exploratory data - To explore whether children’s performance on the Successor Task is related to their ability to generalize the Successor to all numbers, we will run a partial correlation between performance on both tasks, controlling for age.
-```{r}
-library(ppcor)
 
-sf.nn.pcor <- pcor.test(all.mean$mean.sf, all.mean$mean.nn, all.mean$age, method = "spearman") 
-sf.nn.pcor
-sf.mf.pcor <- pcor.test(all.mean$mean.sf, all.mean$mean.mf, all.mean$age, method = "spearman")
-sf.mf.pcor 
-```
-
-##T-tests by productivity on SF/MF/NN
-Using the Productive/Non-Productive categorical classification outlined above, we will compare mean performance between both groups on all tasks (Next Number, Successor, and Math Facts) in t-tests.
-```{r}
-#next number
-nn.t.test <- t.test(subset(all.mean, productive == "productive")$mean.nn, 
-                    subset(all.mean, productive == "nonproductive")$mean.nn, var.equal = TRUE)
-nn.t.test
-#successor function
-sf.t.test <- t.test(subset(all.mean, productive == "productive")$mean.sf, 
-                    subset(all.mean, productive == "nonproductive")$mean.sf, var.equal = TRUE)
-sf.t.test
-#math facts
-mf.t.test <- t.test(subset(all.mean, productive == "productive")$mean.mf, 
-                    subset(all.mean, productive == "nonproductive")$mean.mf, var.equal = TRUE)
-mf.t.test
-```
-Exploratory modeling of our counting data to test the predictions of Yang (2017). Here, we plan to use cluster analysis to identify distinct groups (or categories) of counters from our highest count data, assessing the likelihood of Successor Knowledge from cluster membership.
-
-```{r}
-library(mclust)
-clust <- highestcount.df %>%
-  select(initial_highest, final_highest)
-
-clPairs(clust)
-BIC <- mclustBIC(clust)
-plot(BIC)
-summary(BIC)
-mod1 <- Mclust(clust, x = BIC)
-summary(mod1, parameters = TRUE)
-plot(mod1, what = "classification")
-```
 
 #Post-hoc analyses
-1. Accuracy ~ Problem * Task
+1. Accuracy ~ Problem * Task: Is performance mediated by task?
 ```{r}
 #make the appropriate df with SID, age, productive, correct, task, novel_same, count range
 sf.limited <- sf.df %>%
@@ -1205,40 +1232,23 @@ all.limited <- bind_rows(sf.limited, nn.limited, mf.limited)%>%
 
 model.post1 <- glmer(correct ~ task*novel_same + count_range + age + (1|SID), 
                      family = "binomial", data = all.limited)
+model.post.base <- glmer(correct ~ task + novel_same + count_range + age + (1|SID), 
+                     family = "binomial", data = all.limited)
 
 #model fails to converge - is this a big deal? check
-with(model.post1@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #false, take this with a grain of salt for now
+with(model.post1@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) 
+
+#LRT to compare whether interaction is significant
+anova(model.post1, model.post.base, test = 'LRT')
 
 summary(model.post1)
 ```
+Currently, it does not appear that the interaction of task and problem type (Novel/Same) is significant (Chisq(9) = `r anova(model.post1, model.post.base, test = 'LRT')$Chisq[2]`, p = `r anova(model.post1, model.post.base, test = 'LRT')$Pr[2]`.)
 
-#Correlation between final highest and mean SF performance
-```{r}
-sf.mean <- model.df %>%
-  group_by(SID, final_highest)%>%
-  summarise(mean_correct = mean(correct))
-
-hist(sf.mean$mean_correct)
-cor.test(sf.mean$final_highest, sf.mean$mean_correct, method = "spearman")
-```
-
-#Scatterplot of final highest and mean sf performance
-```{r}
-sf.hc.ms <- sf.df %>%
-  group_by(SID, highest_count)%>%
-  summarise(mean = mean(correct))
-
-sf.hc.scatter <- ggplot(sf.hc.ms, aes(x = mean, y = highest_count)) +
-  geom_point(stat = "identity") +
-  geom_smooth(method = "lm", color = "blue") + 
-  theme_bw(base_size = 15) +
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank()) +
-  labs(x = "Mean Successor Task Performance", y = "Final Highest Count")
-  
-```
+At the moment, it appears that we have a main effect of task, such that performance on Math Facts is significantly less likely to be accurate than Successor task (Beta = `r summary(model.post1)$coeff[3]`, p = `summary(model.post1)$coeff[4,3]`). There are also significant effects of age and count range.
 
 #Indefinite number
+First, visualizing indefinite number performance. Then seeing whether productivity is a significant predictor of indefinite.
 ```{r}
 indef.sub <- indefinite.df %>%
   distinct(SID, productive)%>%
@@ -1255,14 +1265,12 @@ ggplot(indef, aes(x = productive, y = mean, fill= productive)) +
                       ymax = ci_upper),
                   size = .3,
                   show.legend = FALSE,
-                 position=position_dodge(width = 0.9))
+                 position=position_dodge(width = 0.9)) +
+  labs(x = "Productivity", y = "Mean indefinite performance")
 
 base <- glmer(correct ~ age + (1|SID), family = "binomial", data = indefinite.df)
 model.1.indef <- glmer(correct ~ productive + age + (1|SID), family = "binomial", data = indefinite.df)
 anova(base, model.1.indef, test = 'LRT')
 summary(model.1.indef)
-
-t.test(subset(indefinite.df, productive == "productive")$correct, 
-       subset(indefinite.df, productive == "nonproductive")$correct, 
-       var.equal =TRUE)
 ```
+Productivity is a significant predictor of Successor Task performance (Chisq(4) = `r anova(base, model.1.indef, test = 'LRT')$Chisq[2]`, p = `anova(base, model.1.indef, test = 'LRT')$Pr`).
