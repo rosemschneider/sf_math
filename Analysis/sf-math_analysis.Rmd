@@ -672,14 +672,18 @@ Here, we have correlations between the following variables:
 ```{r}
 #get mean performance for SF, MF, and NN
 sf.mean <- model.df %>%
+  filter(trial != 1, 
+         trial != 2) %>%
   group_by(SID, age, final_highest, initial_highest)%>%
   dplyr::summarise(mean.sf = mean(correct))
 
 mf.mean <- mathfacts.df %>%
+  filter(trial != 1)%>%
   group_by(SID)%>%
   summarise(mean.mf = mean(correct))
 
 nextnumber.mean <- nextnumber.df %>%
+  filter(trial != 1)%>%
   group_by(SID)%>%
   summarise(mean.nn = mean(correct))
 
@@ -819,16 +823,20 @@ Using the Productive/Non-Productive categorical classification outlined above, w
 ##create a dataframe for mean task performance for each subject for each task
 #next number
 mean.nn <- nextnumber.df %>%
+  filter(trial != 1) %>%
   group_by(SID, age, productive) %>%
   summarise(mean.nn = mean(correct, na.rm = TRUE))
 
 #math facts
 mean.mf <- mathfacts.df %>%
+  filter(trial != 1) %>%
   group_by(SID) %>%
   summarise(mean.mf = mean(correct, na.rm = TRUE))
 
 #successor
 mean.sf <- sf.df %>%
+  filter(trial != 1, 
+         trial != 2)%>%
   group_by(SID) %>%
   summarise(mean.sf = mean(correct, na.rm = TRUE))
 
@@ -1262,16 +1270,20 @@ mathfacts.df <- novel_same(mathfacts.df)  %>%
 ```{r}
 #get mean perf by subject for each task
 mean.nn <- nextnumber.df %>%
+  filter(trial != 1) %>%
   group_by(SID) %>%
   summarise(mean = mean(correct, na.rm = TRUE))%>%
   mutate(task = "next number")
 
 mean.mf <- mathfacts.df %>%
+  filter(trial != 1) %>%
   group_by(SID) %>%
   summarise(mean = mean(correct, na.rm = TRUE))%>%
   mutate(task = "math_facts")
 
 mean.sf <- sf.df %>%
+  filter(trial != 1, 
+         trial != 2) %>%
   group_by(SID) %>%
   summarise(mean = mean(correct, na.rm = TRUE))%>%
   mutate(task = "successor")
@@ -1315,6 +1327,7 @@ mean_tasks
 ```{r}
 #make dataframe for mean performance within/outside of count range
 novel.nn <- nextnumber.df %>%
+  filter(trial != 1) %>%
   mutate(count_range = factor(count_range, levels = c("within", "outside"),
                               labels = c("Within", "Outside")))%>%
   group_by(SID, age, count_range) %>%
@@ -1322,6 +1335,7 @@ novel.nn <- nextnumber.df %>%
   mutate(task = "next number")
 
 novel.mf <- mathfacts.df %>%
+  filter(trial != 1)%>%
   mutate(count_range = factor(count_range, levels = c("within", "outside"),
                               labels = c("Within", "Outside")))%>%
   group_by(SID, age, count_range) %>%
@@ -1329,6 +1343,8 @@ novel.mf <- mathfacts.df %>%
   mutate(task = "math_facts")
 
 novel.sf <- sf.df %>%
+  filter(trial != 1, 
+         trial != 2)%>%
  mutate(count_range = factor(count_range, levels = c("within", "outside"),
                               labels = c("Within", "Outside")))%>%
   group_by(SID, age, count_range) %>%
@@ -1367,6 +1383,7 @@ novel_tasks
 ```{r}
 #make df for mean performance
 productive.nn <- nextnumber.df %>%
+  filter(trial != 1)%>%
   mutate(productive = factor(productive, levels = c("productive", "nonproductive"), 
                              labels = c("Productive", "Nonproductive")))%>%
   group_by(SID, age, productive) %>%
@@ -1374,6 +1391,7 @@ productive.nn <- nextnumber.df %>%
   mutate(task = "next number")
 
 productive.mf <- mathfacts.df %>%
+  filter(trial != 1)%>%
   mutate(productive = factor(productive, levels = c("productive", "nonproductive"), 
                              labels = c("Productive", "Nonproductive")))%>%
   group_by(SID, age, productive) %>%
@@ -1381,6 +1399,8 @@ productive.mf <- mathfacts.df %>%
   mutate(task = "math_facts")
 
 productive.sf <- sf.df %>%
+  filter(trial != 1, 
+         trial != 2)%>%
  mutate(productive = factor(productive, levels = c("productive", "nonproductive"), 
                              labels = c("Productive", "Nonproductive")))%>%
   group_by(SID, age, productive) %>%
@@ -1421,6 +1441,8 @@ productive_tasks
 ```{r}
 #sf and FHC
 sf.hc.ms <- sf.df %>%
+  filter(trial != 1, 
+         trial != 2)%>%
   group_by(SID, highest_count)%>%
   summarise(mean = mean(correct), 
             log.mean = log10(mean))
