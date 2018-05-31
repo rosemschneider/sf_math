@@ -433,7 +433,9 @@ model.df %<>%
   mutate(final_highest = as.integer(final_highest), #make sure this is an integer
          productive = factor(productive), #change from character
          correct = as.integer(correct), #change to integer
-         count_range = factor(count_range)) #change from character
+         count_range = factor(count_range)) %>%
+  filter(trial != 1, 
+         trial != 2)
 ```
 
 ####Planned models
@@ -618,8 +620,8 @@ get_contiguous <- function(){
       highest_contig = 95
       sub_contig <- data.frame(sub, highest_contig)
       contig <- bind_rows(contig, sub_contig)
-    } else if (min(tmp$num_queried) == 7) {
-      highest_contig == 1
+    } else if (length(tmp$num_queried) > 0 & min(tmp$num_queried) == 7) {
+      highest_contig = 1
       sub_contig <- data.frame(sub, highest_contig)
       contig <- bind_rows(contig, sub_contig)
     } else {
@@ -641,7 +643,7 @@ highest_contiguous_nn <- get_contiguous()%>%
 model.df <- right_join(model.df, highest_contiguous_nn, by = "SID")
 
 #compare to FHC
-model.exp.final <- glmer(correct ~ final_highest + highest_contig + count_range + age + (1|SID), 
+model.exp.final <- glmer(correct ~ highest_contig + final_highest + count_range + age + (1|SID), 
                          family = "binomial", data = model.df)
 model.exp.final.base <- glmer(correct ~ final_highest + count_range + age + (1|SID), 
                          family = "binomial", data = model.df)
@@ -649,11 +651,12 @@ model.exp.final.base <- glmer(correct ~ final_highest + count_range + age + (1|S
 anova(model.exp.final, model.exp.final.base, test = 'LRT')
 #convergence warnings - check if it is an issue
 with(model.exp.final@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)
+summary(model.exp.final)
 
 ```
 
 ###Exploratory Model Results
-Even with highest contiguous NN, it still seems like FHC is the best predictor of Successor performance: In comparison to base model containing FHC alone, adding highest contiguous NN does not seem to improve the model fit (Chisq(6) = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Pr[2], 2)`.)
+The addition of Highest Contiguous NN significantly improves the fit of the model (Chisq(6) = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Pr[2], 2)`). 
 
 ***
 
