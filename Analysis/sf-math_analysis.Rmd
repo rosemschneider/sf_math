@@ -411,6 +411,7 @@ model.df <- add_counts(sf.df)
 #create a lookup with their SID and mean MF performance
 lookup <- mathfacts.df %>%
   group_by(SID)%>%
+  filter(trial != 1)%>%
   summarise(mean = mean(correct))%>%
   mutate(SID = as.character(SID))
 
