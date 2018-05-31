@@ -81,7 +81,7 @@ all_exclusions <- bind_rows(given.exclusions, highestcount.exclusions,
 #pull out the distinct SIDs that need to be excluded
 exclude <- all_exclusions %>%
   distinct(SID, exclude_reason)%>%
-  group_by(exclude_reason)%>%
+  group_by(SID, exclude_reason)%>%
   dplyr::summarise(n = n())
 # all_exclusions
 ```
@@ -805,6 +805,8 @@ indef.mean <- indefinite.df %>%
   summarise(mean.indef = mean(correct, na.rm = TRUE))
 
 indef.sf.mean <- indef.sf %>%
+  filter(trial != 1, 
+         trial != 2)%>%
   group_by(SID)%>%
   summarise(mean.sf = mean(correct, na.rm = TRUE))
 
