@@ -98,7 +98,8 @@ exclusion_SIDs <- as.vector(all_exclusions$SID)
 #function for excluding SIDs
 exclude <- function(df){
   df %<>%
-    filter(SID %!in% exclusion_SIDs)
+    dplyr::filter(SID %!in% exclusion_SIDs)
+  return(df)
 }
 
 #run this function on every task df to exclude the participants that have been flagged
@@ -659,6 +660,76 @@ summary(model.exp.final)
 ###Exploratory Model Results
 The addition of Highest Contiguous NN significantly improves the fit of the model (Chisq(6) = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Pr[2], 2)`). 
 
+
+###Exploratory model: Productivity*Count range, sf task
+```{r}
+#is the interaction significant?
+tmp <- model.df %>%
+  mutate(productive = factor(productive, levels = c("productive", "nonproductive")))
+
+model.exp.base <- glmer(correct ~ productive + count_range + age + (1|SID), 
+                        family = "binomial", data = model.df)
+model.exp.int <- glmer(correct ~ productive*count_range + age + (1|SID), 
+                       family = "binomial", data = model.df)
+anova(model.exp.base, model.exp.int, test = 'LRT')
+summary(model.exp.int)
+```
+
+###Exploratory model: Predicting SF from indefinite number performance
+```{r}
+#need to pull mean indefinite number into model.df
+#First, get all participants who completed indefinite number
+indefinite.subs <- indefinite.df %>%
+  distinct(SID, age)
+
+indefinite.subs <- as.vector(indefinite.subs$SID)
+
+#Now, get only those SIDs from the model df
+indef.model.df <- model.df %>%
+  filter(SID %in% indefinite.subs)
+
+#get mean indefinite performance and spread
+lookup <- indefinite.df %>%
+  group_by(SID)%>%
+  filter(trial != 1)%>%
+  summarise(mean = mean(correct, na.rm = TRUE))%>%
+  mutate(SID = as.character(SID))
+
+#this is a function for adding mean MF performance to the model df
+add_indefinite <- function(df) {
+  tmp <- df
+  for (row in 1:nrow(tmp)) {
+    sub = as.character(tmp[row, "SID"])
+    mean_indefinite = subset(lookup, SID == sub)$mean
+    tmp[row, "indef.mean"] = mean_indefinite
+  }
+  return(tmp)
+}
+
+indef.model.df <- add_indefinite(indef.model.df)
+
+#predict SF from indefinite performance, compare to base
+exp.id.model.base <- glmer(correct ~ count_range + age + (1|SID), 
+                      family = "binomial", data = indef.model.df)
+exp.id.model.indef <- glmer(correct ~ indef.mean + count_range + age + (1|SID), 
+                      family = "binomial", data = indef.model.df)
+anova(exp.id.model.base, exp.id.model.indef, test = 'LRT') #significant, compare to final highest count
+
+exp.id.model.final <- glmer(correct ~ final_highest + count_range + age + (1|SID), 
+                      family = "binomial", data = indef.model.df)
+#convergence warnings, check if this is an issue
+with(exp.id.model.final@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #true, we're ok
+exp.id.model.both <- glmer(correct ~ final_highest + indef.mean + count_range + age + (1|SID), 
+                      family = "binomial", data = indef.model.df)
+#convergence warnings - check if this is an issue
+with(exp.id.model.both@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)#true, we're ok
+
+#test FHC and indefinite performance
+anova(exp.id.model.both, exp.id.model.final, test = 'LRT')
+anova(exp.id.model.both, exp.id.model.indef, test = 'LRT')
+
+```
+
 ***
 
 ##Correlation between all continuous variables and all other continuous variables
@@ -977,14 +1048,23 @@ indef <- indefinite.df %>%
   group_by(productive)%>%
   langcog::multi_boot_standard("correct", na.rm = TRUE)
 
-ggplot(indef, aes(x = productive, y = mean, fill= productive)) + 
+productivity.colors <- c("#4daf4a","#984ea3")
+indef.plot <- ggplot(indef, aes(x = factor(productive, 
+                             levels = c("productive", "nonproductive"), 
+                             labels = c("Productive", "Nonproductive")), 
+                             y = mean, fill= factor(productive, 
+                             levels = c("productive", "nonproductive"), 
+                             labels = c("Productive", "Nonproductive")))) + 
   geom_bar(stat = "identity", position = position_dodge()) +
   geom_linerange(aes(ymin = ci_lower,
                       ymax = ci_upper),
                   size = .3,
                   show.legend = FALSE,
                  position=position_dodge(width = 0.9)) +
-  labs(x = "Productivity", y = "Mean indefinite performance")
+  theme_bw(base_size = 15) +
+  labs(x = "Productivity", y = "Mean indefinite performance") + guides(fill = FALSE) +
+  scale_fill_manual(values = productivity.colors)
+indef.plot
 
 base <- glmer(correct ~ age + (1|SID), family = "binomial", data = indefinite.df)
 model.1.indef <- glmer(correct ~ productive + age + (1|SID), family = "binomial", data = indefinite.df)
@@ -1131,12 +1211,7 @@ sf <- ggplot(sf.range.ms, aes(x = factor(productive, levels = c("productive", "n
                                    labels = c("Productive", "Nonproductive")), y = mean, 
                         fill = factor(count_range, levels = c("within", "outside"), 
                                       labels = c("Within initial highest count", "Outside initial highest count")))) + 
-  geom_bar(stat = "identity", position= position_dodge()) + 
-  geom_linerange(aes(ymin = ci_lower,
-                      ymax = ci_upper),
-                  size = .3,
-                  show.legend = FALSE,
-                 position=position_dodge(width = 0.9)) +
+  geom_boxplot() +
   theme_bw(base_size = 13) +
   theme(legend.text = element_text(size = 10), 
         panel.grid.major = element_blank(), 
@@ -1449,13 +1524,17 @@ sf.hc.ms <- sf.df %>%
   summarise(mean = mean(correct), 
             log.mean = log10(mean))
 
-sf.hc.scatter <- ggplot(sf.hc.ms, aes(x = highest_count, y = mean)) +
+model.weight <- glm(correct ~ final_highest, family = "binomial", data = model.df)
+range(sf.df$highest_count)
+xweight <- seq(10, 130, 10)
+
+sf.hc.scatter <- ggplot(sf.df, aes(x = highest_count, y = correct)) +
   geom_point(stat = "identity") +
   geom_smooth(method = "lm", color = "blue") + 
   theme_bw(base_size = 15) +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) +
-  labs(x = "Final Highest Count", y = "Mean Successor Performance")
+  labs(x = "Final Highest Count", y = "y")
 sf.hc.scatter
 
 ##Math Facts and SF
