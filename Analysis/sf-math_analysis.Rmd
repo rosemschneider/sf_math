@@ -205,6 +205,38 @@ check_unique <- function() {
 
 check_unique()
 
+
+#Below, I'm making sure that we have the same SIDs in each task
+given.sids <- as.vector(unique(given.df$SID))
+hc.sids <- as.vector(unique(highestcount.df$SID))
+sf.sids <- as.vector(unique(sf.df$SID))
+nn.sids <- as.vector(unique(nextnumber.df$SID))
+mf.sids <- as.vector(unique(mathfacts.df$SID))
+
+check_unique_sids <- function() {
+  if(length(which(given.sids %in% hc.sids)) == length(given.sids)) {
+    given.hc <- TRUE
+    given.all <- TRUE
+  } else if(length(which(given.sids %in% sf.sids)) == length(given.sids)) {
+    given.sf <- TRUE
+    given.all <- TRUE
+  } else if(length(which(given.sids %in% nn.sids)) == length(given.sids)) {
+    given.nn <- TRUE
+    given.all <- TRUE
+  } else if(length(which(given.sids %in% mf.sids)) == length(given.sids)) {
+    given.mf <- TRUE
+    given.all <- TRUE
+  } else {
+    given.all <- FALSE
+  }
+  if(given.all == FALSE) {
+    print("WARNING: CHECK SIDS, MISMATCH")
+  }
+  else {
+    print("Same SIDS in each task")
+  }
+}
+check_unique_sids()
 ```
 
 ###Round age
