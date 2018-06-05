@@ -508,6 +508,8 @@ model.1 <- glmer(correct ~ highest_num + count_range + age + (1|SID),
 summary(model.1)
 #compare model with and without Highest NN
 anova(base, model.1, test = 'LRT')
+base.AIC <- anova(base, model.1, test = 'LRT')$AIC[1]
+highestNN.AIC <- anova(base, model.1, test = 'LRT')$AIC[2]
 ```
 
 ###Model 1 Results
@@ -522,6 +524,7 @@ model.2 <- glmer(correct ~ initial_highest + count_range + age + (1|SID),
 summary(model.2)
 #compare model with and without IHC
 anova(base, model.2)
+IHC.AIC<- anova(base, model.2)$AIC[2]
 ```
 
 ###Model 2 Results
@@ -536,6 +539,7 @@ model.3 <- glmer(correct ~ final_highest + count_range + age + (1|SID),
 summary(model.3)
 #compare model with and without FHC
 anova(base, model.3, test = 'LRT')
+FHC.AIC <- anova(base, model.3, test = 'LRT')$AIC[2]
 ```
 
 ###Model 3 Results
@@ -550,6 +554,7 @@ model.4 <- glmer(correct ~ productive + count_range + age + (1|SID),
 summary(model.4)
 #compare model with and without productivity
 anova(base, model.4, test = 'LRT')
+Productive.AIC <- anova(base, model.4, test = 'LRT')$AIC[2]
 ```
 
 ###Model 4 Results
@@ -589,6 +594,8 @@ model.5.prod <- glmer(correct ~ productive + final_highest + count_range + age +
 summary(model.5.final)
 #compare models: FHC, FHC + NN, FHC + Productivity
 anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')
+NN.FHC.AIC <- anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$AIC[2]
+Prod.FHC.AIC <- anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$AIC[3]
 ```
 
 ###Model 5 Results
@@ -612,6 +619,7 @@ model.6.base <- glmer(correct ~ count_range + age + (1|SID),
                  family = "binomial", data = model.df)
 #compare model with and without math facts
 anova(model.6, model.6.base, test = 'LRT')
+MF.AIC <- anova(model.6, model.6.base, test = 'LRT')$AIC[2]
 
 ```
 
@@ -627,10 +635,54 @@ model.7.mf <- glmer(correct ~ mf_mean + final_highest + count_range + age + (1|S
                  family = "binomial", data = model.df)
 #compare model with and without math facts
 anova(model.7.base, model.7.mf, test = 'LRT')
+FHC.MF.AIC <- anova(model.7.base, model.7.mf, test = 'LRT')$AIC[2]
 ```
 
 ###Model 7 Results
 Math Facts does not significantly improve the model fit, indicating that our Productivity Measure (Final Highest Count) is doing the majority of the work in predicting SF performance (Chisq(6) = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Pr[2], 2)`.)
+
+###Model visualization: AIC
+It's a little hard to keep track of all of the various model fits, so I'm plotting a visualization of the AIC - we chose models on the basis of a lower AIC and significant Chisq statistic. 
+```{r}
+Models <- c("Base", "Highest NN", "IHC", "FHC", "Productivity", "FHC + Highest NN", "FHC + Productivity", "Math Facts", "FHC + Math Facts")
+AIC <- c(base.AIC, highestNN.AIC, IHC.AIC, FHC.AIC, Productive.AIC, NN.FHC.AIC, Prod.FHC.AIC, MF.AIC, FHC.MF.AIC)
+
+full.AIC <- data.frame(Models, AIC)
+full.AIC %<>%
+  mutate(Models = factor(full.AIC$Models , 
+                         levels = full.AIC[order(full.AIC$AIC), 1]))
+
+full <- ggplot(full.AIC, aes (x = Models, y = AIC, fill = Models)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  theme_bw(base_size = 13) +
+  theme(panel.grid.minor = element_blank(), 
+        panel.grid.major = element_blank(), 
+        axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  labs(fill = "") + guides(fill = FALSE) +
+  langcog::scale_fill_solarized("AIC") +
+  coord_cartesian(ylim=c(920, 950))
+full
+
+##for FYP
+limited.AIC <- full.AIC %>%
+  filter(Models == "Base" | Models == "FHC" | Models == "Math Facts" | Models == "FHC + Math Facts")
+
+limited.AIC %<>%
+  mutate(Models = factor(Models, levels = c("Base", "FHC", "Math Facts", "FHC + Math Facts")))
+
+
+
+fyp.aic <- ggplot(limited.AIC, aes (x = Models, y = AIC, fill = Models)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  theme_bw(base_size = 13) +
+  theme(panel.grid.minor = element_blank(), 
+        panel.grid.major = element_blank(), 
+        axis.text.x = element_text(angle = 25, hjust = 1)) + 
+  labs(fill = "") + guides(fill = FALSE) +
+  langcog::scale_fill_solarized("AIC") +
+  coord_cartesian(ylim=c(920, 950))
+fyp.aic
+```
 
 ###Exploratory model: Highest contiguous NN
 We did not account for accuracy in highest NN. Thus, it is possible for a child to answer a very high NN by chance, which would add some noise to this measure. Below, I'm pulling out the children's highest *contiguous* NN.
@@ -1236,21 +1288,21 @@ No significant effect of half, meaning that performance is not significantly low
 ```{r}
 sf.range.ms <- sf.df %>%
   filter(half != "practice") %>%
-  group_by(count_range, productive)%>%
+  group_by(SID, count_range, productive)%>%
   multi_boot_standard("correct", na.rm = TRUE)
 
-sf <- ggplot(sf.range.ms, aes(x = factor(productive, levels = c("productive", "nonproductive"), 
-                                   labels = c("Productive", "Nonproductive")), y = mean, 
-                        fill = factor(count_range, levels = c("within", "outside"), 
-                                      labels = c("Within initial highest count", "Outside initial highest count")))) + 
+sf <- ggplot(sf.range.ms, aes(x = factor(count_range, levels = c("within", "outside"), 
+                                      labels = c("Within", "Outside")), y = mean, 
+                        fill = factor(productive, levels = c("productive", "nonproductive"), 
+                                   labels = c("Productive", "Nonproductive")))) + 
   geom_boxplot() +
   theme_bw(base_size = 13) +
-  theme(legend.text = element_text(size = 10), 
+  theme(legend.text = element_text(size = 13), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) +
-  labs(x = "Productivity", y = "Mean Successor performance",  
+  labs(x = "Within/outside unprompted count range", y = "Mean Successor performance",  
        fill = "") +
-  langcog::scale_fill_solarized("Within/outside count range")
+  langcog::scale_fill_solarized("")
 sf
 
 ```
