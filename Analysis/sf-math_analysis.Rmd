@@ -132,6 +132,11 @@ nextnumber.df <- change_ages(nextnumber.df)
 mathfacts.df <- change_ages(mathfacts.df)
 indefinite.df <- change_ages(indefinite.df)
 
+#final highest count has a cap at 120
+highestcount.df %<>%
+  mutate(final_highest = ifelse(final_highest > 120, 120, final_highest), 
+         initial_highest = ifelse(initial_highest > 120, 120, initial_highest))
+
 ```
 
 ###General filtering
@@ -1240,7 +1245,7 @@ initial_hist <- ggplot(initial_final, aes(x = initial_highest,
   theme_bw() + 
   labs(y = "Count", title = "Distribution of initial highest counts", 
        fill = "Productivity Classification") + 
-  theme(panel.grid.minor = element_blank()) +
+  theme(panel.grid.minor = element_blank()) 
   scale_fill_manual(values = productivity.colors)
 initial_hist
 
