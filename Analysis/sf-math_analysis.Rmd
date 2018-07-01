@@ -173,6 +173,13 @@ get_unique_SID <- function(df){
   return(unique)
 }
 
+#FOR NOW (change later): Filter this SID out
+given.df %<>%
+  filter(SID != "062518-SG")
+
+highestcount.df %<>%
+  filter(SID != "062518-SG")
+
 #get unique IDs for each task df
 unique.given <- get_unique_SID(given.df)
 unique.highestcount <- get_unique_SID(highestcount.df)
@@ -191,6 +198,8 @@ unique.check <- all_unique %>%
   group_by(SID, age)%>%
   summarise(n = n())%>%
   filter(n != 5)
+
+
 ```
 
 **IMPORTANT**You now have a dataframe with unique SIDs that are flagged as not completing 5 tasks. To be included in our analyses, a child MUST at least participate in each task. You need to review these participants individually, because there might be some other reason that they are showing up here (incorrectly entered age, SID, etc.)
@@ -201,7 +210,9 @@ unique.check <- all_unique %>%
 ###NB RMS: I actually want to do this a little differently, where I'm checking to make sure we have the same participants in each task, and not just the same number
 check_unique <- function() {
   if (length(unique.given$SID) == length(unique.highestcount$SID) &
-      length(unique.sf$SID) & length(unique.nextnumber$SID) & length(unique.mathfacts$SID)) {
+      length(unique.given$SID) == length(unique.sf$SID) & 
+      length(unique.given$SID) == length(unique.nextnumber$SID) & 
+      length(unique.given$SID) == length(unique.mathfacts$SID)) {
     print("Same number of subjects in each task")
   } else {
         print("WARNING: Differing numbers of participants in each task")
@@ -210,6 +221,9 @@ check_unique <- function() {
 
 check_unique()
 
+#find which SIDs are not in the tasks
+check <- unique.given %>%
+  filter(SID %!in% unique.mathfacts$SID)
 
 #Below, I'm making sure that we have the same SIDs in each task
 given.sids <- as.vector(unique(given.df$SID))
@@ -218,6 +232,7 @@ sf.sids <- as.vector(unique(sf.df$SID))
 nn.sids <- as.vector(unique(nextnumber.df$SID))
 mf.sids <- as.vector(unique(mathfacts.df$SID))
 
+#I need to check this for EVERY df
 check_unique_sids <- function() {
   if(length(which(given.sids %in% hc.sids)) == length(given.sids)) {
     given.hc <- TRUE
@@ -351,6 +366,93 @@ mathfacts.df <- productivity_classification(mathfacts.df)
 indefinite.df <- productivity_classification(indefinite.df)
 ```
 
+#Productivity
+```{r}
+hc <- highestcount.df %>% # replace with your local path
+  select(SID, last_successful, initial_highest, final_highest) %>%
+  mutate_at(c('last_successful','initial_highest','final_highest'),
+            function(col) as.integer(str_replace_all(col,'\\D',''))) %>% # some of these included '?', so i remove any char thats not a digit
+  mutate(last_successful = ifelse(is.na(last_successful), 120, last_successful))
+
+
+is.productive = function(subject){
+  # takes as input the data for a single subject
+  # RULES: 
+  # - counts to 120 unaided = productive
+  # - after making first error, counts >= 20 higher, with no more than 3 errors on way
+  if(subject$initial_highest[1] >= 120){
+    # if they get to 120 on first try, = productive
+    return(TRUE)
+  } else if((subject$final_highest[1] - subject$initial_highest[1]) >= 20){
+    # if their final is >= 20 larger than their intial...
+    if(nrow(subject) <= 3){ 
+      # and they've made 3 or fewer total errors, = productive
+      return(TRUE)
+    } else {
+      for(i in 1:nrow(subject)){ # start at row 2
+        # check if they ever made it >= 20 counts & <= 3 errors after an error
+        runLength = 0 # they just made an error, so no post-error successes yet
+        numErrors = 0 # first row was an error if it's not finalCount == 120
+        prev = subject$last_successful[i]
+        for (j in i+1:nrow(subject)){ # from current row until end... 
+          numErrors = numErrors + 1 # new row means new error
+          runLength = runLength + (subject$last_successful[j] - prev) 
+          # ^ add difference between current count and last count to run length
+          prev = subject$last_successful[j] # update last count
+          if(runLength >= 20 & numErrors <=3){
+            # if at any point the productivity conditions are met...
+            return(TRUE) # = productive
+          }
+        }
+      }
+      # productivity conditions were never met (because we got to this point) so... 
+      return(FALSE) # != productive
+    }
+  } else {
+    # highest is not >= 20 greater than initial
+    return(FALSE)
+  }
+}
+
+#issues: not working for multiple errors
+#last successful doesn't not always equal final highest count
+
+#make function to run for all participants
+unique_SIDs <- as.vector(unique.highestcount$SID)
+
+class_prod <- function(vector) {
+  temp_data <- data.frame()
+  for (i in vector) {
+    prod.class <- data.frame(i, is.productive(subset(hc, SID == i)))
+    names(prod.class) <- c("SID", "productive")
+    temp_data <- bind_rows(temp_data, prod.class)
+  }
+  return(temp_data)
+}
+
+test <- class_prod(unique_SIDs)%>%
+  rename(check_prod = productive)%>%
+  mutate(check_prod = ifelse(check_prod == TRUE, "productive", "nonproductive"))
+
+#check auto to manual coding
+hc.prod <- highestcount.df %>%
+  distinct(SID, productive)
+
+validate2 <- right_join(hc.prod, test, by = "SID")%>%
+  mutate(check = ifelse(productive == check_prod, 1, 0))
+
+
+
+```
+
+
+
+
+
+
+
+
+
 ###Within and outside of count range
 Trials for SF, NN, and MF need to be classified as within or outside of count range for each participant
 ```{r}
@@ -416,6 +518,60 @@ sf.df %>%
   summarise(n = n(), mean_age = round(mean(age,2)), sd_age = round(sd(age),2), median_age = round(median(age),2))
 ```
 
+```{r}
+###This was exploratory, but no need to run
+# errors <- highestcount.df %>%
+#   filter(!is.na(error), 
+#          !is.na(prompt), 
+#          productive == "productive")
+# 
+# final_highest <- highestcount.df%>%
+#   filter(!is.na(error), 
+#          !is.na(prompt), 
+#          productive == "productive")%>%
+#   distinct(SID, final_highest)
+# 
+# final_highest.x <- highestcount.df %>%
+#   filter(!is.na(error), 
+#          !is.na(prompt), 
+#          productive == "productive", 
+#          error_num < 8)
+# 
+# limited_fhc <- function() {
+#   subs <- as.vector(unique(final_highest.x$SID))
+#   
+#   fhcs <- data.frame()
+#   for(sub in subs){
+#     x <- final_highest.x %>%
+#       dplyr::filter(SID == sub)
+#     
+#     sub_x_max_error <- max(x$error_num)
+#     
+#     x %<>%
+#       dplyr::filter(error_num == sub_x_max_error)
+#     fhcs <- bind_rows(fhcs, x)
+#   }
+#   return(fhcs)
+# }
+# 
+# final_limited <- limited_fhc() %>%
+#   select(SID, productive, last_successful)%>%
+#   dplyr::rename(limited_final_highest = last_successful)%>%
+#   mutate(limited_final_highest = ifelse(limited_final_highest > 120, 120, limited_final_highest))
+# 
+# tmp <- right_join(final_highest, final_limited, by = "SID")%>%
+#   mutate(diff.final = final_highest - limited_final_highest)
+# 
+# mean(tmp$diff.final)
+# sd(tmp$diff.final)
+# hist(tmp$diff.final)
+# x <- tmp %>%
+#   filter(diff.final == 0)
+# 
+# #spread limited final to model.df
+
+```
+
 ***
 
 #Planned analyses
@@ -475,6 +631,11 @@ model.df %<>%
          count_range = factor(count_range)) %>%
   filter(trial != 1, 
          trial != 2)
+
+# #add final_limited
+# lookup <- final_limited 
+
+
 ```
 
 ####Planned models
@@ -510,11 +671,17 @@ base <- glmer(correct ~ count_range + age + (1|SID),
                  family = "binomial", data = model.df)
 model.1 <- glmer(correct ~ highest_num + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
-summary(model.1)
+
+#we have convergence issues with model 1, check if there is a failure to converge
+with(model.1@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #true, converged correctly
+
 #compare model with and without Highest NN
 anova(base, model.1, test = 'LRT')
 base.AIC <- anova(base, model.1, test = 'LRT')$AIC[1]
 highestNN.AIC <- anova(base, model.1, test = 'LRT')$AIC[2]
+
+#summary
+summary(model.1)
 ```
 
 ###Model 1 Results
@@ -526,10 +693,13 @@ In comparison to base model, there is a significant effect of Highest Next Numbe
 #Successor.Performance ~ Initial.Count + Within/Outside range + Age + (1|subject)
 model.2 <- glmer(correct ~ initial_highest + count_range + age + (1|SID), 
                                   family = "binomial", data = model.df)
-summary(model.2)
+
 #compare model with and without IHC
 anova(base, model.2)
 IHC.AIC<- anova(base, model.2)$AIC[2]
+
+#summary
+summary(model.2)
 ```
 
 ###Model 2 Results
@@ -541,10 +711,15 @@ Interestingly, we do not find a signficant effect of Initial Highest Count. In c
 #Successor.Performance ~ Final.Count + Within/Outside range + Age + (1|subject)
 model.3 <- glmer(correct ~ final_highest + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
-summary(model.3)
+
+#convergence issues - is this an issue?
+with(model.3@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #true, we've converged correctly
+
 #compare model with and without FHC
 anova(base, model.3, test = 'LRT')
 FHC.AIC <- anova(base, model.3, test = 'LRT')$AIC[2]
+
+summary(model.3)
 ```
 
 ###Model 3 Results
@@ -556,10 +731,12 @@ Final highest count is a significant predictor of Successor performance. In comp
 #Successor.Performance ~ Productivity+ Within/Outside range + Age + (1|subject)
 model.4 <- glmer(correct ~ productive + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
-summary(model.4)
+
 #compare model with and without productivity
 anova(base, model.4, test = 'LRT')
 Productive.AIC <- anova(base, model.4, test = 'LRT')$AIC[2]
+
+summary(model.4)
 ```
 
 ###Model 4 Results
@@ -580,6 +757,10 @@ model.5.base <- glmer(correct ~ count_range + age + (1|SID),
 #add final, compare
 model.5.final <- glmer(correct ~ final_highest + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
+
+#convergence issues, check
+with(model.5.final@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #true, we're ok
+
 #compare FHC to base without FHC
 anova(model.5.base, model.5.final, test = 'LRT')
 ```
@@ -587,32 +768,49 @@ anova(model.5.base, model.5.final, test = 'LRT')
 Step 1: Add FHC, compare to base model. Significantly improves model fit (Chisq(5) = `r round(anova(model.5.base, model.5.final, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.5.base, model.5.final, test = 'LRT')$Pr[2], 2)`.)
 
 
-Now add Highest Next Number and Productivity, and compare to FHC model fit.
+Now add Highest Next Number, IHC, and Productivity, and compare to FHC model fit.
 ```{r}
 ##add highest
 model.5.highest_nn <- glmer(correct ~ highest_num + final_highest + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
 
+#model unstable, check and see if convergence warning is legit
+with(model.5.highest_nn@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #true, we've converged adequately
+
+#now test
+anova(model.5.final, model.5.highest_nn, test = 'LRT')
+NN.FHC.AIC <- anova(model.5.highest_nn, model.5.final, test = 'LRT')$AIC[2]
+
+#PRODUCTIVITY
+#add to final highest
 model.5.prod <- glmer(correct ~ productive + final_highest + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
 
-summary(model.5.final)
-#compare models: FHC, FHC + NN, FHC + Productivity
-anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')
-NN.FHC.AIC <- anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$AIC[2]
-Prod.FHC.AIC <- anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$AIC[3]
+#convergence warning issues, check to see if this is legit
+with(model.5.prod@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)#true, we're ok
+
+#now test
+anova(model.5.final, model.5.prod, test = 'LRT')
+Prod.FHC.AIC <- anova(model.5.prod,model.5.final, test = 'LRT')$AIC[2]
+
+##IHC
+#add IHC
+model.5.IHC <- glmer(correct ~ initial_highest + final_highest + count_range + age + (1|SID), 
+                 family = "binomial", data = model.df)
+
+#convergence warnings - is this an issue?
+with(model.5.IHC@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)#true, we've adequately converged
+
+#now test
+anova(model.5.final, model.5.IHC, test = 'LRT')
+IHC.FHC.AIC <- anova(model.5.IHC,model.5.final, test = 'LRT')$AIC[2]
 ```
 
 ###Model 5 Results
 Final highest count seems to be doing the best job predicting SF performance. In model comparisons:
-FHC alone vs. FHC + Highest NN: Chisq(6) = `r round(anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$Pr[2], 2)`.
-FHC alone vs. FHC + Productivity: Chisq(6) = `r round(anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$Chisq[3], 2)`, p = `r round(anova(model.5.highest_nn,  model.5.prod,model.5.final, test = 'LRT')$Pr[3], 2)`.
-
-Issues with model convergence in FHC + Highest NN, R is complaining. This code is checking whether these convergence issues are anything to worry about.
-```{r}
-#model unstable, check and see if convergence warning is legit
-with(model.5.highest_nn@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #true, we've converged adequately
-```
+FHC alone vs. FHC + Highest NN: Chisq(6) = `r round(anova(model.5.highest_nn, model.5.final, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.5.highest_nn, model.5.final, test = 'LRT')$Pr[2], 2)`.
+FHC alone vs. FHC + Productivity: Chisq(6) = `r round(anova(model.5.prod,model.5.final, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.5.prod,model.5.final, test = 'LRT')$Pr[2], 2)`.
+FHC alone vs. FHC + IHC: Chisq(6) = `r round(anova(model.5.IHC,model.5.final, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.5.IHC,model.5.final, test = 'LRT')$Pr[2], 2)`.
 
 ###Model 6 - math facts
 Is mean performance on the math facts task predictive of SF performance?
@@ -636,21 +834,28 @@ Because Math Facts is a significant predictor of SF performance, we're adding it
 ```{r}
 model.7.base <- glmer(correct ~ final_highest + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
+
+#convergence warnings - is this an issue?
+with(model.7.base@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)#true, we're okay
+
 model.7.mf <- glmer(correct ~ mf_mean + final_highest + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
+#convergence warnings
+with(model.7.mf@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #true we're ok
+
 #compare model with and without math facts
 anova(model.7.base, model.7.mf, test = 'LRT')
 FHC.MF.AIC <- anova(model.7.base, model.7.mf, test = 'LRT')$AIC[2]
 ```
 
 ###Model 7 Results
-Math Facts does not significantly improve the model fit, indicating that our Productivity Measure (Final Highest Count) is doing the majority of the work in predicting SF performance (Chisq(6) = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Pr[2], 2)`.)
+Math Facts *does* significantly improve the model fit (Chisq(6) = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Pr[2], 2)`.) We have about half of our data currently, so we will see what happens here!
 
 ###Model visualization: AIC
 It's a little hard to keep track of all of the various model fits, so I'm plotting a visualization of the AIC - we chose models on the basis of a lower AIC and significant Chisq statistic. 
 ```{r}
-Models <- c("Base", "Highest NN", "IHC", "FHC", "Productivity", "FHC + Highest NN", "FHC + Productivity", "Math Facts", "FHC + Math Facts")
-AIC <- c(base.AIC, highestNN.AIC, IHC.AIC, FHC.AIC, Productive.AIC, NN.FHC.AIC, Prod.FHC.AIC, MF.AIC, FHC.MF.AIC)
+Models <- c("Base", "Highest NN", "IHC", "FHC", "Productivity", "FHC + Highest NN", "FHC + Productivity", "IHC + FHC", "Math Facts", "FHC + Math Facts")
+AIC <- c(base.AIC, highestNN.AIC, IHC.AIC, FHC.AIC, Productive.AIC, NN.FHC.AIC, Prod.FHC.AIC, IHC.FHC.AIC, MF.AIC, FHC.MF.AIC)
 
 full.AIC <- data.frame(Models, AIC)
 full.AIC %<>%
@@ -665,7 +870,7 @@ full <- ggplot(full.AIC, aes (x = Models, y = AIC, fill = Models)) +
         axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(fill = "") + guides(fill = FALSE) +
   langcog::scale_fill_solarized("AIC") +
-  coord_cartesian(ylim=c(920, 950))
+  coord_cartesian(ylim=c(1300, 1400))
 full
 
 ##for FYP
@@ -685,7 +890,7 @@ fyp.aic <- ggplot(limited.AIC, aes (x = Models, y = AIC, fill = Models)) +
         axis.text.x = element_text(angle = 25, hjust = 1)) + 
   labs(fill = "") + guides(fill = FALSE) +
   langcog::scale_fill_solarized("AIC") +
-  coord_cartesian(ylim=c(920, 950))
+  coord_cartesian(ylim=c(1300, 1400))
 fyp.aic
 ```
 
@@ -740,9 +945,25 @@ model.exp.final.base <- glmer(correct ~ final_highest + count_range + age + (1|S
                          family = "binomial", data = model.df)
 #compare to model with FHC
 anova(model.exp.final, model.exp.final.base, test = 'LRT')
+
 #convergence warnings - check if it is an issue
 with(model.exp.final@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)
 summary(model.exp.final)
+
+#add highest contiguous 
+model.exp.highest_contig <- glmer(correct ~ highest_contig + mf_mean + final_highest +
+                                    count_range + age + (1|SID), 
+                                  family = "binomial", data = model.df)
+model.exp.contig.base <- glmer(correct ~ highest_contig + final_highest + count_range +
+                                 age + (1|SID), family = "binomial", data = model.df)
+
+anova(model.exp.contig.base , model.exp.highest_contig, test = 'LRT')
+
+#######
+model.exp.final.nn <- glmer(correct ~ highest_num + highest_contig + final_highest + count_range + age + (1|SID), 
+                         family = "binomial", data = model.df)
+
+anova(model.exp.final, model.exp.final.nn, test = 'LRT')
 
 ```
 
@@ -819,6 +1040,18 @@ anova(exp.id.model.both, exp.id.model.indef, test = 'LRT')
 
 ```
 
+#Exploratory model: Predicting probability from highest count 
+```{r}
+model.df %<>%
+  mutate(productive.log = ifelse(productive == "productive", 1, 0))
+
+model.prod <- model.df %>%
+  distinct(SID, age, productive.log, initial_highest)
+
+model.prod.prob <- glmer(productive.log ~ initial_highest + age + (1|SID), 
+                    family = "binomial", data = model.prod)
+with(model.prod.prob@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)
+```
 ***
 
 ##Correlation between all continuous variables and all other continuous variables
