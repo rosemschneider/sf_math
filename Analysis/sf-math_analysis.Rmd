@@ -66,12 +66,24 @@ check_exclusions <- function(df){
 }
 
 #check each task individually - this will return exclusion dfs for each tasks
-given.exclusions <- check_exclusions(given.raw)
-highestcount.exclusions <- check_exclusions(highestcount.raw)
-sf.exclusions <- check_exclusions(sf.raw)
-nextnumber.exclusions <- check_exclusions(nextnumber.raw)
-mathfacts.exclusions <- check_exclusions(mathfacts.raw)
-indefinite.exclusions <- check_exclusions(indefinite.raw) 
+given.exclusions <- check_exclusions(given.raw)%>%
+  filter(exclude == "1")%>%
+  mutate(exclude = as.numeric(as.character(exclude)))
+highestcount.exclusions <- check_exclusions(highestcount.raw)%>%
+  filter(exclude == "1")%>%
+  mutate(exclude = as.numeric(as.character(exclude)))
+sf.exclusions <- check_exclusions(sf.raw)%>%
+  filter(exclude == "1")%>%
+  mutate(exclude = as.numeric(as.character(exclude)))
+nextnumber.exclusions <- check_exclusions(nextnumber.raw)%>%
+  filter(exclude == "1")%>%
+  mutate(exclude = as.numeric(as.character(exclude)))
+mathfacts.exclusions <- check_exclusions(mathfacts.raw)%>%
+  filter(exclude == "1")%>%
+  mutate(exclude = as.numeric(as.character(exclude)))
+indefinite.exclusions <- check_exclusions(indefinite.raw) %>%
+  filter(exclude == "1")%>%
+  mutate(exclude = as.numeric(as.character(exclude)))
 
 #bind all of these individual exclusion dfs together. NB, this will include duplicate SIDs, because an excluded participant might appear in more than one task
 all_exclusions <- bind_rows(given.exclusions, highestcount.exclusions, 
@@ -145,20 +157,34 @@ Remove pilots, empty values, etc.
 #This is a function for excluding participants run in the lab (pilots), or empty values - this is also very flexible
 general_exclusions <- function(df) {
   df %<>%
-    filter(location != "Lab", 
-           !is.na(SID), 
+    filter(!is.na(SID), 
            !is.na(age))
   return(df)
 }
 
 #run on each individual task df
 given.df <- general_exclusions(given.df)
+
 highestcount.df <- general_exclusions(highestcount.df) %>%
-  mutate(exclude_trial = as.numeric(exclude_trial)) #NB RMS: you need to deal with excluded trials
-sf.df <- general_exclusions(sf.df)
-nextnumber.df <- general_exclusions(nextnumber.df)
-mathfacts.df <- general_exclusions(mathfacts.df)
-indefinite.df <- general_exclusions(indefinite.df)
+  mutate(exclude_trial = ifelse(is.na(exclude_trial), 0, 1))%>%
+  filter(exclude_trial != 1)
+
+sf.df <- general_exclusions(sf.df) %>%
+  mutate(exclude_trial = ifelse(is.na(exclude_trial), 0, 1))%>%
+  filter(exclude_trial != 1)
+
+nextnumber.df <- general_exclusions(nextnumber.df)%>%
+  mutate(exclude_trial = ifelse(is.na(exclude_trial), 0, 1))%>%
+  filter(exclude_trial != 1)
+
+mathfacts.df <- general_exclusions(mathfacts.df)%>%
+  mutate(exclude_trial = ifelse(is.na(exclude_trial), 0, 1))%>%
+  filter(exclude_trial != 1)
+
+indefinite.df <- general_exclusions(indefinite.df)%>%
+  filter(!is.na(correct))%>%
+  mutate(exclude_trial = ifelse(is.na(exclude_trial), 0, 1))%>%
+  filter(exclude_trial != 1)
 ```
 
 ###Sanity checks
@@ -368,79 +394,79 @@ indefinite.df <- productivity_classification(indefinite.df)
 
 #Productivity
 ```{r}
-hc <- highestcount.df %>% # replace with your local path
-  select(SID, last_successful, initial_highest, final_highest) %>%
-  mutate_at(c('last_successful','initial_highest','final_highest'),
-            function(col) as.integer(str_replace_all(col,'\\D',''))) %>% # some of these included '?', so i remove any char thats not a digit
-  mutate(last_successful = ifelse(is.na(last_successful), 120, last_successful))
-
-
-is.productive = function(subject){
-  # takes as input the data for a single subject
-  # RULES: 
-  # - counts to 120 unaided = productive
-  # - after making first error, counts >= 20 higher, with no more than 3 errors on way
-  if(subject$initial_highest[1] >= 120){
-    # if they get to 120 on first try, = productive
-    return(TRUE)
-  } else if((subject$final_highest[1] - subject$initial_highest[1]) >= 20){
-    # if their final is >= 20 larger than their intial...
-    if(nrow(subject) <= 3){ 
-      # and they've made 3 or fewer total errors, = productive
-      return(TRUE)
-    } else {
-      for(i in 1:nrow(subject)){ # start at row 2
-        # check if they ever made it >= 20 counts & <= 3 errors after an error
-        runLength = 0 # they just made an error, so no post-error successes yet
-        numErrors = 0 # first row was an error if it's not finalCount == 120
-        prev = subject$last_successful[i]
-        for (j in i+1:nrow(subject)){ # from current row until end... 
-          numErrors = numErrors + 1 # new row means new error
-          runLength = runLength + (subject$last_successful[j] - prev) 
-          # ^ add difference between current count and last count to run length
-          prev = subject$last_successful[j] # update last count
-          if(runLength >= 20 & numErrors <=3){
-            # if at any point the productivity conditions are met...
-            return(TRUE) # = productive
-          }
-        }
-      }
-      # productivity conditions were never met (because we got to this point) so... 
-      return(FALSE) # != productive
-    }
-  } else {
-    # highest is not >= 20 greater than initial
-    return(FALSE)
-  }
-}
-
-#issues: not working for multiple errors
-#last successful doesn't not always equal final highest count
-
-#make function to run for all participants
-unique_SIDs <- as.vector(unique.highestcount$SID)
-
-class_prod <- function(vector) {
-  temp_data <- data.frame()
-  for (i in vector) {
-    prod.class <- data.frame(i, is.productive(subset(hc, SID == i)))
-    names(prod.class) <- c("SID", "productive")
-    temp_data <- bind_rows(temp_data, prod.class)
-  }
-  return(temp_data)
-}
-
-test <- class_prod(unique_SIDs)%>%
-  rename(check_prod = productive)%>%
-  mutate(check_prod = ifelse(check_prod == TRUE, "productive", "nonproductive"))
-
-#check auto to manual coding
-hc.prod <- highestcount.df %>%
-  distinct(SID, productive)
-
-validate2 <- right_join(hc.prod, test, by = "SID")%>%
-  mutate(check = ifelse(productive == check_prod, 1, 0))
-
+# hc <- highestcount.df %>% # replace with your local path
+#   select(SID, last_successful, initial_highest, final_highest) %>%
+#   mutate_at(c('last_successful','initial_highest','final_highest'),
+#             function(col) as.integer(str_replace_all(col,'\\D',''))) %>% # some of these included '?', so i remove any char thats not a digit
+#   mutate(last_successful = ifelse(is.na(last_successful), 120, last_successful))
+# 
+# 
+# is.productive = function(subject){
+#   # takes as input the data for a single subject
+#   # RULES: 
+#   # - counts to 120 unaided = productive
+#   # - after making first error, counts >= 20 higher, with no more than 3 errors on way
+#   if(subject$initial_highest[1] >= 120){
+#     # if they get to 120 on first try, = productive
+#     return(TRUE)
+#   } else if((subject$final_highest[1] - subject$initial_highest[1]) >= 20){
+#     # if their final is >= 20 larger than their intial...
+#     if(nrow(subject) <= 3){ 
+#       # and they've made 3 or fewer total errors, = productive
+#       return(TRUE)
+#     } else {
+#       for(i in 1:nrow(subject)){ # start at row 2
+#         # check if they ever made it >= 20 counts & <= 3 errors after an error
+#         runLength = 0 # they just made an error, so no post-error successes yet
+#         numErrors = 0 # first row was an error if it's not finalCount == 120
+#         prev = subject$last_successful[i]
+#         for (j in i+1:nrow(subject)){ # from current row until end... 
+#           numErrors = numErrors + 1 # new row means new error
+#           runLength = runLength + (subject$last_successful[j] - prev) 
+#           # ^ add difference between current count and last count to run length
+#           prev = subject$last_successful[j] # update last count
+#           if(runLength >= 20 & numErrors <=3){
+#             # if at any point the productivity conditions are met...
+#             return(TRUE) # = productive
+#           }
+#         }
+#       }
+#       # productivity conditions were never met (because we got to this point) so... 
+#       return(FALSE) # != productive
+#     }
+#   } else {
+#     # highest is not >= 20 greater than initial
+#     return(FALSE)
+#   }
+# }
+# 
+# #issues: not working for multiple errors
+# #last successful doesn't not always equal final highest count
+# 
+# #make function to run for all participants
+# unique_SIDs <- as.vector(unique.highestcount$SID)
+# 
+# class_prod <- function(vector) {
+#   temp_data <- data.frame()
+#   for (i in vector) {
+#     prod.class <- data.frame(i, is.productive(subset(hc, SID == i)))
+#     names(prod.class) <- c("SID", "productive")
+#     temp_data <- bind_rows(temp_data, prod.class)
+#   }
+#   return(temp_data)
+# }
+# 
+# test <- class_prod(unique_SIDs)%>%
+#   rename(check_prod = productive)%>%
+#   mutate(check_prod = ifelse(check_prod == TRUE, "productive", "nonproductive"))
+# 
+# #check auto to manual coding
+# hc.prod <- highestcount.df %>%
+#   distinct(SID, productive)
+# 
+# validate2 <- right_join(hc.prod, test, by = "SID")%>%
+#   mutate(check = ifelse(productive == check_prod, 1, 0))
+# 
 
 
 ```
@@ -516,6 +542,9 @@ sf.df %>%
   distinct(SID, age, sex)%>%
   group_by(sex)%>%
   summarise(n = n(), mean_age = round(mean(age,2)), sd_age = round(sd(age),2), median_age = round(median(age),2))
+
+mean(sf.df$age)
+sd(sf.df$age)
 ```
 
 ```{r}
@@ -584,6 +613,10 @@ Make dataframe for model analyses with all the relevant info.
 #Create a lookup df for this
 lookup <- highestcount.df %>%
   distinct(SID, initial_highest, final_highest)
+
+check <- lookup %>%
+  group_by(SID)%>%
+  summarise(n = n())
 
 #this is a function that adds initial and final highest counts to the model df
 add_counts <- function(df) {
@@ -737,6 +770,7 @@ anova(base, model.4, test = 'LRT')
 Productive.AIC <- anova(base, model.4, test = 'LRT')$AIC[2]
 
 summary(model.4)
+with(model.4@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)
 ```
 
 ###Model 4 Results
@@ -849,7 +883,7 @@ FHC.MF.AIC <- anova(model.7.base, model.7.mf, test = 'LRT')$AIC[2]
 ```
 
 ###Model 7 Results
-Math Facts *does* significantly improve the model fit (Chisq(6) = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Pr[2], 2)`.) We have about half of our data currently, so we will see what happens here!
+Math Facts does not significantly improve the model fit (Chisq(6) = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Pr[2], 2)`.) We have about half of our data currently, so we will see what happens here!
 
 ###Model visualization: AIC
 It's a little hard to keep track of all of the various model fits, so I'm plotting a visualization of the AIC - we chose models on the basis of a lower AIC and significant Chisq statistic. 
@@ -870,7 +904,7 @@ full <- ggplot(full.AIC, aes (x = Models, y = AIC, fill = Models)) +
         axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(fill = "") + guides(fill = FALSE) +
   langcog::scale_fill_solarized("AIC") +
-  coord_cartesian(ylim=c(1300, 1400))
+  coord_cartesian(ylim=c(1300, 1450))
 full
 
 ##for FYP
@@ -884,13 +918,13 @@ limited.AIC %<>%
 
 fyp.aic <- ggplot(limited.AIC, aes (x = Models, y = AIC, fill = Models)) +
   geom_bar(stat = "identity", position = position_dodge()) +
-  theme_bw(base_size = 13) +
+  theme_bw(base_size = 15) +
   theme(panel.grid.minor = element_blank(), 
         panel.grid.major = element_blank(), 
         axis.text.x = element_text(angle = 25, hjust = 1)) + 
   labs(fill = "") + guides(fill = FALSE) +
   langcog::scale_fill_solarized("AIC") +
-  coord_cartesian(ylim=c(1300, 1400))
+  coord_cartesian(ylim=c(1300, 1450))
 fyp.aic
 ```
 
@@ -968,8 +1002,7 @@ anova(model.exp.final, model.exp.final.nn, test = 'LRT')
 ```
 
 ###Exploratory Model Results
-The addition of Highest Contiguous NN significantly improves the fit of the model (Chisq(6) = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Pr[2], 2)`). 
-
+The addition of Highest Contiguous NN significantly improves the fit of the model (Chisq(6) = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Pr[2], 2)`).
 
 ###Exploratory model: Productivity*Count range, sf task
 ```{r}
@@ -1036,7 +1069,7 @@ with(exp.id.model.both@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)#tr
 
 #test FHC and indefinite performance
 anova(exp.id.model.both, exp.id.model.final, test = 'LRT')
-anova(exp.id.model.both, exp.id.model.indef, test = 'LRT')
+
 
 ```
 
@@ -1046,11 +1079,17 @@ model.df %<>%
   mutate(productive.log = ifelse(productive == "productive", 1, 0))
 
 model.prod <- model.df %>%
-  distinct(SID, age, productive.log, initial_highest)
+  distinct(SID, age, productive.log, initial_highest, final_highest)
 
 model.prod.prob <- glmer(productive.log ~ initial_highest + age + (1|SID), 
                     family = "binomial", data = model.prod)
+
+model.prod.prob <- glmer(productive.log ~ final_highest + age + (1|SID), 
+                    family = "binomial", data = model.prod)
+model.prod.prob.base <- glmer(productive.log ~  age + (1|SID), 
+                    family = "binomial", data = model.prod)
 with(model.prod.prob@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)
+anova(model.prod.prob, model.prod.prob.base, test = 'LRT')
 ```
 ***
 
@@ -1370,7 +1409,7 @@ indef <- indefinite.df %>%
   group_by(productive)%>%
   langcog::multi_boot_standard("correct", na.rm = TRUE)
 
-productivity.colors <- c("#4daf4a","#984ea3")
+productivity.colors <- c("#cb4b16","#6c71c4")
 indef.plot <- ggplot(indef, aes(x = factor(productive, 
                              levels = c("productive", "nonproductive"), 
                              labels = c("Productive", "Nonproductive")), 
@@ -1456,7 +1495,7 @@ highest_count <- ggplot(initial_final, aes(x = initial_highest, y = final_highes
   geom_point(size = 2) + geom_jitter(width = .1) +
   labs(x = "Initial highest count", y = "Final highest count", 
                       color = "", title = "") +
-  theme_bw(base_size = 13) + 
+  theme_bw(base_size = 15) + 
   scale_x_continuous(breaks = seq(0, 120, 10)) + 
   scale_y_continuous(breaks = seq(0, 120, 10)) + 
   theme(panel.grid.minor = element_blank(), 
@@ -1534,13 +1573,13 @@ sf <- ggplot(sf.range.ms, aes(x = factor(count_range, levels = c("within", "outs
                         fill = factor(productive, levels = c("productive", "nonproductive"), 
                                    labels = c("Productive", "Nonproductive")))) + 
   geom_boxplot() +
-  theme_bw(base_size = 13) +
-  theme(legend.text = element_text(size = 13), 
+  theme_bw(base_size = 15) +
+  theme(legend.text = element_text(size = 15), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) +
   labs(x = "Within/outside unprompted count range", y = "Mean Successor performance",  
        fill = "") +
-  langcog::scale_fill_solarized("")
+  scale_fill_manual(values = productivity.colors)
 sf
 
 ```
@@ -1720,6 +1759,35 @@ mean_tasks <- ggplot(all.mean.ms, aes(x = factor(task,
   labs(x = "Task", y = "Mean performance", 
        fill = "") + guides(fill = FALSE)
 mean_tasks
+
+####BOXPLOT
+sf.limited <- sf.df %>%
+  dplyr::select(SID, age, productive, trial, count_range, correct)%>%
+  mutate(task = "Successor")
+
+nn.limited <- nextnumber.df %>%
+  dplyr::select(SID, age, productive, trial, count_range, correct)%>%
+  mutate(task = "Next Number")
+
+mf.limited <- mathfacts.df %>%
+  dplyr::select(SID, age, productive, trial, count_range, correct)%>%
+  mutate(task = "Math Facts")
+
+three_limited <- bind_rows(sf.limited, nn.limited, mf.limited)
+
+three_box <- ggplot(three_limited, aes(x = task, y = correct, fill = 
+                                         factor(productive, levels = c("productive",
+                                                                      "nonproductive"),
+                                                labels = c("Productive",
+                                                           "Nonproductive")))) +
+   geom_boxplot() +
+  theme_bw(base_size = 15) +
+  theme(legend.text = element_text(size = 15), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank()) +
+  labs(x = "Within/outside unprompted count range", y = "Mean Successor performance",  
+       fill = "") +
+  scale_fill_manual(values = productivity.colors)
 ```
 
 ###Mean task performance, within/outside count range
