@@ -835,4 +835,220 @@
 070318-SP,4.50376454,F,GS,Lab,English,0,,6,83,84,1,,,,HF
 070318-SP,4.50376454,F,GS,Lab,English,0,,7,95,96,1,,,,HF
 070318-SP,4.50376454,F,GS,Lab,English,0,,8,71,72,1,,,,HF
-070318-SP,4.50376454,F,GS,Lab,English,0,,9,24,25,1,,,,
+070318-SP,4.50376454,F,GS,Lab,English,0,,9,24,25,1,,,,HF
+070518-RW,5.815195072,M,HF,Lab,English,0,,1,1,2,1,,,,SL
+070518-RW,5.815195072,M,HF,Lab,English,0,,2,7,8,1,,,,SL
+070518-RW,5.815195072,M,HF,Lab,English,0,,3,26,27,1,,,,SL
+070518-RW,5.815195072,M,HF,Lab,English,0,,4,30,31,1,,,,SL
+070518-RW,5.815195072,M,HF,Lab,English,0,,5,62,63,1,,,,SL
+070518-RW,5.815195072,M,HF,Lab,English,0,,6,83,84,1,,,,SL
+070518-RW,5.815195072,M,HF,Lab,English,0,,7,95,96,1,,,,SL
+070518-RW,5.815195072,M,HF,Lab,English,0,,8,71,72,1,,,,SL
+070518-RW,5.815195072,M,HF,Lab,English,0,,9,24,25,1,,,,SL
+052218-AP,5.075975359,M,VM,Adventure Days,English,1,failed math facts training task and was not corrected - experimenter error,1,1,2,1,,,,SL
+052218-AP,5.075975359,M,VM,Adventure Days,English,1,failed math facts training task and was not corrected - experimenter error,2,7,8,1,,,,SL
+052218-AP,5.075975359,M,VM,Adventure Days,English,1,failed math facts training task and was not corrected - experimenter error,3,26,19,0,,,,SL
+052218-AP,5.075975359,M,VM,Adventure Days,English,1,failed math facts training task and was not corrected - experimenter error,4,30,60,0,,,,SL
+052218-AP,5.075975359,M,VM,Adventure Days,English,1,failed math facts training task and was not corrected - experimenter error,5,62,63,1,,,,SL
+052218-AP,5.075975359,M,VM,Adventure Days,English,1,failed math facts training task and was not corrected - experimenter error,6,83,84,1,,,,SL
+052218-AP,5.075975359,M,VM,Adventure Days,English,1,failed math facts training task and was not corrected - experimenter error,7,95,96,1,,,,SL
+052218-AP,5.075975359,M,VM,Adventure Days,English,1,failed math facts training task and was not corrected - experimenter error,8,71,72,1,,,,SL
+052218-AP,5.075975359,M,VM,Adventure Days,English,1,failed math facts training task and was not corrected - experimenter error,9,24,25,1,,,,SL
+052218-ES,5.051334702,F,VM,Adventure Days,English,0,,1,1,2,1,,,,SL
+052218-ES,5.051334702,F,VM,Adventure Days,English,0,,2,7,8,1,,,,SL
+052218-ES,5.051334702,F,VM,Adventure Days,English,0,,3,26,36,0,,,,SL
+052218-ES,5.051334702,F,VM,Adventure Days,English,0,,4,30,31,1,,,,SL
+052218-ES,5.051334702,F,VM,Adventure Days,English,0,,5,62,63,1,,,,SL
+052218-ES,5.051334702,F,VM,Adventure Days,English,0,,6,83,84,1,,,,SL
+052218-ES,5.051334702,F,VM,Adventure Days,English,0,,7,95,93,0,,,,SL
+052218-ES,5.051334702,F,VM,Adventure Days,English,0,,8,71,76,0,,,,SL
+052218-ES,5.051334702,F,VM,Adventure Days,English,0,,9,24,21,1,,,,SL
+070618-AF,5.812457221,F,SG,Lab,English,0,,1,1,2,1,,,,SLu
+070618-AF,5.812457221,F,SG,Lab,English,0,,2,7,8,1,,,,SLu
+070618-AF,5.812457221,F,SG,Lab,English,0,,3,26,27,1,,,,SLu
+070618-AF,5.812457221,F,SG,Lab,English,0,,4,30,31,1,,,,SLu
+070618-AF,5.812457221,F,SG,Lab,English,0,,5,62,63,1,,,,SLu
+070618-AF,5.812457221,F,SG,Lab,English,0,,6,83,84,1,,,,SLu
+070618-AF,5.812457221,F,SG,Lab,English,0,,7,95,60,0,,,,SLu
+070618-AF,5.812457221,F,SG,Lab,English,0,,8,71,72,1,,,,SLu
+070618-AF,5.812457221,F,SG,Lab,English,0,,9,24,25,1,,,,SLu
+070918-KR,4.99931554,F,SLU,Lab,English,0,,1,1,2,1,,,,HF
+070918-KR,4.99931554,F,SLU,Lab,English,0,,2,7,8,1,,,,HF
+070918-KR,4.99931554,F,SLU,Lab,English,0,,3,26,11,0,,,,HF
+070918-KR,4.99931554,F,SLU,Lab,English,0,,4,30,62,0,,,,HF
+070918-KR,4.99931554,F,SLU,Lab,English,0,,5,62,63,1,,,,HF
+070918-KR,4.99931554,F,SLU,Lab,English,0,,6,83,81,0,,,,HF
+070918-KR,4.99931554,F,SLU,Lab,English,0,,7,95,86,0,,,,HF
+070918-KR,4.99931554,F,SLU,Lab,English,0,,8,71,80,0,,,,HF
+070918-KR,4.99931554,F,SLU,Lab,English,0,,9,24,83,0,,,,HF
+070618-NF,5.971252567,F,SG,Lab,English,0,,1,1,2,1,,,,SLu
+070618-NF,5.971252567,F,SG,Lab,English,0,,2,7,8,1,,,,SLu
+070618-NF,5.971252567,F,SG,Lab,English,0,,3,26,27,1,,,,SLu
+070618-NF,5.971252567,F,SG,Lab,English,0,,4,30,31,1,,,,SLu
+070618-NF,5.971252567,F,SG,Lab,English,0,,5,62,63,1,,,,SLu
+070618-NF,5.971252567,F,SG,Lab,English,0,,6,83,84,1,,,,SLu
+070618-NF,5.971252567,F,SG,Lab,English,0,,7,95,96,1,,,,SLu
+070618-NF,5.971252567,F,SG,Lab,English,0,,8,71,72,1,,,,SLu
+070618-NF,5.971252567,F,SG,Lab,English,0,,9,24,25,1,,,,SLu
+071218-AM,5.32785763,M,SLU,Lab,English,0,,1,1,2,1,,,,HF
+071218-AM,5.32785763,M,SLU,Lab,English,0,,2,7,8,1,,,,HF
+071218-AM,5.32785763,M,SLU,Lab,English,0,,3,26,27,1,,,,HF
+071218-AM,5.32785763,M,SLU,Lab,English,0,,4,30,31,1,,,,HF
+071218-AM,5.32785763,M,SLU,Lab,English,0,,5,62,63,1,,,,HF
+071218-AM,5.32785763,M,SLU,Lab,English,0,,6,83,84,1,,,,HF
+071218-AM,5.32785763,M,SLU,Lab,English,0,,7,95,96,1,,,,HF
+071218-AM,5.32785763,M,SLU,Lab,English,0,,8,71,70,0,,,,HF
+071218-AM,5.32785763,M,SLU,Lab,English,0,,9,24,25,1,,,,HF
+052218-NS,5.051334702,M,SL,Adventure Days,English,0,,1,1,2,1,,,,SL
+052218-NS,5.051334702,M,SL,Adventure Days,English,0,,2,7,8,1,,,,SL
+052218-NS,5.051334702,M,SL,Adventure Days,English,0,,3,26,36,0,,,,SL
+052218-NS,5.051334702,M,SL,Adventure Days,English,0,,4,30,46,0,,,,SL
+052218-NS,5.051334702,M,SL,Adventure Days,English,0,,5,62,72,0,,,,SL
+052218-NS,5.051334702,M,SL,Adventure Days,English,0,,6,83,93,0,,,,SL
+052218-NS,5.051334702,M,SL,Adventure Days,English,0,,7,95,96,1,,,,SL
+052218-NS,5.051334702,M,SL,Adventure Days,English,0,,8,71,72,1,,,,SL
+052218-NS,5.051334702,M,SL,Adventure Days,English,0,,9,24,25,1,,,,SL
+052418-RS,5.013004791,M,VM,Northminster,English,1,failed SF and math facts training tasks and was not corrected -- experimenter error,1,1,2,1,,,,SL
+052418-RS,5.013004791,M,VM,Northminster,English,1,failed SF and math facts training tasks and was not corrected -- experimenter error,2,7,3,0,,,,SL
+052418-RS,5.013004791,M,VM,Northminster,English,1,failed SF and math facts training tasks and was not corrected -- experimenter error,3,26,5,0,,,,SL
+052418-RS,5.013004791,M,VM,Northminster,English,1,failed SF and math facts training tasks and was not corrected -- experimenter error,4,30,2,0,,,,SL
+052418-RS,5.013004791,M,VM,Northminster,English,1,failed SF and math facts training tasks and was not corrected -- experimenter error,5,62,21,0,,,,SL
+052418-RS,5.013004791,M,VM,Northminster,English,1,failed SF and math facts training tasks and was not corrected -- experimenter error,6,83,23,0,,,,SL
+052418-RS,5.013004791,M,VM,Northminster,English,1,failed SF and math facts training tasks and was not corrected -- experimenter error,7,95,5,0,,,,SL
+052418-RS,5.013004791,M,VM,Northminster,English,1,failed SF and math facts training tasks and was not corrected -- experimenter error,8,71,76,0,,,,SL
+052418-RS,5.013004791,M,VM,Northminster,English,1,failed SF and math facts training tasks and was not corrected -- experimenter error,9,24,4,0,,,,SL
+052418-SH,5.415468857,M,VM,Northminster,English,0,,1,1,2,1,,,,SL
+052418-SH,5.415468857,M,VM,Northminster,English,0,,2,7,8,1,,,,SL
+052418-SH,5.415468857,M,VM,Northminster,English,0,,3,26,27,1,,,,SL
+052418-SH,5.415468857,M,VM,Northminster,English,0,,4,30,31,1,,,,SL
+052418-SH,5.415468857,M,VM,Northminster,English,0,,5,62,63,1,,,,SL
+052418-SH,5.415468857,M,VM,Northminster,English,0,,6,83,84,1,,,,SL
+052418-SH,5.415468857,M,VM,Northminster,English,0,,7,95,96,1,,,,SL
+052418-SH,5.415468857,M,VM,Northminster,English,0,,8,71,72,1,,,,SL
+052418-SH,5.415468857,M,VM,Northminster,English,0,,9,24,25,1,,,,SL
+052418-JP,5.095140315,M,VM,Northminster,English,0,,1,1,2,1,,,,SL
+052418-JP,5.095140315,M,VM,Northminster,English,0,,2,7,8,1,,,,SL
+052418-JP,5.095140315,M,VM,Northminster,English,0,,3,26,27,1,,,,SL
+052418-JP,5.095140315,M,VM,Northminster,English,0,,4,30,31,1,,,,SL
+052418-JP,5.095140315,M,VM,Northminster,English,0,,5,62,33,0,,,,SL
+052418-JP,5.095140315,M,VM,Northminster,English,0,,6,83,84,1,,,,SL
+052418-JP,5.095140315,M,VM,Northminster,English,0,,7,95,96,1,,,,SL
+052418-JP,5.095140315,M,VM,Northminster,English,0,,8,71,72,1,,,,SL
+052418-JP,5.095140315,M,VM,Northminster,English,0,,9,24,25,1,,,,SL
+052218-CP,4.290212183,F,VM,Adventure Days,English,1,did not provide enough prompts - experimenter error,1,1,2,1,,,,SL
+052218-CP,4.290212183,F,VM,Adventure Days,English,1,did not provide enough prompts - experimenter error,2,7,8,1,,,,SL
+052218-CP,4.290212183,F,VM,Adventure Days,English,1,did not provide enough prompts - experimenter error,3,26,7,0,,,,SL
+052218-CP,4.290212183,F,VM,Adventure Days,English,1,did not provide enough prompts - experimenter error,4,30,31,1,,,,SL
+052218-CP,4.290212183,F,VM,Adventure Days,English,1,did not provide enough prompts - experimenter error,5,62,63,1,,,,SL
+052218-CP,4.290212183,F,VM,Adventure Days,English,1,did not provide enough prompts - experimenter error,6,83,84,1,,,,SL
+052218-CP,4.290212183,F,VM,Adventure Days,English,1,did not provide enough prompts - experimenter error,7,95,96,1,,,,SL
+052218-CP,4.290212183,F,VM,Adventure Days,English,1,did not provide enough prompts - experimenter error,8,71,72,1,,,,SL
+052218-CP,4.290212183,F,VM,Adventure Days,English,1,did not provide enough prompts - experimenter error,9,24,25,1,,,,SL
+071217-AM,5.33333333,M,SLU,Lab,English,0,,1,1,2,1,,,,HF
+071217-AM,5.33333333,M,SLU,Lab,English,0,,2,7,8,1,,,,HF
+071217-AM,5.33333333,M,SLU,Lab,English,0,,3,26,27,1,,,,HF
+071217-AM,5.33333333,M,SLU,Lab,English,0,,4,30,31,1,,,,HF
+071217-AM,5.33333333,M,SLU,Lab,English,0,,5,62,63,1,,,,HF
+071217-AM,5.33333333,M,SLU,Lab,English,0,,6,83,84,1,,,,HF
+071217-AM,5.33333333,M,SLU,Lab,English,0,,7,95,96,1,,,,HF
+071217-AM,5.33333333,M,SLU,Lab,English,0,,8,71,70,0,,,,HF
+071217-AM,5.33333333,M,SLU,Lab,English,0,,9,24,25,1,,,,HF
+071318-CB,5.87542779,F,SLU,Lab,English,0,,1,1,2,1,,,,HF
+071318-CB,5.87542779,F,SLU,Lab,English,0,,2,7,8,1,,,,HF
+071318-CB,5.87542779,F,SLU,Lab,English,0,,3,26,27,1,,,,HF
+071318-CB,5.87542779,F,SLU,Lab,English,0,,4,30,31,1,,,,HF
+071318-CB,5.87542779,F,SLU,Lab,English,0,,5,62,63,1,,,,HF
+071318-CB,5.87542779,F,SLU,Lab,English,0,,6,83,84,1,,,,HF
+071318-CB,5.87542779,F,SLU,Lab,English,0,,7,95,96,1,,,,HF
+071318-CB,5.87542779,F,SLU,Lab,English,0,,8,71,72,1,,,,HF
+071318-CB,5.87542779,F,SLU,Lab,English,0,,9,24,25,1,,,,HF
+071718-AZ,5.505817933,M,HF,Lab,English,0,,1,1,2,1,,,,SLu
+071718-AZ,5.505817933,M,HF,Lab,English,0,,2,7,8,1,,,,SLu
+071718-AZ,5.505817933,M,HF,Lab,English,0,,3,26,27,1,,,,SLu
+071718-AZ,5.505817933,M,HF,Lab,English,0,,4,30,40,0,,,,SLu
+071718-AZ,5.505817933,M,HF,Lab,English,0,,5,62,63,1,,,,SLu
+071718-AZ,5.505817933,M,HF,Lab,English,0,,6,83,84,1,,,,SLu
+071718-AZ,5.505817933,M,HF,Lab,English,0,,7,95,96,1,,,,SLu
+071718-AZ,5.505817933,M,HF,Lab,English,0,,8,71,72,1,,,,SLu
+071718-AZ,5.505817933,M,HF,Lab,English,0,,9,24,25,1,,,,SLu
+071718-LW,4.90349076,F,SLU,Lab,English,0,,1,1,2,1,,,,HF
+071718-LW,4.90349076,F,SLU,Lab,English,0,,2,7,8,1,,,,HF
+071718-LW,4.90349076,F,SLU,Lab,English,0,,3,26,27,1,,,,HF
+071718-LW,4.90349076,F,SLU,Lab,English,0,,4,30,31,1,,,,HF
+071718-LW,4.90349076,F,SLU,Lab,English,0,,5,62,63,1,,,,HF
+071718-LW,4.90349076,F,SLU,Lab,English,0,,6,83,84,1,,,,HF
+071718-LW,4.90349076,F,SLU,Lab,English,0,,7,95,96,1,,,,HF
+071718-LW,4.90349076,F,SLU,Lab,English,0,,8,71,72,1,,,,HF
+071718-LW,4.90349076,F,SLU,Lab,English,0,,9,24,25,1,,,,HF
+071718-DS,5.80971937,M,SG,Lab,English,0,,1,1,2,1,,,,SLu
+071718-DS,5.80971937,M,SG,Lab,English,0,,2,7,8,1,,,,SLu
+071718-DS,5.80971937,M,SG,Lab,English,0,,3,26,27,1,,,,SLu
+071718-DS,5.80971937,M,SG,Lab,English,0,,4,30,31,1,,,,SLu
+071718-DS,5.80971937,M,SG,Lab,English,0,,5,62,63,1,,,,SLu
+071718-DS,5.80971937,M,SG,Lab,English,0,,6,83,84,1,,,,SLu
+071718-DS,5.80971937,M,SG,Lab,English,0,,7,95,96,1,,,,SLu
+071718-DS,5.80971937,M,SG,Lab,English,0,,8,71,72,1,,,,SLu
+071718-DS,5.80971937,M,SG,Lab,English,0,,9,24,25,1,,,,SLu
+071818-PE,4.607802875,M,SG,Lab,English,0,,1,1,2,1,,,,SLu
+071818-PE,4.607802875,M,SG,Lab,English,0,,2,7,8,1,,,,SLu
+071818-PE,4.607802875,M,SG,Lab,English,0,,3,26,27,1,,,,SLu
+071818-PE,4.607802875,M,SG,Lab,English,0,,4,30,31,1,,,,SLu
+071818-PE,4.607802875,M,SG,Lab,English,0,,5,62,67,0,,,,SLu
+071818-PE,4.607802875,M,SG,Lab,English,0,,6,83,84,1,,,,SLu
+071818-PE,4.607802875,M,SG,Lab,English,0,,7,95,96,1,,,,SLu
+071818-PE,4.607802875,M,SG,Lab,English,0,,8,71,78,0,,,,SLu
+071818-PE,4.607802875,M,SG,Lab,English,0,,9,24,25,1,,,,SLu
+071218-KE2,4.66255989,F,SG,Lab,English,1,failed Math Facts with no correction,1,1,2,1,,,,SLu
+071218-KE2,4.66255989,F,SG,Lab,English,1,failed Math Facts with no correction,2,7,8,1,,,,SLu
+071218-KE2,4.66255989,F,SG,Lab,English,1,failed Math Facts with no correction,3,26,29,0,,,,SLu
+071218-KE2,4.66255989,F,SG,Lab,English,1,failed Math Facts with no correction,4,30,35,0,,,,SLu
+071218-KE2,4.66255989,F,SG,Lab,English,1,failed Math Facts with no correction,5,62,65,0,,,,SLu
+071218-KE2,4.66255989,F,SG,Lab,English,1,failed Math Facts with no correction,6,83,41,0,,,,SLu
+071218-KE2,4.66255989,F,SG,Lab,English,1,failed Math Facts with no correction,7,95,85,0,,,,SLu
+071218-KE2,4.66255989,F,SG,Lab,English,1,failed Math Facts with no correction,8,71,81,0,,,,SLu
+071218-KE2,4.66255989,F,SG,Lab,English,1,failed Math Facts with no correction,9,24,25,1,,,,SLu
+071918-JM,5.812457221,M,SG,Lab,English,0,,1,1,2,1,,,,SLu
+071918-JM,5.812457221,M,SG,Lab,English,0,,2,7,8,1,,,,SLu
+071918-JM,5.812457221,M,SG,Lab,English,0,,3,26,37,0,,,,SLu
+071918-JM,5.812457221,M,SG,Lab,English,0,,4,30,31,1,,,,SLu
+071918-JM,5.812457221,M,SG,Lab,English,0,,5,62,63,1,,,,SLu
+071918-JM,5.812457221,M,SG,Lab,English,0,,6,83,84,1,,,,SLu
+071918-JM,5.812457221,M,SG,Lab,English,0,,7,95,86,0,,,,SLu
+071918-JM,5.812457221,M,SG,Lab,English,0,,8,71,72,1,,,,SLu
+071918-JM,5.812457221,M,SG,Lab,English,0,,9,24,25,1,,,,SLu
+072018-DC,5.965776865,F,SG,Lab,English,0,,1,1,2,1,,,,SLu
+072018-DC,5.965776865,F,SG,Lab,English,0,,2,7,6,1,,,,SLu
+072018-DC,5.965776865,F,SG,Lab,English,0,,3,26,7,0,,,,SLu
+072018-DC,5.965776865,F,SG,Lab,English,0,,4,30,80,0,,,,SLu
+072018-DC,5.965776865,F,SG,Lab,English,0,,5,62,63,1,,,,SLu
+072018-DC,5.965776865,F,SG,Lab,English,0,,6,83,93,0,,,,SLu
+072018-DC,5.965776865,F,SG,Lab,English,0,,7,95,96,1,,,,SLu
+072018-DC,5.965776865,F,SG,Lab,English,0,,8,71,72,1,,,,SLu
+072018-DC,5.965776865,F,SG,Lab,English,0,,9,24,25,1,,,,SLu
+071818-NC,5.32785763,M,SLU,Lab,English,0,,1,1,2,1,,,,HF
+071818-NC,5.32785763,M,SLU,Lab,English,0,,2,7,8,1,,,,HF
+071818-NC,5.32785763,M,SLU,Lab,English,0,,3,26,27,1,,,,HF
+071818-NC,5.32785763,M,SLU,Lab,English,0,,4,30,31,1,,,,HF
+071818-NC,5.32785763,M,SLU,Lab,English,0,,5,62,63,1,,,,HF
+071818-NC,5.32785763,M,SLU,Lab,English,0,,6,83,84,1,,,,HF
+071818-NC,5.32785763,M,SLU,Lab,English,0,,7,95,96,1,,,,HF
+071818-NC,5.32785763,M,SLU,Lab,English,0,,8,71,72,1,,,,HF
+071818-NC,5.32785763,M,SLU,Lab,English,0,,9,24,25,1,,,,HF
+071918-LT,5.83162218,M,SLU,Lab,English,0,,1,1,2,1,,,,HF
+071918-LT,5.83162218,M,SLU,Lab,English,0,,2,7,8,1,,,,HF
+071918-LT,5.83162218,M,SLU,Lab,English,0,,3,26,27,1,,,,HF
+071918-LT,5.83162218,M,SLU,Lab,English,0,,4,30,31,1,,,,HF
+071918-LT,5.83162218,M,SLU,Lab,English,0,,5,62,63,1,,,,HF
+071918-LT,5.83162218,M,SLU,Lab,English,0,,6,83,84,1,,,,HF
+071918-LT,5.83162218,M,SLU,Lab,English,0,,7,95,96,1,,,,HF
+071918-LT,5.83162218,M,SLU,Lab,English,0,,8,71,72,1,,,,HF
+071918-LT,5.83162218,M,SLU,Lab,English,0,,9,24,25,1,,,,HF
+072018-CL,4.02737851,M,SLU,Lab,English,0,,1,1,2,1,,,,HF
+072018-CL,4.02737851,M,SLU,Lab,English,0,,2,7,9,0,,,,HF
+072018-CL,4.02737851,M,SLU,Lab,English,0,,3,26,46,0,,,,HF
+072018-CL,4.02737851,M,SLU,Lab,English,0,,4,30,41,0,,,,HF
+072018-CL,4.02737851,M,SLU,Lab,English,0,,5,62,45,0,,,,HF
+072018-CL,4.02737851,M,SLU,Lab,English,0,,6,83,55,0,,,,HF
+072018-CL,4.02737851,M,SLU,Lab,English,0,,7,95,45,0,,,,HF
+072018-CL,4.02737851,M,SLU,Lab,English,0,,8,71,72,1,,,,HF
+072018-CL,4.02737851,M,SLU,Lab,English,0,,9,24,25,1,,,,HF
