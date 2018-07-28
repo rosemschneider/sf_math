@@ -366,33 +366,6 @@ mathfacts.df <- check_math_facts()
 ```
 
 ###Productivity
-Productivity is manually coded for now because it's a bear to do programmatically. Here, spreading manual productivity classification to other tasks.
-```{r}
-#NB, productivity is manually coded for now, will need to be done programmatically in the future.
-
-#First, extract the productivity classifiers
-productive_SIDS <- highestcount.df %>%
-  filter(productive == "productive")%>%
-  distinct(SID)
-
-#assign these to a vector
-productive_SIDS <- as.vector(productive_SIDS$SID)
-
-#This is a function that checks a SID against the productive SIDs in the vector above, and then classifies a participant as Productive or Nonproductive
-productivity_classification <- function(df) {
-  tmp <- df %>%
-    mutate(productive = ifelse(SID %in% productive_SIDS, "productive", "nonproductive"))
-  return(tmp)
-}
-
-#Assign productivity across all tasks
-sf.df <- productivity_classification(sf.df)
-nextnumber.df <- productivity_classification(nextnumber.df)
-mathfacts.df <- productivity_classification(mathfacts.df)
-indefinite.df <- productivity_classification(indefinite.df)
-```
-
-#Productivity
 ```{r}
 hc <- highestcount.df %>% # replace with your local path
   select(SID, last_successful, initial_highest, final_highest) %>%
@@ -414,9 +387,9 @@ is.productive = function(subject){
   } else if(subject$final_highest[1] < 120 & nrow(subject) == 1 
             & subject$final_highest[1] == subject$initial_highest[1]) {
     return(FALSE)
-  } else if((subject$final_highest[1] - subject$initial_highest[1]) > 20){
+  } else if((subject$final_highest[1] - subject$initial_highest[1]) >= 20){
     # if their final is >= 20 larger than their intial...
-    if(nrow(subject) <= 3){
+    if(nrow(subject) < 4){
       # and they've made 3 or fewer total errors, = productive
       return(TRUE)
     } 
@@ -431,7 +404,7 @@ is.productive = function(subject){
           runLength = runLength + (subject$last_successful[j] - prev)
           # ^ add difference between current count and last count to run length
           prev = subject$last_successful[j] # update last count
-          if(runLength > 20 & numErrors <=3){
+          if(runLength >= 20 & numErrors < 4){
             # if at any point the productivity conditions are met...
             return(TRUE) # = productive
           }
@@ -462,28 +435,32 @@ class_prod <- function(vector) {
   return(temp_data)
 }
 # 
-test <- class_prod(unique_SIDs)%>%
+
+productive <- class_prod(unique_SIDs)%>%
   rename(check_prod = productive)%>%
   mutate(check_prod = ifelse(check_prod == TRUE, "productive", "nonproductive"))
 
-#check auto to manual coding
-hc.prod <- highestcount.df %>%
-  distinct(SID, productive)
+productive_SIDS <- productive %>%
+  filter(check_prod == "productive")%>%
+  distinct(SID)
 
-validate2 <- right_join(hc.prod, test, by = "SID")%>%
-  mutate(check = ifelse(productive == check_prod, 1, 0))
+#assign these to a vector
+prod_SIDS <- as.vector(productive_SIDS$SID)
 
+#This is a function that checks a SID against the productive SIDs in the vector above, and then classifies a participant as Productive or Nonproductive
+productivity_classification <- function(df) {
+  tmp <- df %>%
+    mutate(productive = ifelse(SID %in% prod_SIDS, "productive", "nonproductive"))
+  return(tmp)
+}
 
+#Assign productivity across all tasks
+sf.df <- productivity_classification(sf.df)
+nextnumber.df <- productivity_classification(nextnumber.df)
+mathfacts.df <- productivity_classification(mathfacts.df)
+indefinite.df <- productivity_classification(indefinite.df)
 
 ```
-
-
-
-
-
-
-
-
 
 ###Within and outside of count range
 Trials for SF, NN, and MF need to be classified as within or outside of count range for each participant
@@ -551,6 +528,8 @@ sf.df %>%
 
 mean(sf.df$age)
 sd(sf.df$age)
+
+hist(sf.df$age)
 ```
 
 ```{r}
@@ -889,7 +868,7 @@ FHC.MF.AIC <- anova(model.7.base, model.7.mf, test = 'LRT')$AIC[2]
 ```
 
 ###Model 7 Results
-Math Facts does not significantly improve the model fit (Chisq(6) = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Pr[2], 2)`.) We have about half of our data currently, so we will see what happens here!
+Math Facts does significantly improve the model fit (Chisq(6) = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Pr[2], 2)`.) We have about half of our data currently, so we will see what happens here!
 
 ###Model visualization: AIC
 It's a little hard to keep track of all of the various model fits, so I'm plotting a visualization of the AIC - we chose models on the basis of a lower AIC and significant Chisq statistic. 
