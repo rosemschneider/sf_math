@@ -148,7 +148,20 @@ indefinite.df <- change_ages(indefinite.df)
 highestcount.df %<>%
   mutate(final_highest = ifelse(final_highest > 120, 120, final_highest), 
          initial_highest = ifelse(initial_highest > 120, 120, initial_highest))
+#sanity check to make sure we have the right min and max
+hist(highestcount.df$initial_highest)
+hist(highestcount.df$final_highest)
+```
 
+##Highest count sanity check
+Is everyone's final highest count equal to or greater than their last last successful?
+```{r}
+hc.check <- highestcount.df %>%
+  group_by(SID)%>%
+  filter(last_successful == max(last_successful))%>%
+  mutate(hc.check = ifelse(final_highest >= last_successful, TRUE, FALSE))%>%
+  filter(hc.check == FALSE)#one issue here, fixed in raw data sheet
+#two other kids who counted past 120, but that's ok
 ```
 
 ###General filtering
@@ -199,7 +212,7 @@ get_unique_SID <- function(df){
   return(unique)
 }
 
-#FOR NOW (change later): Filter this SID out
+#Filter one participant out who only has data for two tasks
 given.df %<>%
   filter(SID != "062518-SG")
 
@@ -224,6 +237,7 @@ unique.check <- all_unique %>%
   group_by(SID, age)%>%
   summarise(n = n())%>%
   filter(n != 5)
+
 
 
 ```
@@ -459,6 +473,7 @@ sf.df <- productivity_classification(sf.df)
 nextnumber.df <- productivity_classification(nextnumber.df)
 mathfacts.df <- productivity_classification(mathfacts.df)
 indefinite.df <- productivity_classification(indefinite.df)
+highestcount.df <- productivity_classification(highestcount.df)
 
 ```
 
@@ -476,7 +491,7 @@ determine_count_range <- function(df) {
   for (row in 1:nrow(tmp)) {
     sub = as.character(tmp[row, "SID"])
     count_range = subset(lookup, SID == sub)$initial_highest
-    tmp[row, "highest_count"] = count_range
+    tmp[row, "initial_highest_count"] = count_range
     if (tmp[row, "num_queried"] > count_range) {
       tmp[row, "count_range"] = "outside"
     } else {
@@ -721,7 +736,7 @@ summary(model.2)
 ```
 
 ###Model 2 Results
-Interestingly, we do not find a signficant effect of Initial Highest Count. In comparison to base model, adding IHC does not significantly improve the fit of the model (Chisq(5) = `r round(anova(base, model.2)$Chisq[2], 2)`, p = `r round(anova(base, model.2)$Pr[2], 2)`.)
+In comparison to Base Model, Initial Highest Count significantly improves model fit. (Chisq(5) = `r round(anova(base, model.2)$Chisq[2], 2)`, p = `r round(anova(base, model.2)$Pr[2], 2)`.)
 
 ###Model 3: Final Highest Count
 ```{r}
@@ -843,6 +858,9 @@ model.6.base <- glmer(correct ~ count_range + age + (1|SID),
 anova(model.6, model.6.base, test = 'LRT')
 MF.AIC <- anova(model.6, model.6.base, test = 'LRT')$AIC[2]
 
+#convergence warnings - is this an issue?
+with(model.6@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)#true, we've adequately converged
+
 ```
 
 ###Model 6 Results
@@ -857,7 +875,7 @@ model.7.base <- glmer(correct ~ final_highest + count_range + age + (1|SID),
 #convergence warnings - is this an issue?
 with(model.7.base@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)#true, we're okay
 
-model.7.mf <- glmer(correct ~ mf_mean + final_highest + count_range + age + (1|SID), 
+model.7.mf <- glmer(correct ~ final_highest + mf_mean + count_range + age + (1|SID), 
                  family = "binomial", data = model.df)
 #convergence warnings
 with(model.7.mf@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #true we're ok
@@ -865,10 +883,11 @@ with(model.7.mf@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3) #true we'
 #compare model with and without math facts
 anova(model.7.base, model.7.mf, test = 'LRT')
 FHC.MF.AIC <- anova(model.7.base, model.7.mf, test = 'LRT')$AIC[2]
+summary(model.7.mf)
 ```
 
 ###Model 7 Results
-Math Facts does significantly improve the model fit (Chisq(6) = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Pr[2], 2)`.) We have about half of our data currently, so we will see what happens here!
+Math Facts does significantly improve the model fit (Chisq(6) = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.7.base, model.7.mf, test = 'LRT')$Pr[2], 2)`.) 
 
 ###Model visualization: AIC
 It's a little hard to keep track of all of the various model fits, so I'm plotting a visualization of the AIC - we chose models on the basis of a lower AIC and significant Chisq statistic. 
@@ -889,7 +908,7 @@ full <- ggplot(full.AIC, aes (x = Models, y = AIC, fill = Models)) +
         axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(fill = "") + guides(fill = FALSE) +
   langcog::scale_fill_solarized("AIC") +
-  coord_cartesian(ylim=c(1300, 1450))
+  coord_cartesian(ylim=c(1600, 1700))
 full
 
 ##for FYP
@@ -909,7 +928,7 @@ fyp.aic <- ggplot(limited.AIC, aes (x = Models, y = AIC, fill = Models)) +
         axis.text.x = element_text(angle = 25, hjust = 1)) + 
   labs(fill = "") + guides(fill = FALSE) +
   scale_fill_manual(values = model.pal) +
-  coord_cartesian(ylim=c(1300, 1450))
+  coord_cartesian(ylim=c(1600, 1700))
 fyp.aic
 ```
 
@@ -918,12 +937,14 @@ We did not account for accuracy in highest NN. Thus, it is possible for a child 
 
 Note that there are two ways to define contiguous - contiguous in terms of the magnitude of the numbers, and contiguous WRT to the number's position in the task. The below is pulling out numbers WRT magnitude.
 ```{r}
+#get unique ids
 unique.nn <- nextnumber.df %>%
   distinct(SID)
 
 unique.nn <- as.vector(unique.nn$SID)
 nextnums <- as.vector(c(7, 24, 26, 30, 62, 71, 83, 95))
 
+#this is a function that pulls out the largest number for which a participant had a correct consecutive
 get_contiguous <- function(){
   contig <- data.frame()
   for (sub in unique.nn) {
@@ -955,6 +976,7 @@ get_contiguous <- function(){
 highest_contiguous_nn <- get_contiguous()%>%
   dplyr::rename(SID = sub)
 
+#add this number to the model df
 model.df <- right_join(model.df, highest_contiguous_nn, by = "SID")
 
 #compare to FHC
@@ -963,31 +985,33 @@ model.exp.final <- glmer(correct ~ highest_contig + final_highest + count_range 
 model.exp.final.base <- glmer(correct ~ final_highest + count_range + age + (1|SID), 
                          family = "binomial", data = model.df)
 #compare to model with FHC
-anova(model.exp.final, model.exp.final.base, test = 'LRT')
+anova(model.exp.final, model.exp.final.base, test = 'LRT')#significantly contributes to model fit
 
 #convergence warnings - check if it is an issue
 with(model.exp.final@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)
 summary(model.exp.final)
 
-#add highest contiguous 
+#now compare to model with math facts and final highest 
 model.exp.highest_contig <- glmer(correct ~ highest_contig + mf_mean + final_highest +
                                     count_range + age + (1|SID), 
                                   family = "binomial", data = model.df)
 model.exp.contig.base <- glmer(correct ~ highest_contig + final_highest + count_range +
                                  age + (1|SID), family = "binomial", data = model.df)
 
-anova(model.exp.contig.base , model.exp.highest_contig, test = 'LRT')
+anova(model.exp.contig.base , model.exp.highest_contig, test = 'LRT')#math facts is still a significant predictor!
 
-#######
-model.exp.final.nn <- glmer(correct ~ highest_num + highest_contig + final_highest + count_range + age + (1|SID), 
+#now compare to a model with highest next number to see if it is a better predictor
+model.exp.final.nn <- glmer(correct ~ highest_num + highest_contig + count_range + age + (1|SID), 
+                         family = "binomial", data = model.df)
+model.exp.final.nn.base <- glmer(correct ~ highest_num + count_range + age + (1|SID), 
                          family = "binomial", data = model.df)
 
-anova(model.exp.final, model.exp.final.nn, test = 'LRT')
+anova(model.exp.final.nn, model.exp.final.nn.base, test = 'LRT')#highest contiguous next number is a better predictor
 
 ```
 
 ###Exploratory Model Results
-The addition of Highest Contiguous NN significantly improves the fit of the model (Chisq(6) = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Pr[2], 2)`).
+The addition of Highest Contiguous NN significantly improves the fit of the model (Chisq(6) = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Chisq[2], 2)`, p = `r round(anova(model.exp.final, model.exp.final.base, test = 'LRT')$Pr[2], 2)`). However, when added to a model with math facts and final highest count, it does not significantly explain additional variance.
 
 ###Exploratory model: Productivity*Count range, sf task
 ```{r}
@@ -1002,6 +1026,8 @@ model.exp.int <- glmer(correct ~ productive*count_range + age + (1|SID),
 anova(model.exp.base, model.exp.int, test = 'LRT')
 summary(model.exp.int)
 ```
+The interaction between productivity and count range is not significant - there is a main effect of productivity, and a main effect of count range.
+
 
 ###Exploratory model: Predicting SF from indefinite number performance
 ```{r}
@@ -1058,7 +1084,10 @@ anova(exp.id.model.both, exp.id.model.final, test = 'LRT')
 
 ```
 
+Indefinite number is a significant predictor of SF performance. 
+
 #Exploratory model: Predicting probability from highest count 
+Can you predict whether someone will be productive or nonproductive based on their initial highest count?
 ```{r}
 model.df %<>%
   mutate(productive.log = ifelse(productive == "productive", 1, 0))
@@ -1068,14 +1097,13 @@ model.prod <- model.df %>%
 
 model.prod.prob <- glmer(productive.log ~ initial_highest + age + (1|SID), 
                     family = "binomial", data = model.prod)
-
-model.prod.prob <- glmer(productive.log ~ final_highest + age + (1|SID), 
-                    family = "binomial", data = model.prod)
-model.prod.prob.base <- glmer(productive.log ~  age + (1|SID), 
+model.prod.prob.base <- glmer(productive.log ~ age + (1|SID), 
                     family = "binomial", data = model.prod)
 with(model.prod.prob@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)
 anova(model.prod.prob, model.prod.prob.base, test = 'LRT')
 ```
+At this time, initial highest count does not significantly predict whether someone will be productive or not.
+
 ***
 
 ##Correlation between all continuous variables and all other continuous variables
@@ -1188,7 +1216,7 @@ errors <- highestcount.df %>%
          prop = n/total)
 
 # productivity.colors <- c("#4daf4a","#984ea3")
-productivity.color <- c('#0083B2', '#8061A6')
+productivity.colors <- c('#0083B2', '#8061A6')
 
 #visualization of error types by productivity
 error_plot <- ggplot(errors, aes(x = error_type, y = n, fill = factor(productive, 
@@ -1413,6 +1441,7 @@ indef.plot <- ggplot(indef, aes(x = factor(productive,
   scale_fill_manual(values = productivity.colors)
 indef.plot
 
+#is productivity predictive of indefinite number performance?
 base <- glmer(correct ~ age + (1|SID), family = "binomial", data = indefinite.df)
 model.1.indef <- glmer(correct ~ productive + age + (1|SID), family = "binomial", data = indefinite.df)
 anova(base, model.1.indef, test = 'LRT')
