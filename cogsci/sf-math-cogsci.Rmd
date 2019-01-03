@@ -1,0 +1,574 @@
+---
+title: "Sources of knowledge in children's acquisition of the successor function"
+bibliography: library.bib
+csl: apa6.csl
+document-params: "10pt, letterpaper"
+
+author-information: > 
+    \author{{\large \bf Rose M. Schneider, Kaiqi Guo} and {\large \bf David Barner} \\ \{roschnei, kaguo, barner \} @ucsd.edu \\ Department of Psychology \\ University of California, San Diego}
+
+abstract: 
+    "Through understanding the successor function, i.e. for any natural number n, its successor is n+1, we can gain the insight that the
+natural numbers are infinite. Recent work has suggested acquisition of this logical property is more protracted than previously thought, with a fully generalized understanding of the successor function not apparent until 5.5 to 6 years of age. While such work links successor knowledge with counting mastery, the exact processes underlying this developmental transition remain unknown. Here, we examined two hypothesized
+mechanisms: (1) productive counting knowledge, or mastery of the recursive process through which number words are generated, and
+(2) formally trained arithmetic, specifically the ‘+1’ operation. We tested the relationship between successor knowledge, productive
+counting, and arithmetic proficiency in 140 3.5 to 6 year-olds. We found that while both productive counting and arithmetic mastery
+predicted successor knowledge, mean arithmetic performance was significantly lower for all children, even those at ceiling in
+implementing the successor function This surprising dissociation suggests children do not draw upon the ‘+1’ operation in acquiring the
+successor function. Rather, these findings are more consistent with the hypothesis that this knowledge is acquired through productive
+counting, and the recognition that numbers are recursively generated through an implementation of the successor function."
+    
+keywords:
+    "Add your choice of indexing terms or keywords; kindly use a semi-colon; between each term."
+    
+output: cogsci2016::cogsci_paper
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=3, fig.height=3, fig.crop = F, fig.pos = "tb", fig.path='figs/',
+                      echo=F, warning=F, cache=F, message=F, sanitize = T)
+```
+
+```{r, libraries}
+library(png)
+library(grid)
+library(ggplot2)
+library(xtable)
+require("knitr")
+# opts_knit$set(root.dir = "~/Documents/Projects/sf_math/") #this is specific to RMS, change accordingly
+library(tidyverse)
+library(magrittr)
+library(langcog)
+library(lme4)
+library(stringr)
+library(RColorBrewer)
+library(ggthemes)
+
+'%!in%' <- function(x,y)!('%in%'(x,y))
+```
+
+# Introduction 
+
+One of our most profound achievements as learners is the ability to extract limitlessly productive rules from limited data. While this capacity makes us prodigious learners in general, one of its most powerful applications is in the domain of number. Although linguistic number input and expression are undoubtedly finite, we nevertheless come to know the natural numbers to be infinite; for every number, its successor can be  obtained by simply adding ‘1.’ Further, we understand that this successor function can be endlessly implemented due to the recursive nature of symbolic number. How does such an understanding arise? In this work, we explored two hypothesized causal mechanisms (productive counting knowledge and formally trained arithmetic) by which children might acquire the successor function, a critical component in the logical framework of natural number. 
+
+Early in numerical development, children do not treat number as a productive form of representation. Although they may be able to recite the count list up to about 10 (Fuson 1988), they do not acquire the meanings of these numerals until much later, with one, two, and three effortfully acquired over the course of about 12 months (Wynn, 1992). Around the time that children acquire the meaning of four, however, they suddenly seem to understand the relationship between their memorized count list and cardinality, referred to as the Cardinal Principle (CP). 
+
+Even after children acquire the CP, however, they may not yet understand that numbers are generated through a recursive process. Recent work has found evidence that children do not understand the successor function as a truly generalized property of natural number until several years after acquisition of the CP. While many children who have acquired the CP (CP-knowers) can implement the successor function for small numbers, such as 4 or 5 (Sarnecka & Carey, 2008), their ability to do so for any number is mediated by their counting proficiency (Davidson, Eng, & Barner, 2012; Cheung, Rubenson, & Barner, 2017). In this work, only children who demonstrate mastery of the count list are able to apply the successor function to any number queried. These results indicate that counting proficiency, rather than CP-knowledge, is implicated in acquisition of this logical property.
+
+This observed correlation with counting mastery suggests two potential paths by which children might acquire the successor function. The first, which we refer to as productive counting knowledge, is that as children come to understand the recursive nature of number, they notice that the next number generated via that process is always done so by the addition of ‘1,’ or an implementation of the successor function (Cheung et al., 2017). This hypothesis would therefore predict that children who specifically demonstrate knowledge of recursion are more likely to have acquired the successor function. 
+
+The second hypothesized mechanism is that children learn the successor function through explicit instruction, rather than an induction made over the count list. As children learn formal arithmetic operations, such as 4+1=5 and 5+1=6, it is possible that they hypothesize the ‘+1’ rule to hold true for any number. On this account, we would expect to find that children’s successor function knowledge is significantly related to mastery of these rote-learned ‘math facts.’ 
+In the present work, we tested these two potential paths to successor function acquisition in 140 3.5- to 6-year-old CP-knowers (3.58 -- 5.98, Mage = 4.9, SDage = 0.61, ). We used a modified version of the Unit Task (Sarnecka & Carey, 2008) to test children’s successor knowledge. In this task, an experimenter placed some number of fish on a board, and said, “Look! There are N fish in the pond.” The experimenter then covered these fish with a lilypad, and placed one additional fish next to the lilypad, saying “Look! Are there N+1 or N+2 fish now?” Children received 16 trials, with N ranging from 6 to 95. 
+
+```{r setup}
+#load data
+data.raw <- read.csv("~/Documents/Projects/sf_math/Data/sf_math_data.csv")%>%
+  filter(SID != "CopyPasteMe", 
+         SID != "?")%>%
+  droplevels()%>%
+  filter(Correct != "HELP")%>% #temporary while we resolve helps
+  mutate(Age = as.numeric(as.character(Age)),
+         Correct = as.integer(as.character(Correct)))%>%
+  mutate(Age = round(Age, 2), 
+         Agegroup = cut(Age, breaks = c(3.49, 4, 4.5, 5, 5.5, 6), 
+                        labels = c("3.5-4", "4-4.5", "4.5-5", 
+                                   "5-5.5", "5.5-6")))%>% #add agegroups
+  dplyr::select(-Response_single, -Response_double)%>% #remove double coding
+  dplyr::rename(Response = Response_final) #rename for code
+
+hc.df <- read.csv("~/Documents/Projects/sf_math/Data/sf_math_hc.csv")%>%
+  dplyr::select(-IHC_single, - FHC_single, -Special_count, -Notes, -RMS.note)%>%
+  filter(Exclude_trial != 1, 
+         IHC_final != "HELP", 
+         FHC_final != "HELP")%>%
+  dplyr::rename(FHC = FHC_final, 
+                IHC = IHC_final)%>%
+  filter(!is.na(FHC), 
+         !is.na(IHC))%>%
+  mutate(IHC = ifelse(as.integer(as.character(IHC)) > 120, 120, as.integer(as.character(IHC))), 
+         FHC = ifelse(as.integer(as.character(FHC)) > 120, 120, as.integer(as.character(FHC)))) #add cap to IHC and FHC
+```
+
+```{r productive, warning = FALSE}
+#classify children as productive or nonproductive
+hc <- hc.df %>% 
+  dplyr::select(SID, Last_successful, IHC, FHC) %>%
+  mutate_at(c('Last_successful','IHC','FHC'),
+            function(col) as.integer(str_replace_all(col,'\\D',''))) %>% 
+  mutate(Last_successful = ifelse(is.na(Last_successful), 120, Last_successful))%>%
+  mutate(SID = as.character(SID))
+# 
+# 
+is.productive = function(subject){
+  # takes as input the data for a single subject
+  # RULES:
+  # - counts to 120 unaided = productive
+  # - after making first error, counts >= 20 higher, with no more than 3 errors on way
+  if(subject$IHC[1] >= 120){
+    # if they get to 120 on first try, = productive
+    return("Productive")
+  } else if(subject$FHC[1] == 120 & nrow(subject) < 4) {
+    return("Productive")
+  } else if(subject$FHC[1] < 120 & nrow(subject) == 1 
+            & subject$FHC[1] == subject$IHC[1]) {
+    return("Nonproductive")
+  } else if((subject$FHC[1] - subject$IHC[1]) >= 20){
+    # if their final is >= 20 larger than their intial...
+    if(nrow(subject) < 4){
+      # and they've made 3 or fewer total errors, = productive
+      return("Productive")
+    } 
+    else {
+      for(i in 1:nrow(subject)){ # start at row 2
+        # check if they ever made it >= 20 counts & <= 3 errors after an error
+        runLength = 0 # they just made an error, so no post-error successes yet
+        numErrors = 0 # first row was an error if it's not finalCount == 120
+        prev = subject$Last_successful[i]
+        for (j in i+1:nrow(subject)){ # from current row until end...
+          numErrors = numErrors + 1 # new row means new error
+          runLength = runLength + (subject$Last_successful[j] - prev)
+          # ^ add difference between current count and last count to run length
+          prev = subject$Last_successful[j] # update last count
+          if(runLength >= 20 & numErrors < 4){
+            # if at any point the productivity conditions are met...
+            return("Productive") # = productive
+          }
+        }
+      }
+      # productivity conditions were never met (because we got to this point) so...
+      return("Nonproductive") # != productive
+    }
+  } else {
+    # highest is not >= 20 greater than initial
+    return("Nonproductive")
+  }
+}
+
+# 
+#make function to run for all participants
+unique_SIDs <- as.vector(unique(hc.df$SID))
+# 
+class_prod <- function(vector) {
+  temp_data <- data.frame()
+  for (i in vector) {
+    prod.class <- data.frame(i, is.productive(subset(hc, SID == i)))
+    # print(i) # for debugging
+    names(prod.class) <- c("SID", "productive")
+    prod.class %<>%
+      mutate(SID = as.character(SID), 
+             productive = as.character(productive))
+    temp_data <- bind_rows(temp_data, prod.class)
+  }
+  return(temp_data)
+}
+# 
+
+#get productive classification for every participant
+productive <- class_prod(unique_SIDs)%>%
+  dplyr::rename(Productive = productive)
+
+#remove last-successful from hc so you can add IHC and FHC to data.raw
+hc %<>%
+  dplyr::select(-Last_successful)
+
+#add productive classifications
+productive <- full_join(productive, hc, by = "SID")%>%
+  distinct(SID, IHC, FHC, Productive)
+
+#full join with raw data
+data.raw <- full_join(data.raw, productive, by = "SID") 
+
+#made SID and Productive factors again #MSaPFA
+data.raw %<>%
+  mutate(SID = factor(SID), 
+         Productive = factor(Productive))
+```
+
+```{r knower_level}
+cp.df <- data.raw %>%
+  filter(Task == "GiveN")%>%
+  group_by(SID)%>%
+  summarise(sum_correct = sum(Correct, na.rm = TRUE))%>%
+  mutate(Knower.level = ifelse(sum_correct >= 4, "CP-knower", "Subset-knower"))%>%
+  dplyr::select(-sum_correct)
+
+data.raw <- full_join(data.raw, cp.df, by = "SID")
+```
+
+```{r hcnn, warning = FALSE}
+#Get kids who failed NN for highest contiguous
+failed.nn <- data.raw %>%
+  filter(Task == "WCN", 
+         Correct == 0, 
+         Trial_number == "Training")
+
+failed.nn.sids <- unique(as.vector(failed.nn$SID))
+
+#get unique ids
+unique.nn <- data.raw %>%
+  filter(Task == "WCN")%>%
+  distinct(SID)
+
+unique.nn <- as.vector(unique.nn$SID)
+nextnums <- as.vector(c(7, 26, 30, 62, 83, 95, 71, 24))
+
+#this is a function that pulls out the largest number for which a participant had a correct consecutive
+get_contiguous <- function(){
+  contig <- data.frame()
+  for (sub in unique.nn) {
+    tmp <- data.raw %>%
+      filter(Task == "WCN",
+             SID == sub, 
+             Correct == 0)%>%
+      mutate(Task_item= as.integer(as.character(Task_item)))%>%
+      mutate(Task_item = sort(as.integer(as.character(Task_item))))
+    if (length(tmp$SID) == 0) {
+      highest_contig = 95
+      sub_contig <- data.frame(sub, highest_contig) 
+      sub_contig %<>%
+        mutate(sub = as.character(sub),
+                highest_contig = as.character(highest_contig))
+      contig <- bind_rows(contig, sub_contig)
+    } else if (sub %in% failed.nn.sids) {
+      highest_contig = 0
+      sub_contig <- data.frame(sub, highest_contig) 
+      sub_contig %<>%
+        mutate(sub = as.character(sub),
+                highest_contig = as.character(highest_contig))
+      contig <- bind_rows(contig, sub_contig)
+    } else if (length(tmp$Task_item) > 0 & min(as.integer(as.character(tmp$Task_item))) == 7) {
+      highest_contig = 1
+      sub_contig <- data.frame(sub, highest_contig)
+      sub_contig %<>%
+        mutate(sub = as.character(sub),
+                highest_contig = as.character(highest_contig))
+      contig <- bind_rows(contig, sub_contig)
+    } else {
+      min.nn <- min(as.integer(as.character(tmp$Task_item)))
+      prev_correct <- nextnums[nextnums < min.nn]
+      highest_contig <- max(prev_correct)
+    
+      sub_contig <- data.frame(sub,
+                             highest_contig) 
+      sub_contig %<>%
+        mutate(sub = as.character(sub),
+                highest_contig = as.character(highest_contig))
+      contig <- bind_rows(contig, sub_contig)
+    }
+  }
+  contig %<>%
+    mutate(highest_contig = as.character(highest_contig))
+  return(contig)
+}
+
+highest_contiguous_nn <- get_contiguous()%>%
+  dplyr::rename(SID = sub)
+
+#add this to df 
+data.raw <- full_join(data.raw, highest_contiguous_nn, by = "SID")
+
+# #how many kids don't have a highest contiguous NN? 
+# all.data %>%
+#   filter(is.na(Language))
+#   filter(is.na(highest_contig))%>%
+#   distinct(Language, SID)%>%
+#   group_by(Language)%>%
+#   summarise(n = n())%>%
+#   kable()
+
+#Check - does anyone have NA for HCNN? 
+# data.raw %>%
+#   filter(is.na(highest_contig))%>%
+#   filter(Exclude_analysis == 0)
+```
+
+```{r global_exclusions}
+#how many kids pre exclusions, minus kids excluded for not being CP knowers
+pre.excl <- data.raw %>%
+  filter(Exclude_analysis == 1)%>%
+  distinct(SID, Exclude_analysis_reason)%>%
+  group_by(Exclude_analysis_reason)%>%
+  summarise(n = n())
+
+#exclude these kids from analysis
+all.data <- data.raw %>%
+  filter(Exclude_analysis != 1)
+```
+
+```{r task_exclusions}
+# #how many kids are excluded from which tasks
+# all.data %>%
+#   filter(Exclude_task == 1)%>%
+#   distinct(SID, Exclude_task, Excluded_task, Exclude_task_reason)
+
+#exclude
+all.data %<>%
+  filter(Exclude_task != 1)
+```
+
+```{r trial_exclude}
+# #how many trials excluded, and for what reason
+# all.data %>%
+#   filter(Exclude_trial == 1)%>%
+#   group_by(Task, Exclude_trial_reason)%>%
+#   summarise(n = n())%>%
+#   kable()
+
+#exclude these trials
+all.data %<>%
+  filter(Exclude_trial != 1)
+```
+
+```{r training_exclude}
+# #how many kids failed training
+# all.data %>%
+#   filter(Trial_number == "Training", 
+#          Correct == 0)%>%
+#   group_by(Task)%>%
+#   summarise(n = n()) %>%
+#   kable()
+
+#filter out training trials 
+all.data %<>%
+  filter(Trial_number != "Training")
+
+# #how many trials do we have for each task?
+# all.data %>%
+#   filter(Task == "SF" | 
+#          Task == "WCN" |
+#            Task == "MF")%>%
+#   group_by(Task)%>%
+#   summarise(n = n()) %>%
+#   kable()
+```
+
+```{r within_outside}
+#classify trials as within or outside count range
+all.data %<>%
+  mutate(count_range = ifelse((Task == "SF" | Task == "WCN" | Task == "MF") & as.numeric(as.character(Task_item)) <= IHC, "Within", "Outside")) %>%
+  mutate(count_range = factor(count_range, levels = c("Within", "Outside")))
+```
+
+```{r hnn}
+#highest next number
+#Create a lookup table with the highest NN correctly answered
+lookup <- all.data %>%
+  filter(Task == "WCN")%>%
+  filter(Correct == 1)%>%
+  group_by(SID)%>%
+  summarise(max = max(as.integer(as.character(Task_item))))
+
+no.corr.nn <- all.data %>%
+  filter(Task == "WCN")%>%
+  group_by(SID)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE))%>%
+  filter(mean == 0)
+
+no.corr.nn.sids <- as.vector(unique(no.corr.nn$SID))
+
+#Function that adds the highest NN to a participant's row in the SF dataframe
+add_highest_num <- function(df) {
+  tmp <- df
+  for (row in 1:nrow(tmp)) {
+    sub = as.character(tmp[row, "SID"])
+    if (sub %in% no.corr.nn.sids) {
+      highest_num = 0
+      tmp[row, "highest_num"] = highest_num
+    } else {
+      highest_num = subset(lookup, SID == sub)$max
+      tmp[row, "highest_num"] = highest_num
+    }
+  }
+  return(tmp)
+}
+
+#run this function on SF dataframe
+all.data <- add_highest_num(all.data)
+```
+
+```{r prod.gradient}
+all.data %<>%
+  mutate(delta.hc = FHC-IHC, 
+         prod.gradient = delta.hc/(120-IHC), 
+         prod.gradient = ifelse(IHC == 120 | IHC == 119, 1, as.numeric(prod.gradient)))
+```
+
+```{r mean_indef}
+indef.mean <- all.data %>%
+  filter(Task == "Indefinite")%>%
+  group_by(SID)%>%
+  summarise(mean.indef = mean(Correct, na.rm = TRUE))
+
+all.data <- full_join(all.data, indef.mean, by = "SID")
+```
+
+```{r mean_three}
+mf.sum <- all.data %>%
+  filter(Task == "MF")%>%
+  group_by(SID)%>%
+  summarise(mean.mf = mean(Correct, na.rm = TRUE))
+
+all.data <- full_join(all.data, mf.sum, by = "SID")
+
+sf.mean <- all.data %>%
+  filter(Task == "SF")%>%
+  group_by(SID)%>%
+  summarise(mean.unit = mean(Correct, na.rm = TRUE))
+
+all.data <- full_join(all.data, sf.mean, by = "SID")
+
+nn.mean <- all.data %>%
+  filter(Task == "WCN")%>%
+  group_by(SID)%>%
+  summarise(mean.nn = mean(Correct, na.rm = TRUE))
+
+all.data <- full_join(all.data, nn.mean, by = "SID")
+```
+
+# Method
+
+##Participants
+```{r demographics}
+n.participants <- all.data %>%
+  distinct(SID, Age)%>%
+  summarise(n = n(),
+            mean_age = round(mean(Age), 2), 
+            sd_age = round(sd(Age), 2))
+
+n.sex <- all.data %>%
+  distinct(SID, Sex)%>%
+  filter(Sex == "F")%>%
+  group_by(Sex)%>%
+  summarise(n = n())
+```
+We recruited `r n.participants$n` children between the ages of 3;6 and 5;11 (\emph{M} = `r n.participants$mean_age`, \emph{SD} = `r n.participants$sd_age`, \emph{N} female = `r n.sex$n`) out of a planned sample of 150. XX children were excluded prior to testing in our abbreviated Give-N screening. An additional XX children were excluded due to failure to complete the Highest Count task. 
+##Stimuli and Design
+
+##Procedure
+First level headings should be in 12 point , initial caps, bold and
+centered. Leave one line space above the heading and 1/4~line space
+below the heading.
+
+# Results
+
+Second level headings should be 11 point , initial caps, bold, and
+flush left. Leave one line space above the heading and 1/4~ line
+space below the heading.
+
+# Discussion
+
+Third-level headings should be 10 point , initial caps, bold, and flush
+left. Leave one line space above the heading, but no space after the
+heading.
+
+# Formalities, Footnotes, and Floats
+
+Use standard APA citation format. Citations within the text should
+include the author's last name and year. If the authors' names are
+included in the sentence, place only the year in parentheses, as in
+[-@NewellSimon1972a], but otherwise place the entire reference in
+parentheses with the authors and year separated by a comma
+[@NewellSimon1972a]. List multiple references alphabetically and
+separate them by semicolons [@ChalnickBillman1988a; @NewellSimon1972a]. 
+Use the et. al. construction only after listing all the authors to a
+publication in an earlier reference and for citations with four or
+more authors.
+
+For more information on citations in RMarkdown, see **[here](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html#citations).**
+
+## Footnotes
+
+Indicate footnotes with a number\footnote{Sample of the first
+footnote.} in the text. Place the footnotes in 9 point type at the
+bottom of the page on which they appear. Precede the footnote with a
+horizontal rule.\footnote{Sample of the second footnote.} You can also use 
+markdown formatting to include footnotes using this syntax [^1].
+
+[^1]: Sample of a markdown footnote.
+
+## Figures
+
+All artwork must be very dark for purposes of reproduction and should
+not be hand drawn. Number figures sequentially, placing the figure
+number and caption, in 10 point, after the figure with one line space
+above the caption and one line space below it. If necessary, leave extra white space at
+the bottom of the page to avoid splitting the figure and figure
+caption. You may float figures to the top or bottom of a column, or
+set wide figures across both columns.
+
+## Two-column images
+
+You can read local images using png package for example and plot 
+it like a regular plot using grid.raster from the grid package. 
+With this method you have full control of the size of your image. **Note: Image must be in .png file format for the readPNG function to work.**
+
+You might want to display a wide figure across both columns. To do this, you change the `fig.env` chunk option to `figure*`. To align the image in the center of the page, set `fig.align` option to `center`. To format the width of your caption text, you set the `num.cols.cap` option to `2`.
+
+```{r 2-col-image, fig.env = "figure*", fig.pos = "h", fig.width=4, fig.height=2, fig.align = "center", set.cap.width=T, num.cols.cap=2, fig.cap = "This image spans both columns. And the caption text is limited to 0.8 of the width of the document."}
+img <- png::readPNG("figs/walrus.png")
+grid::grid.raster(img)
+```
+
+## One-column images
+
+Single column is the default option, but if you want set it explicitly, set `fig.env` to `figure`. Notice that the `num.cols` option for the caption width is set to `1`.
+
+```{r image, fig.env = "figure", fig.pos = "H", fig.align='center', fig.width=2, fig.height=2, set.cap.width=T, num.cols.cap=1, fig.cap = "One column image."}
+img <- png::readPNG("figs/lab_logo_stanford.png")
+grid::grid.raster(img)
+```
+
+
+## R Plots
+
+You can use R chunks directly to plot graphs. And you can use latex floats in the
+fig.pos chunk option to have more control over the location of your plot on the page. For more information on latex placement specifiers see **[here](https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions)**
+
+```{r plot, fig.env="figure", fig.pos = "H", fig.align = "center", fig.width=2, fig.height=2, fig.cap = "R plot" }
+x <- 0:100
+y <- 2 * (x + rnorm(length(x), sd = 3) + 3)
+
+ggplot2::ggplot(data = data.frame(x, y), 
+       aes(x = x, y = y)) + 
+  geom_point() + 
+  geom_smooth(method = "lm")
+```
+
+
+## Tables
+
+Number tables consecutively; place the table number and title (in
+10 point) above the table with one line space above the caption and
+one line space below it, as in Table 1. You may float
+tables to the top or bottom of a column, set wide tables across both
+columns.
+
+You can use the xtable function in the xtable package.
+
+```{r xtable, results="asis"}
+n <- 100
+x <- rnorm(n)
+y <- 2*x + rnorm(n)
+out <- lm(y ~ x)
+
+tab1 <- xtable::xtable(summary(out)$coef, digits=c(0, 2, 2, 1, 2), 
+                      caption = "This table prints across one column.")
+
+print(tab1, type="latex", comment = F, table.placement = "H")
+```
+
+# Acknowledgements
+
+Place acknowledgments (including funding information) in a section at
+the end of the paper.
+
+# References 
+
+```{r}
+# References will be generated automatically by Pandoc and included here.
+# The following code is some latex to format the bibliography. Do not remove it.
+```
+
+\setlength{\parindent}{-0.1in} 
+\setlength{\leftskip}{0.125in}
+\noindent
