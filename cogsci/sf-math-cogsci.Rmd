@@ -5,7 +5,7 @@ csl: apa6.csl
 document-params: "10pt, letterpaper"
 
 author-information: > 
-    \author{{\large \bf Rose M. Schneider, Kaiqi Guo} and {\large \bf David Barner} \\ \{roschnei, kaguo, barner \} @ucsd.edu \\ Department of Psychology \\ University of California, San Diego}
+    \author{{\large \bf } \\  \\  \\ }
 
 abstract: 
     "Through understanding the successor function, i.e. for any natural number n, its successor is n+1, we can gain the insight that the
