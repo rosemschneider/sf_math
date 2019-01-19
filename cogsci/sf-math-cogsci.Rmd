@@ -185,7 +185,7 @@ data.raw %<>%
 cp.df <- data.raw %>%
   filter(Task == "GiveN")%>%
   group_by(SID)%>%
-  summarise(sum_correct = sum(Correct, na.rm = TRUE))%>%
+  dplyr::summarise(sum_correct = sum(Correct, na.rm = TRUE))%>%
   mutate(Knower.level = ifelse(sum_correct >= 4, "CP-knower", "Subset-knower"))%>%
   dplyr::select(-sum_correct)
 
@@ -285,7 +285,7 @@ pre.excl <- data.raw %>%
   filter(Exclude_analysis == 1)%>%
   distinct(SID, Exclude_analysis_reason)%>%
   group_by(Exclude_analysis_reason)%>%
-  summarise(n = n())
+  dplyr::summarise(n = n())
 
 #exclude these kids from analysis
 all.data <- data.raw %>%
@@ -353,12 +353,12 @@ lookup <- all.data %>%
   filter(Task == "WCN")%>%
   filter(Correct == 1)%>%
   group_by(SID)%>%
-  summarise(max = max(as.integer(as.character(Task_item))))
+  dplyr::summarise(max = max(as.integer(as.character(Task_item))))
 
 no.corr.nn <- all.data %>%
   filter(Task == "WCN")%>%
   group_by(SID)%>%
-  summarise(mean = mean(Correct, na.rm = TRUE))%>%
+  dplyr::summarise(mean = mean(Correct, na.rm = TRUE))%>%
   filter(mean == 0)
 
 no.corr.nn.sids <- as.vector(unique(no.corr.nn$SID))
@@ -394,7 +394,7 @@ all.data %<>%
 indef.mean <- all.data %>%
   filter(Task == "Indefinite")%>%
   group_by(SID)%>%
-  summarise(mean.indef = mean(Correct, na.rm = TRUE))
+  dplyr::summarise(mean.indef = mean(Correct, na.rm = TRUE))
 
 all.data <- full_join(all.data, indef.mean, by = "SID")
 ```
@@ -403,21 +403,21 @@ all.data <- full_join(all.data, indef.mean, by = "SID")
 mf.sum <- all.data %>%
   filter(Task == "MF")%>%
   group_by(SID)%>%
-  summarise(mean.mf = mean(Correct, na.rm = TRUE))
+  dplyr::summarise(mean.mf = mean(Correct, na.rm = TRUE))
 
 all.data <- full_join(all.data, mf.sum, by = "SID")
 
 sf.mean <- all.data %>%
   filter(Task == "SF")%>%
   group_by(SID)%>%
-  summarise(mean.unit = mean(Correct, na.rm = TRUE))
+  dplyr::summarise(mean.unit = mean(Correct, na.rm = TRUE))
 
 all.data <- full_join(all.data, sf.mean, by = "SID")
 
 nn.mean <- all.data %>%
   filter(Task == "WCN")%>%
   group_by(SID)%>%
-  summarise(mean.nn = mean(Correct, na.rm = TRUE))
+  dplyr::summarise(mean.nn = mean(Correct, na.rm = TRUE))
 
 all.data <- full_join(all.data, nn.mean, by = "SID")
 ```
@@ -428,7 +428,7 @@ all.data <- full_join(all.data, nn.mean, by = "SID")
 ```{r demographics}
 n.participants <- all.data %>%
   distinct(SID, Age)%>%
-  summarise(n = n(),
+  dplyr::summarise(n = n(),
             mean_age = round(mean(Age), 2), 
             sd_age = round(sd(Age), 2))
 
@@ -436,7 +436,7 @@ n.sex <- all.data %>%
   distinct(SID, Sex)%>%
   filter(Sex == "F")%>%
   group_by(Sex)%>%
-  summarise(n = n())
+  dplyr::summarise(n = n())
 ```
 We recruited `r n.participants$n` children between the ages of 3;6 and 5;11 (\emph{M} = `r n.participants$mean_age`, \emph{SD} = `r n.participants$sd_age`, \emph{N} female = `r n.sex$n`). XX children were excluded prior to testing in our abbreviated Give-N screening. An additional XX children were excluded due to failure to complete the Highest Count task, leaving a total of XX participants out of a planned sample of 150. 
 
@@ -463,7 +463,7 @@ productivity.pal <- c("#666666","#00b8e6")
 hc.table <- all.data %>%
   distinct(SID, Age, Productive, IHC, FHC)%>%
   group_by(Productive)%>%
-  summarise(n = n(),
+  dplyr::summarise(n = n(),
             m_ihc = round(mean(IHC)), 
             sd_ihc = round(sd(IHC), 2), 
             median_ihc = round(median(IHC)), 
@@ -481,9 +481,9 @@ error.freq <- full_join(hc.df, productive, by = "SID")%>%
 mean.error <- error.freq %>%
   filter(Last_successful != 120)%>%
   group_by(SID, Productive)%>%
-  summarise(n = n())%>%
+  dplyr::summarise(n = n())%>%
   group_by(Productive)%>%
-  summarise(mean_prompts = round(mean(n, na.rm = TRUE), 2),
+  dplyr::summarise(mean_prompts = round(mean(n, na.rm = TRUE), 2),
             sd_prompts = round(sd(n, na.rm = TRUE), 2))
 
 #predicting IHC from Productivity 
@@ -497,7 +497,7 @@ ihc.ttest <- t.test(subset(ihc.fhc.test, Productive == "Productive")$IHC, subset
 #what kinds of errors?
 mean_prompts.type <- error.freq %>%
   group_by(Productive, Error_type)%>%
-  summarise(n = n())%>%
+  dplyr::summarise(n = n())%>%
   group_by(Productive)%>%
   mutate(total.n = sum(n), 
             prop = n/total.n)
@@ -509,9 +509,7 @@ mean_prompts.type <- error.freq %>%
 # print(tab1, type="latex", comment = F, table.placement = "H")
 ```
 
-Using our Productivity classification, we identified 73 children as Productive counters, and the remaining 71 as Nonproductive counters. A summary of Initial and Final Highest Counts by Productivity is shown in Table \ref{tab:hc}. Productive counters had significantly higher IHCs (*t*(`r ihc.ttest$parameter`) = `r round(ihc.ttest$statistic, 2)`, *p* = .0003) than Nonproductive counters, indicating a higher overall level of counting mastery. Critically, Productive counters used more prompts than Nonproductive counters (an average of `r mean.error$mean_prompts[2]` v. `r mean.error$mean_prompts[1]`) to reach a higher FHC. Thus, although children received a prompt at every error, only Productive counters were able to leverage their knowledge of the base-system in order to continue counting.
-
-\begin{table}[t]
+\begin{table}[b]
 \centering
 \begin{tabular}{c c c c } 
  \hline
@@ -523,7 +521,9 @@ Using our Productivity classification, we identified 73 children as Productive c
 \end{tabular}
 \caption{Highest Count performance by Productivity classification.}
 \label{tab:hc}
-\end{table}
+\end{table} 
+
+Using our Productivity classification, we identified 73 children as Productive counters, and the remaining 71 as Nonproductive counters. A summary of Initial and Final Highest Counts by Productivity is shown in Table \ref{tab:hc}. Productive counters had significantly higher IHCs (*t*(`r ihc.ttest$parameter`) = `r round(ihc.ttest$statistic, 2)`, *p* = .0003) than Nonproductive counters, indicating a higher overall level of counting mastery. Critically, Productive counters used more prompts than Nonproductive counters (an average of `r mean.error$mean_prompts[2]` v. `r mean.error$mean_prompts[1]`) to reach a higher FHC. Thus, although children received a prompt at every error, only Productive counters were able to leverage their knowledge of the base-system in order to continue counting.
 
 Additionally, Productive counters made a higher proportion of their errors at decade-transitions (`r round(mean_prompts.type$prop[5], 2)`) than either mid-decade (`r round(mean_prompts.type$prop[6], 2)`) or at the beginning of a decade (`r round(mean_prompts.type$prop[4], 2)`), indicating that their counting difficulties stemmed from memorizing decade labels, rather than from the base-system. In contrast, Nonproductive counters made errors roughly equally at both decade transitions (`r round(mean_prompts.type$prop[2], 2)`) and mid-decade (`r round(mean_prompts.type$prop[3], 2)`). 
 
@@ -555,7 +555,7 @@ ggplot(aes(x = IHC, y = FHC,
 
 ##Accuracy by task
 
-```{r 3_tasks, fig.pos = "t", fig.width=3.5, fig.height=2.5, fig.cap = "Mean performance for Unit, Next Number, and Math Facts tasks by Productivity. Bars represent mean performance, with error bars indicating mean standard error. Violin plots indicate density distribution of responses."}
+```{r 3_tasks, fig.pos = "h", fig.width=3.5, fig.height=2.5, fig.cap = "Mean performance for Unit, Next Number, and Math Facts tasks by Productivity. Bars represent mean performance, with error bars indicating mean standard error. Violin plots indicate density distribution of responses."}
 three.pal <- c("#7570B3", "#E7298A", "#66A61E")
 
 all.data %>%
@@ -565,7 +565,7 @@ all.data %>%
   mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"), 
                        labels = c("Unit", "Next Number", "Math Facts"))) %>% 
   group_by(SID, Task, Productive)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
+  dplyr::summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
             sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
   ggplot(aes(x = Task, y = mean, fill=Task)) +
   stat_summary(fun.y = mean, position = position_dodge(width = .95), 
@@ -595,7 +595,7 @@ all.data %>%
 unit.t <- all.data %>%
   filter(Task == "SF")%>%
   group_by(SID, Productive)%>%
-  summarise(mean = mean(Correct))
+  dplyr::summarise(mean = mean(Correct))
 
 unit.test <- t.test(subset(unit.t, Productive == "Productive")$mean, 
        subset(unit.t, Productive == "Nonproductive")$mean, var.equal = TRUE)
@@ -603,7 +603,7 @@ unit.test <- t.test(subset(unit.t, Productive == "Productive")$mean,
 nn.t <- all.data %>%
   filter(Task == "WCN")%>%
   group_by(SID, Productive)%>%
-  summarise(mean = mean(Correct))
+  dplyr::summarise(mean = mean(Correct))
 
 nn.test <- t.test(subset(nn.t, Productive == "Productive")$mean, 
        subset(nn.t, Productive == "Nonproductive")$mean, var.equal = TRUE)
@@ -611,7 +611,7 @@ nn.test <- t.test(subset(nn.t, Productive == "Productive")$mean,
 mf.t <- all.data %>%
   filter(Task == "MF")%>%
   group_by(SID, Productive)%>%
-  summarise(mean = mean(Correct))
+  dplyr::summarise(mean = mean(Correct))
 
 mf.test <- t.test(subset(mf.t, Productive == "Productive")$mean, 
        subset(mf.t, Productive == "Nonproductive")$mean, var.equal = TRUE)
@@ -622,7 +622,7 @@ simple.model <- all.data %>%
            Task == "WCN" | 
            Task == "MF")%>%
   group_by(SID, Task, Age, Productive)%>%
-  summarise(mean = mean(Correct))
+  dplyr::summarise(mean = mean(Correct))
 
 lm <- lm(mean ~ Task + Productive + Age, data = simple.model)
 ```
@@ -647,7 +647,7 @@ all.data %>%
                                                                        "Next Number", 
                                                                        "Math Facts")))%>%
   group_by(Productive, Task, Task_item)%>%
-  summarise(mean = mean(Correct, na.rm = TRUE), 
+  dplyr::summarise(mean = mean(Correct, na.rm = TRUE), 
             n = n(), 
             sd = sd(Correct, na.rm = TRUE), 
             se = sd/sqrt(n)) %>%
@@ -674,10 +674,6 @@ all.data %>%
 
 
 ##Predictors of successor knowledge
-
-Our main question in this work was whether children acquired the successor function through mastery of recursion in the count list (Productive counting knowledge), or through trained arithmetic operations (Math Facts). To test these two hypothesized causal mechanisms, we constructed five individual logistics mixed effects models\footnote{All mixed effects models were fit in \texttt{R} using the \texttt{lme4} package. The model specification was: \texttt{Correct $\sim$ [Productivity/IHC/FHC/HCNN/mean Math Facts] + Within/Outside IHC + Age + ( 1 | subject)}. IHC, FHC, HCNN, and age were centered and scaled in order to fit the model.}, predicting accuracy on the Unit Task as a function of (1) Productivity; (2) Initial Highest Count; (3) Final Highest Count; (4) Highest Contiguous Next Number; and (5) mean Math Facts performance. 
-
-In constructing our productivity models, we first tested whether Productivity, IHC, FHC, or HCNN individually predicted children's performance on the Unit Task. Likelihood ratio tests indicated that the addition of each term significantly improved the fit of the model, in comparison to the base (*p*s < .0001 for all tests). Because these productivity predictors may explain overlapping variance, we constructed our final productivity model hierarchically, using likelihood ratio tests to assess whether an individual predictor explained unique variance. This process of model comparison revealed HCNN and FHC as the best predictors of children's performance on the Unit Task (insert stat here). 
 
 ```{r}
 model.df <- all.data %>%
@@ -722,7 +718,7 @@ sf.prod.gradient <- glmer(Correct ~ prod.gradient + count_range + age.c + (1|SID
                  family = "binomial", data = model.df)
 ```
 
-```{r}
+```{r, include = FALSE}
 #base v. highest nn
 anova(sf.base, sf.highest_nn, test = 'LRT')
 #base v. ihc
@@ -737,7 +733,7 @@ anova(sf.base, sf.highest_contig, test = 'LRT')
 anova(sf.base, sf.prod.gradient, test = 'LRT')
 ```
 
-```{r}
+```{r, include = FALSE}
 #HCNN
 sf.large.base <- glmer(Correct ~ highest_contig.c + count_range + age.c + (1|SID), 
                        family = "binomial", data = model.df)
@@ -745,7 +741,7 @@ sf.large.base <- glmer(Correct ~ highest_contig.c + count_range + age.c + (1|SID
 #FHC + HCNN 
 sf.large.plusfhc <- glmer(Correct ~ fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
                        family = "binomial", data = model.df)
-anova(sf.large.base, sf.large.plusfhc, test = 'LRT') #FHC adds to model
+prod.chi <- anova(sf.large.base, sf.large.plusfhc, test = 'LRT') #FHC adds to model
 
 #IHC + FHC + HCNN 
 sf.large.plusfhc.ihc <- glmer(Correct ~ ihc.c + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
@@ -758,127 +754,104 @@ sf.large.plusprod <- glmer(Correct ~ Productive + fhc.c + highest_contig.c + cou
 anova(sf.large.base, sf.large.plusfhc, sf.large.plusprod, test = 'LRT') #productivity does not add to this model 
 ```
 
-```{r}
-library(dotwhisker)
-#visualizing regressions 
-prod.model <- summary(sf.large.plusfhc)
+```{r, include = FALSE}
+#make math facts model 
+sf.mf <- glmer(Correct ~ mean.mf.c + count_range + age.c + (1|SID), 
+               family = "binomial", data = model.df)
 
-data <- data_frame(a, b, c)
-
-x <- data.frame(Parameter = as.character(), 
-                Coefficient = as.numeric(), 
-                `Std. Error` = as.numeric())
-x$Parameter <- as.vector(prod.model$coefficient[,0])
-x$Coefficient <- as.vector(prod.model$coefficient[,1]) 
-x$`Std. Error` <- as.vector(prod.model$coefficient[,2])
-
-ggplot(x, aes(x = Coefficient, y = Parameter, color = Parameter)) + 
-  geom_point() + 
-  geom_errorbar(aes(xmin = Coefficient - `Std. Error`, xmax = Coefficient + `Std. Error`), 
-                width = .1) 
+#test
+math.chi <- anova(sf.base, sf.mf, test = 'LRT') #math facts significant predictor
 ```
+
+```{r, include = FALSE}
+##add Math Facts to large productivity model 
+sf.large.plusfhc <- glmer(Correct ~ fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
+                       family = "binomial", data = model.df)
+
+sf.large.plusfhc.plusmf <- glmer(Correct ~ mean.mf.c + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
+                       family = "binomial", data = model.df)
+
+critical.chi <- anova(sf.large.plusfhc, sf.large.plusfhc.plusmf, test = 'LRT') # math facts significantly addes to model
+summary(sf.large.plusfhc.plusmf)
+```
+
+
+Our main question in this work was whether children acquired the successor function through mastery of recursion in the count list (Productive counting knowledge), or through trained arithmetic operations (Math Facts). To test these two hypothesized causal mechanisms, we constructed five individual logistics mixed effects models\footnote{All mixed effects models were fit in \texttt{R} using the \texttt{lme4} package. The model specification was: \texttt{Correct $\sim$ [Productivity/IHC/FHC/HCNN/mean Math Facts] + Within/Outside IHC + Age + ( 1 | subject)}. IHC, FHC, HCNN, and age were centered and scaled in order to fit the model.}, predicting accuracy on the Unit Task as a function of (1) Productivity; (2) Initial Highest Count; (3) Final Highest Count; (4) Highest Contiguous Next Number; and (5) mean Math Facts performance. Continuous predictors (IHC, FHC, HCNN, mean Math Facts, and age) were all scaled and center to allow for direct comparisons. 
+
+In constructing our productivity models, we first tested whether Productivity, IHC, FHC, or HCNN individually predicted children's performance on the Unit Task. Likelihood ratio tests indicated that the addition of each term significantly improved the fit of the model, in comparison to the base (*p*s < .0001 for all tests). Because these productivity predictors may explain overlapping variance, we constructed our final productivity model hierarchically, using likelihood ratio tests to assess whether an individual predictor explained unique variance. This process of model comparison revealed HCNN and FHC as the best predictors of children's performance on the Unit Task ($\chi^2$(1) = `r round(prod.chi$Chisq[2], 2)`, *p* $=$ .003). 
+
+Next, we tested whether mean performance on the Math Facts task was a significant predictor of successor knowledge. A likelihood ratio test indicated that mean Math Facts performance independently predicted Unit Task performance in comparison to a base model ($\chi^2$(1) = `r round(math.chi$Chisq[2], 2)`, *p* $<$ .0001). 
+
+Finally, we added mean Math Facts performance to our large productivity model containing both FHC and HCNN. Interestingly, mean Math Facts performance significantly improved the fit of the model, ($\chi^2$(1) = `r round(critical.chi$Chisq[2], 2)`, $p$ $=$ .0001). The parameter estimates for the full model are shown in Figure \ref{fig:prod_mod_vis}. FHC is no longer a significant predictor when mean Math Facts performance is added to the model, indicating that both terms explain overlapping variance. HCNN, however, remains significant, and is a stronger predictor ($\beta$ $=$ .52, $p$ < .0001) of Unit Task performance than mean Math Facts performance ($\beta$ $=$ .4, $p$ $=$ .0001). 
+
+```{r prod_mod_vis, fig.pos = "b", fig.width=3.5, fig.height=2.5, fig.cap = "Estimates of predictor coefficients for the full model. Continuous predictors (Math Facts, HCNN, FHC, and Age) are scaled and center. Values above 0 indicate increased likelihood of an accurate Unit Task response. Error bars indicate 95\\%  confidence intervals."}
+# library(dotwhisker)
+#visualizing regressions
+full.model <- summary(sf.large.plusfhc.plusmf)
+
+AIC <- as.numeric(full.model$AICtab[1])
+
+full.model.df <- data.frame(coef(full.model)[,0:4])
+full.model.df <- add_rownames(full.model.df, "Parameter")
+
+full.model.df %<>%
+  mutate(Parameter = ifelse(Parameter == "highest_contig.c", "HCNN",
+                            ifelse(Parameter == "fhc.c", "FHC",
+                                   ifelse(Parameter == "count_rangeOutside", "Beyond IHC",
+                                          ifelse(Parameter == "age.c", "Age", 
+                                                 ifelse(Parameter == "mean.mf.c", "Math Facts", "Intercept")))))) %>%
+  filter(Parameter != "Intercept")
+
+full.model.df %>%
+ggplot(aes(x = Parameter, y = Estimate)) +
+  geom_pointrange(aes(ymin = Estimate - 1.96 * Std..Error,
+                      ymax = Estimate + 1.96 * Std..Error,
+                      colour = Parameter)) +
+  geom_hline(yintercept = 0, color = "grey", linetype = "dashed") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8),
+        axis.title = element_text(size = 9)) +
+  coord_flip() +
+  scale_colour_brewer(palette = "Dark2", guide = "none") +
+  annotate("text", x =  .75 , y = .5, label = paste("AIC =", round(AIC,2)),
+           size = 3) +
+  xlab("") +
+  scale_y_continuous(name = "Coefficient Estimate (log likelihood)")
+
+```
+
+Taken together, the results of our full model suggest that mastery of both the recursive nature of the count list, as well as trained arithmetic operations, may be sources of knowledge that children leverage in acquiring the successor function. We found that greater accuracy on the Unit Task was associated with both the ability to generate the successor for an arbitrarily high number (HCNN), as well as higher mean Math Facts performance. 
+
+##Differences in performance
+
+```{r}
+#add quartiles for unit task
+tmp <- all.data %>%
+  mutate(sf.quartile = cut(mean.unit, 
+                                breaks=quantile(mean.unit, na.rm=TRUE), 
+                                include.lowest=TRUE))%>%
+  mutate(mf.ceiling = ifelse(mean.mf >= .75, ">= 75% correct", "< 75% correct"))
+
+#predicting performance for kids at ceiling for MF and WCN
+ms1 <- tmp %>%
+  filter(sf.quartile == "(0.875,1]", 
+         Task=="MF" | 
+           Task == "WCN")%>%
+  mutate(starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)))
+
+post_hoc <- summary(lmer(Correct ~ Task + starting_num.c + Age + (1|SID), 
+              data = ms1))
+```
+
+While both Next Number and Math Facts performance produced the best fit for children's Unit Task performance, we found that performance was significantly lower for Math Facts than for both Next Number and the Unit Task. Recall that, if children have acquired the successor function through a generalization of the "+1" operation, we should find that children who are at ceiling on the Unit Task should similarly be at ceiling on the Math Facts task. While our full model indicates significant effects of both recursive counting and arithmetic mastery, it is unclear whether such effects indicate causation, or merely correlation. 
+
+Thus, in a *post-hoc* analysis, we tested whether mean performance differed between the Next Number and Math Facts tasks for children who were at ceiling in the Unit Task ($\geq$ 87.5\\%). If children are drawing more heavily upon recursive counting or arithmetic knowledge in acquiring the successor function, that should be evidenced by higher mean performance for that task. We built a linear mixed effects model predicting response from Task, controlling for effects of item magnitude and age, with a random effect of subject. Surprisingly, we found that Math Facts performance was still signficantly lower than Next Number performance for these children ($\beta$ -.32, $p$ $<$ .0001). 
 
 # Discussion
 
 Third-level headings should be 10 point , initial caps, bold, and flush
 left. Leave one line space above the heading, but no space after the
 heading.
-
-# Formalities, Footnotes, and Floats
-
-Use standard APA citation format. Citations within the text should
-include the author's last name and year. If the authors' names are
-included in the sentence, place only the year in parentheses, as in
-[-@NewellSimon1972a], but otherwise place the entire reference in
-parentheses with the authors and year separated by a comma
-[@NewellSimon1972a]. List multiple references alphabetically and
-separate them by semicolons [@ChalnickBillman1988a; @NewellSimon1972a]. 
-Use the et. al. construction only after listing all the authors to a
-publication in an earlier reference and for citations with four or
-more authors.
-
-For more information on citations in RMarkdown, see **[here](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html#citations).**
-
-## Footnotes
-
-Indicate footnotes with a number\footnote{Sample of the first
-footnote.} in the text. Place the footnotes in 9 point type at the
-bottom of the page on which they appear. Precede the footnote with a
-horizontal rule.\footnote{Sample of the second footnote.} You can also use 
-markdown formatting to include footnotes using this syntax [^1].
-
-[^1]: Sample of a markdown footnote.
-
-## Figures
-
-All artwork must be very dark for purposes of reproduction and should
-not be hand drawn. Number figures sequentially, placing the figure
-number and caption, in 10 point, after the figure with one line space
-above the caption and one line space below it. If necessary, leave extra white space at
-the bottom of the page to avoid splitting the figure and figure
-caption. You may float figures to the top or bottom of a column, or
-set wide figures across both columns.
-
-## Two-column images
-
-You can read local images using png package for example and plot 
-it like a regular plot using grid.raster from the grid package. 
-With this method you have full control of the size of your image. **Note: Image must be in .png file format for the readPNG function to work.**
-
-You might want to display a wide figure across both columns. To do this, you change the `fig.env` chunk option to `figure*`. To align the image in the center of the page, set `fig.align` option to `center`. To format the width of your caption text, you set the `num.cols.cap` option to `2`.
-
-```{r 2-col-image, fig.env = "figure*", fig.pos = "h", fig.width=4, fig.height=2, fig.align = "center", set.cap.width=T, num.cols.cap=2, fig.cap = "This image spans both columns. And the caption text is limited to 0.8 of the width of the document."}
-img <- png::readPNG("figs/walrus.png")
-grid::grid.raster(img)
-```
-
-## One-column images
-
-Single column is the default option, but if you want set it explicitly, set `fig.env` to `figure`. Notice that the `num.cols` option for the caption width is set to `1`.
-
-```{r image, fig.env = "figure", fig.pos = "H", fig.align='center', fig.width=2, fig.height=2, set.cap.width=T, num.cols.cap=1, fig.cap = "One column image."}
-img <- png::readPNG("figs/lab_logo_stanford.png")
-grid::grid.raster(img)
-```
-
-
-## R Plots
-
-You can use R chunks directly to plot graphs. And you can use latex floats in the
-fig.pos chunk option to have more control over the location of your plot on the page. For more information on latex placement specifiers see **[here](https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions)**
-
-```{r plot, fig.env="figure", fig.pos = "H", fig.align = "center", fig.width=2, fig.height=2, fig.cap = "R plot" }
-x <- 0:100
-y <- 2 * (x + rnorm(length(x), sd = 3) + 3)
-
-ggplot2::ggplot(data = data.frame(x, y), 
-       aes(x = x, y = y)) + 
-  geom_point() + 
-  geom_smooth(method = "lm")
-```
-
-
-## Tables
-
-Number tables consecutively; place the table number and title (in
-10 point) above the table with one line space above the caption and
-one line space below it, as in Table 1. You may float
-tables to the top or bottom of a column, set wide tables across both
-columns.
-
-You can use the xtable function in the xtable package.
-
-```{r xtable, results="asis"}
-n <- 100
-x <- rnorm(n)
-y <- 2*x + rnorm(n)
-out <- lm(y ~ x)
-
-tab1 <- xtable::xtable(summary(out)$coef, digits=c(0, 2, 2, 1, 2), 
-                      caption = "This table prints across one column.")
-
-print(tab1, type="latex", comment = F, table.placement = "H")
-```
 
 # Acknowledgements
 
