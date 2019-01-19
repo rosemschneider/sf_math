@@ -8,15 +8,12 @@ author-information: >
     \author{{\large \bf } \\  \\  \\ }
 
 abstract: 
-    "Through understanding the successor function, i.e. for any natural number n, its successor is n+1, we can gain the insight that the natural numbers are infinite. Recent work has suggested acquisition of this logical property is more protracted than previously thought, with a fully generalized understanding of the successor function not apparent until 5.5 to 6 years of age. While such work links successor knowledge with counting mastery, the exact processes underlying this developmental transition remain unknown. Here, we examined two hypothesized mechanisms: (1) productive counting knowledge, or mastery of the recursive process through which number words are generated, and (2) formally trained arithmetic, specifically the ‘+1’ operation. We tested the relationship between successor knowledge, productive counting, and arithmetic proficiency in 140 3.5 to 6 year-olds. We found that while both productive counting and arithmetic mastery predicted successor knowledge, mean arithmetic performance was significantly lower for all children, even those at ceiling in
-implementing the successor function This surprising dissociation suggests children do not draw upon the ‘+1’ operation in acquiring the
-successor function. Rather, these findings are more consistent with the hypothesis that this knowledge is acquired through productive
-counting, and the recognition that numbers are recursively generated through an implementation of the successor function."
+    "Through understanding the successor function, i.e. for any natural number n, its successor is n+1, we can gain the insight that the natural numbers are infinite. Recent work has suggested acquisition of this logical property is more protracted than previously thought, with a fully generalized understanding of the successor function not apparent until 5.5 to 6 years of age. While such work links successor knowledge with counting mastery, the exact processes underlying this developmental transition remain unknown. Here, we examined two hypothesized mechanisms: (1) productive counting knowledge, or mastery of the recursive process through which number words are generated, and (2) formally trained arithmetic, specifically the ‘+1’ operation. We tested the relationship between successor knowledge, productive counting, and arithmetic proficiency in 140 3.5 to 6 year-olds. We found that while both productive counting and arithmetic mastery predicted successor knowledge, mean arithmetic performance was significantly lower for all children, even those at ceiling in implementing the successor function This surprising dissociation suggests children do not draw upon the ‘+1’ operation in acquiring the successor function. Rather, these findings are more consistent with the hypothesis that this knowledge is acquired through productive counting, and the recognition that numbers are recursively generated through an implementation of the successor function."
     
 keywords:
-    "Add your choice of indexing terms or keywords; kindly use a semi-colon; between each term."
+    "Number; language; cognitive development"
     
-output: cogsci2016::cogsci_paper
+output: cogsci2016::cogsci_paper 
 ---
 
 ```{r global_options, include=FALSE}
@@ -58,34 +55,7 @@ In the intervening years between learning the CP and acquiring the successor fun
 
 @cheung2017 proposed that children may leverage such new and developing numerical knowledge in acquiring the successor function. Specifically, Cheung and colleagues present both recursive counting knowledge and trained "math facts" mastery as possible paths to successor knowledge. On the first alternative, which we will refer to as "Productive Counting," as children master the recursive base-structure of number, they notice that the next number in the base is generated through implementing the successor function. Thus, such an account would predict that children who demonstrate Productive Counting knowledge should be more likely to exhibit generalized successor knowledge. The second alternative, which we will refer to as "Math Facts," hypothesizes that the successor function is not inferred, but trained; as children learn arithmetic operations such as *4+1=5,* they may hypothesize that this trained "+1" operation holds for *any* number. Therefore, the "Math Facts" hypothesis predicts that children's successor knowledge should be significantly predicted by their mastery of the "+1" operation. Importantly, this hypothesis also predicts that children at ceiling on the successor task should be similarly at ceiling in solving addition problems with "+1."
 
-In the present work, we tested these two hypothesized causal mechanisms in successor function acquisition. 
-
-
-
-<!-- Critically, the Peano axioms state that successor function holds for *all* natural numbers, meaning that the natural numbers are infinite -->
-
-
-<!-- children's acquisition of this *Cardinal Principle* (CP) is driven by an analogical mapping made between the meanings of *one*, *two*, and *three* and the count list. <Such an account implicates the successor function><logical property which states that for any number there is a successor> -->
-
-<!-- Early in numerical development, children do not treat number as a productive form of representation. Although they may be able to recite the count list up to about 10 (Fuson 1988), they do not acquire the meanings of these numerals until much later, with one, two, and three effortfully acquired over the course of about 12 months (Wynn, 1992). Around the time that children acquire the meaning of four, however, they suddenly seem to understand the relationship between their memorized count list and cardinality, referred to as the Cardinal Principle (CP).  -->
-
-
-<!-- <!-- Although children encounter a multitude of challenges in acquiring symbolic number, one puzzle remains even after they have mastered the meaning of the count list and its relation to numerosity: linguistic number allows for expressions and representations of numerical infinity, yet early number experiences and input are decidedly finite. Nevertheless, by 5.5 -- 6 years of age, children generally understand that it is possible to add '1' to *any* number, and have even abstracted this principle to conclude that the natural numbers are endless [@cheung2017]. Somehow, children are able to go beyond their finite early number input to extract a set of principles which reveal the infinite nature of the natural numbers.  --> -->
-
-
-<!-- <!-- How does such an understanding arise? What are the causal mechanisms underlying children's inference  --> -->
-
-
-
-<!-- <!--  While this capacity makes us prodigious learners in general, one of its most powerful applications is in the domain of number. Although linguistic number input and expression are undoubtedly finite, we nevertheless come to know the natural numbers to be infinite; for every number, its successor can be  obtained by simply adding ‘1.’ Further, we understand that this successor function can be endlessly implemented due to the recursive nature of symbolic number. How does such an understanding arise? In this work, we explored two hypothesized causal mechanisms (productive counting knowledge and formally trained arithmetic) by which children might acquire the successor function, a critical component in the logical framework of natural number.  --> -->
-
-
-<!-- Even after children acquire the CP, however, they may not yet understand that numbers are generated through a recursive process. Recent work has found evidence that children do not understand the successor function as a truly generalized property of natural number until several years after acquisition of the CP. While many children who have acquired the CP (CP-knowers) can implement the successor function for small numbers, such as 4 or 5 (Sarnecka & Carey, 2008), their ability to do so for any number is mediated by their counting proficiency (Davidson, Eng, & Barner, 2012; Cheung, Rubenson, & Barner, 2017). In this work, only children who demonstrate mastery of the count list are able to apply the successor function to any number queried. These results indicate that counting proficiency, rather than CP-knowledge, is implicated in acquisition of this logical property. -->
-
-<!-- This observed correlation with counting mastery suggests two potential paths by which children might acquire the successor function. The first, which we refer to as productive counting knowledge, is that as children come to understand the recursive nature of number, they notice that the next number generated via that process is always done so by the addition of ‘1,’ or an implementation of the successor function (Cheung et al., 2017). This hypothesis would therefore predict that children who specifically demonstrate knowledge of recursion are more likely to have acquired the successor function.  -->
-
-<!-- The second hypothesized mechanism is that children learn the successor function through explicit instruction, rather than an induction made over the count list. As children learn formal arithmetic operations, such as 4+1=5 and 5+1=6, it is possible that they hypothesize the ‘+1’ rule to hold true for any number. On this account, we would expect to find that children’s successor function knowledge is significantly related to mastery of these rote-learned ‘math facts.’  -->
-<!-- In the present work, we tested these two potential paths to successor function acquisition in 140 3.5- to 6-year-old CP-knowers (3.58 -- 5.98, Mage = 4.9, SDage = 0.61, ). We used a modified version of the Unit Task (Sarnecka & Carey, 2008) to test children’s successor knowledge. In this task, an experimenter placed some number of fish on a board, and said, “Look! There are N fish in the pond.” The experimenter then covered these fish with a lilypad, and placed one additional fish next to the lilypad, saying “Look! Are there N+1 or N+2 fish now?” Children received 16 trials, with N ranging from 6 to 95.  -->
+In the present work, we tested these two hypothesized causal mechanisms in successor function acquisition. <Brief precis of methods>. <Tested whether children draw upon these hypothesized sources of knowledge in blah blah blah>
 
 ```{r setup}
 #load data
@@ -483,9 +453,330 @@ If a child was unable to continue after receiving a prompt, or made an error, th
 
 # Results
 
-Second level headings should be 11 point , initial caps, bold, and
-flush left. Leave one line space above the heading and 1/4~ line
-space below the heading.
+Our primary question in this work is whether children's acquisition of the successor function is motivated by recursive counting knowledge, or mastery of trained arithmetic operations. First, we explore children's counting behavior, and describe differences between children classified as Productive and Nonproductive counters. Next, we construct several models to test whether Unit Task performance is best predicted by (1) Productivity; (2) IHC; (3) FHC; (4) Highest Contiguous Next Number\footnote{Although we initially preregistered simply the highest next number reached as a measure of productivity, we later adapted this measure to account for accuracy. We redefined this measure prior to collection and analysis of the complete dataset.}; or (5) mean "Math Facts" performance. Finally, we investigate differences in mean performance between Unit, Next Number, and "Math Facts" tasks. (Need to define each of these measures.) (explain why we have so many productivity predictors).
+
+##Highest Count
+
+```{r hc desc}
+productivity.pal <- c("#666666","#00b8e6")
+
+hc.table <- all.data %>%
+  distinct(SID, Age, Productive, IHC, FHC)%>%
+  group_by(Productive)%>%
+  summarise(n = n(),
+            m_ihc = round(mean(IHC)), 
+            sd_ihc = round(sd(IHC), 2), 
+            median_ihc = round(median(IHC)), 
+            m_fhc = round(mean(FHC)), 
+            sd_fhc = round(sd(FHC), 2), 
+            median_fhc = round(median(FHC)))
+
+error.freq <- full_join(hc.df, productive, by = "SID")%>%
+  filter(!is.na(Last_successful))%>%
+  filter(Last_successful != 120)%>%
+  mutate(Error_type = ifelse(Last_successful %% 10 == 9 , "Decade end", 
+                             ifelse(Last_successful %% 10 == 0, "Decade beginning", "Mid-decade")))
+
+#mean number of prompts by Productivity
+mean.error <- error.freq %>%
+  filter(Last_successful != 120)%>%
+  group_by(SID, Productive)%>%
+  summarise(n = n())%>%
+  group_by(Productive)%>%
+  summarise(mean_prompts = round(mean(n, na.rm = TRUE), 2),
+            sd_prompts = round(sd(n, na.rm = TRUE), 2))
+
+#predicting IHC from Productivity 
+ihc.fhc.test <- all.data %>%
+  distinct(SID, Productive, IHC, FHC)
+
+ihc.ttest <- t.test(subset(ihc.fhc.test, Productive == "Productive")$IHC, subset(ihc.fhc.test, Productive == "Nonproductive")$IHC, 
+       var.equal = TRUE)
+
+
+#what kinds of errors?
+mean_prompts.type <- error.freq %>%
+  group_by(Productive, Error_type)%>%
+  summarise(n = n())%>%
+  group_by(Productive)%>%
+  mutate(total.n = sum(n), 
+            prop = n/total.n)
+
+
+# tab1 <- xtable::xtable(hc.table, 
+#                       caption = "This table prints across one column.")
+# 
+# print(tab1, type="latex", comment = F, table.placement = "H")
+```
+
+Using our Productivity classification, we identified 73 children as Productive counters, and the remaining 71 as Nonproductive counters. A summary of Initial and Final Highest Counts by Productivity is shown in Table \ref{tab:hc}. Productive counters had significantly higher IHCs (*t*(`r ihc.ttest$parameter`) = `r round(ihc.ttest$statistic, 2)`, *p* = .0003) than Nonproductive counters, indicating a higher overall level of counting mastery. Critically, Productive counters used more prompts than Nonproductive counters (an average of `r mean.error$mean_prompts[2]` v. `r mean.error$mean_prompts[1]`) to reach a higher FHC. Thus, although children received a prompt at every error, only Productive counters were able to leverage their knowledge of the base-system in order to continue counting.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{c c c c } 
+ \hline
+ Productivity & N & Mean IHC (SD) & Mean FHC (SD) \\
+ \hline
+ Productive & `r hc.table$n[2]` & `r hc.table$m_ihc[2]` (`r hc.table$sd_ihc[2]`) & `r hc.table$m_fhc[2]` (`r hc.table$sd_fhc[2]`)  \\
+ Nonproductive & `r hc.table$n[1]` & `r hc.table$m_ihc[1]` (`r hc.table$sd_ihc[1]`) & `r hc.table$m_fhc[1]` (`r hc.table$sd_fhc[1]`) \\ 
+ \hline
+\end{tabular}
+\caption{Highest Count performance by Productivity classification.}
+\label{tab:hc}
+\end{table}
+
+Additionally, Productive counters made a higher proportion of their errors at decade-transitions (`r round(mean_prompts.type$prop[5], 2)`) than either mid-decade (`r round(mean_prompts.type$prop[6], 2)`) or at the beginning of a decade (`r round(mean_prompts.type$prop[4], 2)`), indicating that their counting difficulties stemmed from memorizing decade labels, rather than from the base-system. In contrast, Nonproductive counters made errors roughly equally at both decade transitions (`r round(mean_prompts.type$prop[2], 2)`) and mid-decade (`r round(mean_prompts.type$prop[3], 2)`). 
+
+```{r initial_final, fig.pos = "t", fig.width=3.2, fig.height=3.2, fig.cap = "Scatterplot of Initial and Final Highest Counts by Productivity classification. Points are jittered slightly to avoid overplotting."}
+initial_final <- all.data %>%
+  filter(!is.na(Productive))%>%
+  distinct(SID, IHC, FHC, Productive, prod.gradient)%>%
+  mutate(IHC = as.numeric(IHC), 
+         FHC = as.numeric(FHC))
+
+initial_final %>%
+ggplot(aes(x = IHC, y = FHC, 
+                          color = Productive)) +
+  geom_point(size = .25) + geom_jitter(width = .1) +
+  labs(x = "Initial highest count", y = "Final highest count", 
+                      color = "", title = "") +
+  scale_x_continuous(breaks = seq(0, 140, 10)) + 
+  scale_y_continuous(breaks = seq(0, 140, 10)) + 
+  theme_bw() +
+  theme(panel.grid.minor = element_blank(), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 6), 
+        axis.text = element_text(size = 6), 
+        axis.title = element_text(size = 7)) +
+  scale_colour_manual(values = productivity.pal) +
+  theme(legend.position = "bottom") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+##Accuracy by task
+
+```{r 3_tasks, fig.pos = "t", fig.width=3.5, fig.height=2.5, fig.cap = "Mean performance for Unit, Next Number, and Math Facts tasks by Productivity. Bars represent mean performance, with error bars indicating mean standard error. Violin plots indicate density distribution of responses."}
+three.pal <- c("#7570B3", "#E7298A", "#66A61E")
+
+all.data %>%
+  filter(Task == "SF" |
+           Task == "WCN" |
+           Task == "MF")%>%
+  mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"), 
+                       labels = c("Unit", "Next Number", "Math Facts"))) %>% 
+  group_by(SID, Task, Productive)%>%
+  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
+            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
+  ggplot(aes(x = Task, y = mean, fill=Task)) +
+  stat_summary(fun.y = mean, position = position_dodge(width = .95), 
+                      geom="bar", alpha = .5, colour = "black") +
+  geom_violin(alpha = .1) +
+  stat_summary(fun.data = mean_se, geom="errorbar", 
+               position = position_dodge(width=0.90), width = 0.2)+
+  ylab("Mean correct") + 
+  xlab('') + 
+  theme_bw() + 
+  theme(legend.position = "bottom") +
+  theme(text = element_text(size = 12), 
+        panel.grid.minor = element_blank(), 
+        panel.grid.major = element_blank(), 
+        legend.title = element_blank(),  
+        axis.text = element_text(size = 6), 
+        axis.title = element_text(size = 7), 
+        strip.text.x = element_text(size = 6)) +
+  ylim(0, 1.0) +
+  scale_fill_manual(values = three.pal, guide = "none") +
+  scale_colour_manual(values = productivity.pal, guide = "none") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  facet_grid(~Productive)
+
+##predicting accuracy by task and productivity - t-tests
+#Unit task 
+unit.t <- all.data %>%
+  filter(Task == "SF")%>%
+  group_by(SID, Productive)%>%
+  summarise(mean = mean(Correct))
+
+unit.test <- t.test(subset(unit.t, Productive == "Productive")$mean, 
+       subset(unit.t, Productive == "Nonproductive")$mean, var.equal = TRUE)
+
+nn.t <- all.data %>%
+  filter(Task == "WCN")%>%
+  group_by(SID, Productive)%>%
+  summarise(mean = mean(Correct))
+
+nn.test <- t.test(subset(nn.t, Productive == "Productive")$mean, 
+       subset(nn.t, Productive == "Nonproductive")$mean, var.equal = TRUE)
+
+mf.t <- all.data %>%
+  filter(Task == "MF")%>%
+  group_by(SID, Productive)%>%
+  summarise(mean = mean(Correct))
+
+mf.test <- t.test(subset(mf.t, Productive == "Productive")$mean, 
+       subset(mf.t, Productive == "Nonproductive")$mean, var.equal = TRUE)
+
+#Is mean performance significantly lower by task for MF for NN by productivity? 
+simple.model <- all.data %>%
+  filter(Task == "SF" | 
+           Task == "WCN" | 
+           Task == "MF")%>%
+  group_by(SID, Task, Age, Productive)%>%
+  summarise(mean = mean(Correct))
+
+lm <- lm(mean ~ Task + Productive + Age, data = simple.model)
+```
+
+Next, we tested whether Productivity was significantly related to children's performance across the Unit, Next Number, and Math Facts tasks. We found that Productive counters had sigbnificantly greater mean performance for all three tasks in independent sample *t*-tests (all *p*s < .002) (Figure \ref{fig:3_tasks}). Further, this difference persisted for every number queried in each task (Figure \ref{fig:item}) (insert statistic here), indicating that Productive counters are more likely to have a generalized understanding of the successor function (Unit Task), recursion (Next Number Task), and addition with "+1" (Math Facts). 
+
+While Productive counters exhibited higher performance across all three tasks, their performance on Math Facts was significantly lower than mean performance on the Unit and Next Number tasks. A linear regression predicting mean performance from task and controlling for the effects of Productivity and age revealed significant effects of task, with higher mean performance for both the Unit ($\beta$ = `r round(lm$coefficients[2], 2)`, $p < .0001$) and Next Number tasks ($\beta$ = `r round(lm$coefficients[3], 2)`, $p < .0001$). In addition to a main effect of Productivity ($\beta$ = `r round(lm$coefficients[4], 2)`, $p < .0001$), this model also revealed a significant effect of age ($\beta$ = `r round(lm$coefficients[5], 2)`, $p < .0001$).
+
+Taken together, our analyses of children's performance across the Unit, Next Number, and Math Facts tasks indicate two things. First, our broad classification of Productivity captures a meaningful distinction not only in children's counting ability, but also in their general numerical knowledge, as evidenced by significantly greater performance for Productive counters across all three tasks. Second, children's proficiency with formally trained arithmetic operations seems to lag their conceptual understanding of these procedures, as shown by the significant decrease in performance on Math Facts in comparison to the Unit Task -- even for numbers that were repeated across both tasks. We will return to this difference in the discussion.
+
+```{r item, fig.env = "figure*", fig.pos = "t", fig.width=7, fig.align = "center", set.cap.width = T, num.cols = 2, fig.cap = "Mean performance for Unit, Next Number, and Math Facts by item and Productivity"}
+all.data %>%
+  filter(Task == "MF" | 
+         Task == "WCN" | 
+           Task == "SF")%>%
+  mutate(Task_item = factor(Task_item, levels = c("5", "6", "7", "15", "20", 
+                                                  "21", "24", "26", "30", "32", 
+                                                  "34", "46", "51", "57", "60", "62", "64", 
+                                                  "71", "73", "81", "83", "84", "86",
+                                                  "93", "95")), 
+         Task = factor(Task, levels = c("SF", "WCN", "MF"), labels = c("Unit", 
+                                                                       "Next Number", 
+                                                                       "Math Facts")))%>%
+  group_by(Productive, Task, Task_item)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE), 
+            n = n(), 
+            sd = sd(Correct, na.rm = TRUE), 
+            se = sd/sqrt(n)) %>%
+  ggplot(aes(x = Task_item, y = mean, colour = Productive, group = Productive)) +
+  geom_point(size = 1) + 
+  geom_line() +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), 
+                width = .1) +
+  theme_bw() + 
+  facet_grid(~Task, scale = "free_x") +
+  scale_colour_manual(values = productivity.pal) +
+  theme(legend.position = "bottom", 
+        legend.title = element_blank(), 
+        axis.text = element_text(size = 6), 
+        axis.title = element_text(size = 7), 
+        strip.text.x = element_text(size = 6), 
+        legend.text = element_text(size = 6), 
+        strip.text = element_text(size = 8)) +
+  labs(x = "Number queried", y = "Mean performance") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  
+
+#is this difference significant for every number? Figure out this analysis
+```
+
+
+##Predictors of successor knowledge
+
+Our main question in this work was whether children acquired the successor function through mastery of recursion in the count list (Productive counting knowledge), or through trained arithmetic operations (Math Facts). To test these two hypothesized causal mechanisms, we constructed five individual logistics mixed effects models\footnote{All mixed effects models were fit in \texttt{R} using the \texttt{lme4} package. The model specification was: \texttt{Correct $\sim$ [Productivity/IHC/FHC/HCNN/mean Math Facts] + Within/Outside IHC + Age + ( 1 | subject)}. IHC, FHC, HCNN, and age were centered and scaled in order to fit the model.}, predicting accuracy on the Unit Task as a function of (1) Productivity; (2) Initial Highest Count; (3) Final Highest Count; (4) Highest Contiguous Next Number; and (5) mean Math Facts performance. 
+
+In constructing our productivity models, we first tested whether Productivity, IHC, FHC, or HCNN individually predicted children's performance on the Unit Task. Likelihood ratio tests indicated that the addition of each term significantly improved the fit of the model, in comparison to the base (*p*s < .0001 for all tests). Because these productivity predictors may explain overlapping variance, we constructed our final productivity model hierarchically, using likelihood ratio tests to assess whether an individual predictor explained unique variance. This process of model comparison revealed HCNN and FHC as the best predictors of children's performance on the Unit Task (insert stat here). 
+
+```{r}
+model.df <- all.data %>%
+  mutate(highest_contig = as.integer(highest_contig), 
+         SID = factor(SID), 
+         age.c = as.vector(scale(Age, center = TRUE, scale=TRUE)), #scale and center continuous variables for model fit
+         fhc.c = as.vector(scale(FHC, center = TRUE, scale = TRUE)), 
+         ihc.c = as.vector(scale(IHC, center = TRUE, scale = TRUE)),
+         highest_contig.c = as.vector(scale(highest_contig, center = TRUE, scale=TRUE)), 
+         highest_num.c = as.vector(scale(highest_num, center = TRUE, scale=TRUE)),
+         mean.mf.c = as.vector(scale(mean.mf, center = TRUE, scale=TRUE)),
+         starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)))%>%
+  filter(Task == "SF")
+```
+
+```{r}
+#base
+sf.base <- glmer(Correct ~ count_range  +age.c + (1|SID), 
+                 family = "binomial", data = model.df)
+#highest nn
+sf.highest_nn <- glmer(Correct ~ highest_num.c + count_range + age.c + (1|SID), 
+                 family = "binomial", data = model.df)
+
+#ihc
+sf.ihc <- glmer(Correct ~ ihc.c + count_range + age.c + (1|SID), 
+                 family = "binomial", data = model.df)
+
+#fhc
+sf.fhc <- glmer(Correct ~ fhc.c + count_range + age.c + (1|SID), 
+                 family = "binomial", data = model.df)
+
+#Productive
+sf.prod <- glmer(Correct ~ Productive + count_range + age.c + (1|SID), 
+                 family = "binomial", data = model.df)
+
+#Highest contiguous NN
+sf.highest_contig <- glmer(Correct ~ highest_contig.c + count_range + age.c + (1|SID), 
+                 family = "binomial", data = model.df)
+
+#Productivity gradient
+sf.prod.gradient <- glmer(Correct ~ prod.gradient + count_range + age.c + (1|SID), 
+                 family = "binomial", data = model.df)
+```
+
+```{r}
+#base v. highest nn
+anova(sf.base, sf.highest_nn, test = 'LRT')
+#base v. ihc
+anova(sf.base, sf.ihc, test = 'LRT')
+#base v. fhc
+anova(sf.base, sf.fhc, test = 'LRT')
+#base v. productive
+anova(sf.base, sf.prod, test = 'LRT')
+#base v. highest_contig
+anova(sf.base, sf.highest_contig, test = 'LRT')
+#base. v. prod. gradient
+anova(sf.base, sf.prod.gradient, test = 'LRT')
+```
+
+```{r}
+#HCNN
+sf.large.base <- glmer(Correct ~ highest_contig.c + count_range + age.c + (1|SID), 
+                       family = "binomial", data = model.df)
+
+#FHC + HCNN 
+sf.large.plusfhc <- glmer(Correct ~ fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
+                       family = "binomial", data = model.df)
+anova(sf.large.base, sf.large.plusfhc, test = 'LRT') #FHC adds to model
+
+#IHC + FHC + HCNN 
+sf.large.plusfhc.ihc <- glmer(Correct ~ ihc.c + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
+                       family = "binomial", data = model.df)
+anova(sf.large.base, sf.large.plusfhc, sf.large.plusfhc.ihc, test = 'LRT') #IHC does not add to model
+
+##Productivity + FHC +  HCNN
+sf.large.plusprod <- glmer(Correct ~ Productive + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
+                       family = "binomial", data = model.df)
+anova(sf.large.base, sf.large.plusfhc, sf.large.plusprod, test = 'LRT') #productivity does not add to this model 
+```
+
+```{r}
+library(dotwhisker)
+#visualizing regressions 
+prod.model <- summary(sf.large.plusfhc)
+
+data <- data_frame(a, b, c)
+
+x <- data.frame(Parameter = as.character(), 
+                Coefficient = as.numeric(), 
+                `Std. Error` = as.numeric())
+x$Parameter <- as.vector(prod.model$coefficient[,0])
+x$Coefficient <- as.vector(prod.model$coefficient[,1]) 
+x$`Std. Error` <- as.vector(prod.model$coefficient[,2])
+
+ggplot(x, aes(x = Coefficient, y = Parameter, color = Parameter)) + 
+  geom_point() + 
+  geom_errorbar(aes(xmin = Coefficient - `Std. Error`, xmax = Coefficient + `Std. Error`), 
+                width = .1) 
+```
 
 # Discussion
 
