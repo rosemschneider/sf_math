@@ -838,59 +838,34 @@ all.data %>%
 ggsave("~/Documents/Projects/sf_math/Analysis/all_tasks.png", width = 7, height = 4)
 ```
 
-
-
-
-
-
-
-
-
-
-
-```{r}
-#now pull out only the kids in the first quartile, plot performance on MF 
-all %>%
-  filter(Task == "SF")%>%
-  group_by(SID, sf.quartile, mf.ceiling)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
-            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
-  ggplot(aes(x = mf.ceiling, y = mean, fill=mf.ceiling)) +
-  stat_summary(fun.y = mean, position = position_dodge(width = .95), 
-                      geom="bar", alpha = .5, colour = "black") +
-  geom_violin(alpha = .1) +
-  geom_point(aes(x = mf.ceiling, y = mean, colour = sf.quartile),
-               position=position_jitter(width=0.15,height=0.02),
-               size=1.5,
-             alpha = .9,
-               show.legend=TRUE, 
-             inherit.aes = FALSE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
-               position = position_dodge(width=0.90), width = 0.2)+
-  ylab("Mean SF performance") + 
-  xlab('') + 
-  theme_bw(base_size = 13) + 
-  theme(legend.position = "right") +
-  theme(text = element_text(size = 12), 
-        panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank()) +
-  ylim(0, 1.0) +
-  scale_fill_brewer(palette = "Set1") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
 ---
 
-#Task descriptives and visualizations
+#Highest Count
 
-##Highest count
 Descriptives
 ```{r}
-productivity.pal <- c("#666666","#00b8e6")
+#rename productivity
+all.data %<>%
+  mutate(Productive = factor(Productive, levels = c("Productive", "Nonproductive"), 
+                             labels = c("Resilient", "Non-Resilient")))
+
+productivity.pal <- c("#00b8e6", "#666666")
 
 all.data %>%
   distinct(SID, Age, Productive, IHC, FHC)%>%
   group_by(Productive)%>%
+  summarise(n = n(),
+            mean_IHC = round(mean(IHC)), 
+            sd_IHC = round(sd(IHC), 2), 
+            median_IHC = round(median(IHC)), 
+            mean_FHC = round(mean(FHC)), 
+            sd_FHC = round(sd(FHC), 2), 
+            median_FHC = round(median(FHC)))%>%
+  kable()
+
+#overall IHC and FHC
+all.data %>%
+  distinct(SID, Age, Productive, IHC, FHC)%>%
   summarise(n = n(),
             mean_IHC = round(mean(IHC)), 
             sd_IHC = round(sd(IHC), 2), 
@@ -936,7 +911,7 @@ xdens <- axis_canvas(pmain, axis = "x") +
   #                                       fill = Productive), 
   #                stat = 'xdensity', alpha = .5, size = .2, trim = FALSE) + 
   geom_density(data = initial_final, aes(x = IHC, y = ..density.., fill = Productive), 
-               alpha=.7, adjust = .5) + 
+               alpha=.4, adjust = .5) + 
   scale_fill_manual(values = productivity.pal) 
 
 ydens <- axis_canvas(pmain, axis = "y", coord_flip = TRUE) + 
@@ -944,7 +919,7 @@ ydens <- axis_canvas(pmain, axis = "y", coord_flip = TRUE) +
   #                                       fill = Productive), 
   #                stat = 'ydensity', alpha = .5, size = .2, trim = FALSE) + 
   geom_density(data = initial_final, aes(x = FHC, y = ..density.., fill = Productive), 
-               alpha=.7, adjust = .5) +
+               alpha=.4, adjust = .5) +
   coord_flip() +
   scale_fill_manual(values = productivity.pal) 
 
@@ -957,6 +932,24 @@ ggsave("~/Documents/Projects/sf_math/Analysis/density.png")
 # ggdraw(p6)
 # dev.off()
 ```
+
+###How many children who stopped before 120 were able to count at least a little beyond their IHC?
+```{r}
+#how many kids counted spontaneously to 120?
+all.data %>%
+  distinct(SID, IHC)%>%
+  filter(IHC == 120)
+
+error.freq %>%
+  distinct(SID, IHC, FHC)%>%
+  filter(IHC != 120)%>%
+  mutate(delta.count = FHC-IHC, 
+         counted.beyond = ifelse(delta.count > 0, "counted beyond IHC", "could not count beyond IHC"))%>%
+  group_by(counted.beyond)%>%
+  summarise(n = n(), 
+            mean.delta = mean(delta.count))
+```
+
 
 Prompts by productivity
 ```{r}
