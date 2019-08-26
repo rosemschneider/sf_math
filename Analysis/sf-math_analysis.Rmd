@@ -9,7 +9,6 @@ output:
 ```{r setup, include=FALSE}
 rm(list = ls())
 require("knitr")
-opts_knit$set(root.dir = "~/Documents/Projects/sf_math/") #this is specific to RMS, change accordingly
 library(tidyverse)
 library(magrittr)
 library(langcog)
@@ -21,270 +20,31 @@ library(ggthemes)
 '%!in%' <- function(x,y)!('%in%'(x,y))
 ```
 
-#Description
-Analysis code for project testing two hypothesized causal mechanisms in children's acquisition of the successor function: productive counting knowledge (i.e., mastery of recursive nature of number), and arithmetic operations (i.e., '+1' operation). At around 5.5-6 years of age, children exhibit a generalized understanding of the successor function, in that they seem to understand for every number its successor can be obtained by adding 1 (Cheung, Rubenson, & Barner, 2017; Davidson, Eng, & Barner, 2012). While previous work has found a link between successor knowledge and counting mastery, the exact nature of this link is unclear. Here, we are testing two hypothesis for how children might acquire the successor function: 
-
-1.  Productive counting knowledge: Through mastering the base-system, children may notice that the next number in the base is generated through implementation of the successor function. Thus, the successor function is not linked merely to how high a child can count, but specifically their understanding of the recursive nature of number. 
-2.  'Math Facts': Alternatively, in the course of learning arithmetic facts such as *4+1=5* and *5+1=6*, children may hypothesize that this '+1' rule holds true for any number. In this case, children may generalize the successor function through explicitly trained arithmetic language and procedures. 
-
-Per our preregistration, we are testing whether productive counting knowledge (operationalized by 4 different measures, below) or 'Math Facts' performance significantly explain unique variance in children's knowledge of the successor function. We are doing so using model comparison, testing whether an added variable significantly improves the fit of the model in comparison to a base. 
-
-It is important to note that our two hypotheses are not mutually exclusive: Given that previous work has found a positive correlation between age, counting ability, and successor knowledge (Cheung et al., 2017), it is possible that children's counting knowledge, arithmetic performance, and successor knowledge will be similarly correlated. Thus, per our preregistration, both productive counting knowledge and arithmetic performance may explain unique variance in children's successor knowledge. One important note, however, is that if the successor function is acquired through a generalization made over the '+1' operation, we should find that children who are at ceiling in our successor task should similarly be at ceiling in the 'Math Facts' task, as this hypothesis proposes that children are generalizing from that trained operation. 
-
-##Methods
-We tested 144 participants, aged 3;6-5;11, on 5/6 tasks: 
-
-1.  Give-N (6, 9, 7, 5): Used to assess whether children are Cardinal Principle-knowers. Non CP-knowers excluded. 
-2.  Highest Count with prompts: Children were asked to count as high as they could. If children could not remember the next number, or made an error, the experimenter provided that number, saying "Actually, what comes after *N* is *N+1*." Children were allowed 12 total errors, with a maximum of 3 errors per decade. 
-3.  Successor task: Children saw some number of fish swim under a lilypad, hearing "Look! There are *N* fish in the pond." Children then saw one fish added to the pond (in full view of the child), and heard "Are there *N+1* or *N+2* fish now?" Order of alternatives was counterbalanced across trials, and children received 16 test trials, with numbers ranging from 5-95. 
-4.  Next number task: Children heard a prompt "*N*, what comes next?" and needed to provide the next number. 8 test trials.
-5.  Math Facts task: Children were asked verbally, "Do you know what *N*+1 is?". 8 test trials.
-6.  Indefinite number task: Not all children received this task, included as an exploratory measure. Next number task for large/imaginary numbers (e.g., "Zillion 41, what comes next?")
-
-In all instances, if a child did not respond the trial was excluded. If a child responded "I don't know," that trial was marked as incorrect. Valid answers were considered to be numeric responses. 
-
-###Measures of productive counting knowledge/Math Facts
-Different models of counting productivity have different predictions of which measure best determines when children can be classified as understanding the productive nature of the count list. As an empirical comparison of these measures has yet to be performed, it is unclear which of these four (non-mutually-exclusive) alternatives is the best measure of productivity; thus, we will be testing the relationship between Successor Performance and each of these four measures individually.
-
-1.  Initial Highest Count (IHC): The highest number reached in the Highest Count Task prior to making an error
-2.  Final Highest Count (FHC): The highest number reached in the Highest Count Task at the end of the task (with or without prompts)
-3.  Highest Next Number (HNN): The highest number for which a child can generate a successor in the Next Number Task 
-4.  Productivity: A binary classification we derived. A child is classified as "Productive" if they are able to count at least 2 decades past an error without making more than 3 errors within those 2 decades. 
-
-'Math Facts' measure: Mean performance on 'Math Facts' task. 
-
 ---
 
 #Setup
 ##Loading data
+Raw data is read in and processed in sf-math_dataProc.R, which is called here. Processed data are then read in
 ```{r}
-data.raw <- read.csv("~/Documents/Projects/sf_math/Data/sf_math_data.csv")%>%
-  filter(SID != "CopyPasteMe", 
-         SID != "?")%>%
-  droplevels()%>%
-  filter(Correct != "HELP")%>% #temporary while we resolve helps
-  mutate(Age = as.numeric(as.character(Age)),
-         Correct = as.integer(as.character(Correct)))%>%
-  mutate(Age = round(Age, 2))%>%
-  dplyr::select(-Response_single, -Response_double)%>% #remove double coding
-  dplyr::rename(Response = Response_final) #rename for code
+source_r <- function(file, local = FALSE, ...){
+  options(knitr.duplicate.label = 'allow')
 
-hc.df <- read.csv("~/Documents/Projects/sf_math/Data/sf_math_hc.csv")%>%
-  dplyr::select(-IHC_single, - FHC_single, -Special_count, -Notes, -RMS.note)%>%
-  filter(Exclude_trial != 1, 
-         IHC_final != "HELP", 
-         FHC_final != "HELP")%>%
-  dplyr::rename(FHC = FHC_final, 
-                IHC = IHC_final)%>%
-  filter(!is.na(FHC), 
-         !is.na(IHC))%>%
-  mutate(IHC = ifelse(as.integer(as.character(IHC)) > 120, 120, as.integer(as.character(IHC))), 
-         FHC = ifelse(as.integer(as.character(FHC)) > 120, 120, as.integer(as.character(FHC)))) #add cap to IHC and FHC
-```
+  tempR <- tempfile(tmpdir = ".", fileext = ".R")
+  on.exit(unlink(tempR))
+  knitr::purl(file, output=tempR, quiet = TRUE)
 
----
-
-#Data manipulations
-##Productive/Nonproductive
-Children are classified as Productive if they are able to count at least 2 decades past an error without making more than 3 errors within those 2 decades. 
-```{r}
-hc <- hc.df %>% 
-  dplyr::select(SID, Last_successful, IHC, FHC) %>%
-  mutate_at(c('Last_successful','IHC','FHC'),
-            function(col) as.integer(str_replace_all(col,'\\D',''))) %>% 
-  mutate(Last_successful = ifelse(is.na(Last_successful), 120, Last_successful))%>%
-  mutate(SID = as.character(SID))
-# 
-# 
-is.productive = function(subject){
-  # takes as input the data for a single subject
-  # RULES:
-  # - counts to 120 unaided = productive
-  # - after making first error, counts >= 20 higher, with no more than 3 errors on way
-  if(subject$IHC[1] >= 120){
-    # if they get to 120 on first try, = productive
-    return("Productive")
-  } else if(subject$FHC[1] == 120 & nrow(subject) < 4) {
-    return("Productive")
-  } else if(subject$FHC[1] < 120 & nrow(subject) == 1 
-            & subject$FHC[1] == subject$IHC[1]) {
-    return("Nonproductive")
-  } else if((subject$FHC[1] - subject$IHC[1]) >= 20){
-    # if their final is >= 20 larger than their intial...
-    if(nrow(subject) < 4){
-      # and they've made 3 or fewer total errors, = productive
-      return("Productive")
-    } 
-    else {
-      for(i in 1:nrow(subject)){ # start at row 2
-        # check if they ever made it >= 20 counts & <= 3 errors after an error
-        runLength = 0 # they just made an error, so no post-error successes yet
-        numErrors = 0 # first row was an error if it's not finalCount == 120
-        prev = subject$Last_successful[i]
-        for (j in i+1:nrow(subject)){ # from current row until end...
-          numErrors = numErrors + 1 # new row means new error
-          runLength = runLength + (subject$Last_successful[j] - prev)
-          # ^ add difference between current count and last count to run length
-          prev = subject$Last_successful[j] # update last count
-          if(runLength >= 20 & numErrors < 4){
-            # if at any point the productivity conditions are met...
-            return("Productive") # = productive
-          }
-        }
-      }
-      # productivity conditions were never met (because we got to this point) so...
-      return("Nonproductive") # != productive
-    }
-  } else {
-    # highest is not >= 20 greater than initial
-    return("Nonproductive")
-  }
+  envir <- globalenv()
+  source(tempR, local = envir, ...)
 }
 
-# 
-#make function to run for all participants
-unique_SIDs <- as.vector(unique(hc.df$SID))
-# 
-class_prod <- function(vector) {
-  temp_data <- data.frame()
-  for (i in vector) {
-    prod.class <- data.frame(i, is.productive(subset(hc, SID == i)))
-    # print(i) # for debugging
-    names(prod.class) <- c("SID", "productive")
-    prod.class %<>%
-      mutate(SID = as.character(SID), 
-             productive = as.character(productive))
-    temp_data <- bind_rows(temp_data, prod.class)
-  }
-  return(temp_data)
-}
-# 
-
-#get productive classification for every participant
-productive <- class_prod(unique_SIDs)%>%
-  dplyr::rename(Productive = productive)
-
-#remove last-successful from hc so you can add IHC and FHC to data.raw
-hc %<>%
-  dplyr::select(-Last_successful)
-
-#add productive classifications
-productive <- full_join(productive, hc, by = "SID")%>%
-  distinct(SID, IHC, FHC, Productive)
-
-#full join with raw data
-data.raw <- full_join(data.raw, productive, by = "SID") 
-
-#made SID and Productive factors again #MSaPFA
-data.raw %<>%
-  mutate(SID = factor(SID), 
-         Productive = factor(Productive))
+source_r("sf-math_dataProc.R")
+#this results in a cleaned .csv, re-compiled every time from original data
 ```
 
-##Knower level
-Children are classified as CP-knowers if they get all 4 CP items correct. Otherwise, they are classified as subset-knowers. This is for a sanity check - all kids in this dataset are CP-knowers.
+##Read in processed data
 ```{r}
-cp.df <- data.raw %>%
-  filter(Task == "GiveN")%>%
-  group_by(SID)%>%
-  summarise(sum_correct = sum(Correct, na.rm = TRUE))%>%
-  mutate(Knower.level = ifelse(sum_correct >= 4, "CP-knower", "Subset-knower"))%>%
-  dplyr::select(-sum_correct)
-
-data.raw <- full_join(data.raw, cp.df, by = "SID")
+all.data <- read.csv("../Data/sf-math_data_processed.csv")
 ```
-
-##Highest Contiguous NN (HCNN)
-Highest contiguous NN = highest number successfully generated, provided that previous numbers were correct. Children who failed training given HCNN of 0 (N = 2). 
-
-Although we initially preregistered Highest Next Number, we realized that this measure might be skewed because it did not account for accuracy. We are including post-hoc analyses with HCNN as a more accurate measure of productive counting knowledge. 
-```{r}
-#Get kids who failed NN for highest contiguous
-failed.nn <- data.raw %>%
-  filter(Task == "WCN", 
-         Correct == 0, 
-         Trial_number == "Training")
-
-failed.nn.sids <- unique(as.vector(failed.nn$SID))
-
-#get unique ids
-unique.nn <- data.raw %>%
-  filter(Task == "WCN")%>%
-  distinct(SID)
-
-unique.nn <- as.vector(unique.nn$SID)
-nextnums <- as.vector(c(7, 26, 30, 62, 83, 95, 71, 24))
-
-#this is a function that pulls out the largest number for which a participant had a correct consecutive
-get_contiguous <- function(){
-  contig <- data.frame()
-  for (sub in unique.nn) {
-    tmp <- data.raw %>%
-      filter(Task == "WCN",
-             SID == sub, 
-             Correct == 0)%>%
-      mutate(Task_item= as.integer(as.character(Task_item)))%>%
-      mutate(Task_item = sort(as.integer(as.character(Task_item))))
-    if (length(tmp$SID) == 0) {
-      highest_contig = 95
-      sub_contig <- data.frame(sub, highest_contig) 
-      sub_contig %<>%
-        mutate(sub = as.character(sub),
-                highest_contig = as.character(highest_contig))
-      contig <- bind_rows(contig, sub_contig)
-    } else if (sub %in% failed.nn.sids) {
-      highest_contig = 0
-      sub_contig <- data.frame(sub, highest_contig) 
-      sub_contig %<>%
-        mutate(sub = as.character(sub),
-                highest_contig = as.character(highest_contig))
-      contig <- bind_rows(contig, sub_contig)
-    } else if (length(tmp$Task_item) > 0 & min(as.integer(as.character(tmp$Task_item))) == 7) {
-      highest_contig = 1
-      sub_contig <- data.frame(sub, highest_contig)
-      sub_contig %<>%
-        mutate(sub = as.character(sub),
-                highest_contig = as.character(highest_contig))
-      contig <- bind_rows(contig, sub_contig)
-    } else {
-      min.nn <- min(as.integer(as.character(tmp$Task_item)))
-      prev_correct <- nextnums[nextnums < min.nn]
-      highest_contig <- max(prev_correct)
-    
-      sub_contig <- data.frame(sub,
-                             highest_contig) 
-      sub_contig %<>%
-        mutate(sub = as.character(sub),
-                highest_contig = as.character(highest_contig))
-      contig <- bind_rows(contig, sub_contig)
-    }
-  }
-  contig %<>%
-    mutate(highest_contig = as.character(highest_contig))
-  return(contig)
-}
-
-highest_contiguous_nn <- get_contiguous()%>%
-  dplyr::rename(SID = sub)
-
-#add this to df 
-data.raw <- full_join(data.raw, highest_contiguous_nn, by = "SID")
-
-# #how many kids don't have a highest contiguous NN? 
-# all.data %>%
-#   filter(is.na(Language))
-#   filter(is.na(highest_contig))%>%
-#   distinct(Language, SID)%>%
-#   group_by(Language)%>%
-#   summarise(n = n())%>%
-#   kable()
-
-#Check - does anyone have NA for HCNN? 
-data.raw %>%
-  filter(is.na(highest_contig))%>%
-  filter(Exclude_analysis == 0)
-```
-
 ---
 
 #Exclusions 
@@ -294,7 +54,7 @@ Children were excluded from the analysis only if a) they did not complete the hi
 Pre-exclusion kids
 ```{r}
 ##How many kids pre-exclusions?
-data.raw %>%
+all.data %>%
   distinct(SID)%>%
   summarise(n = n())%>%
   kable()
@@ -379,14 +139,14 @@ How many trials were excluded? Why?
 ```{r}
 #how many trials excluded, and for what reason
 all.data %>%
-  filter(Exclude_trial == "1")%>%
+  filter(Exclude_trial == 1)%>%
   group_by(Task, Exclude_trial_reason)%>%
   summarise(n = n())%>%
   kable()
 
 #exclude these trials
 all.data %<>%
-  filter(Exclude_trial != "1")
+  filter(Exclude_trial != 1)
 ```
 
 How many kids failed training? In what task?
@@ -427,39 +187,44 @@ all.data %<>%
 ##Highest next number (HNN) - not using this anymore
 Find the highest next number answered correctly for each participant.
 ```{r}
-# #Create a lookup table with the highest NN correctly answered
-# lookup <- all.data %>%
-#   filter(Task == "WCN")%>%
-#   filter(Correct == 1)%>%
-#   group_by(SID)%>%
-#   summarise(max = max(as.integer(as.character(Task_item))))
-# 
-# no.corr.nn <- all.data %>%
-#   filter(Task == "WCN")%>%
-#   group_by(SID)%>%
-#   summarise(mean = mean(Correct, na.rm = TRUE))%>%
-#   filter(mean == 0)
-# 
-# no.corr.nn.sids <- as.vector(unique(no.corr.nn$SID))
-# 
-# #Function that adds the highest NN to a participant's row in the SF dataframe
-# add_highest_num <- function(df) {
-#   tmp <- df
-#   for (row in 1:nrow(tmp)) {
-#     sub = as.character(tmp[row, "SID"])
-#     if (sub %in% no.corr.nn.sids) {
-#       highest_num = 0
-#       tmp[row, "highest_num"] = highest_num
-#     } else {
-#       highest_num = subset(lookup, SID == sub)$max
-#       tmp[row, "highest_num"] = highest_num
-#     }
-#   }
-#   return(tmp)
-# }
-# 
-# #run this function on SF dataframe
-# all.data <- add_highest_num(all.data)
+#Create a lookup table with the highest NN correctly answered
+lookup <- all.data %>%
+  filter(Task == "WCN")%>%
+  filter(Correct == 1)%>%
+  group_by(SID)%>%
+  summarise(max = max(as.integer(as.character(Task_item))))
+
+no.corr.nn <- all.data %>%
+  filter(Task == "WCN")%>%
+  group_by(SID)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE))%>%
+  filter(mean == 0)
+
+no.corr.nn.sids <- as.vector(unique(no.corr.nn$SID))
+
+#Function that adds the highest NN to a participant's row in the SF dataframe
+add_highest_num <- function(df) {
+  tmp <- df
+  for (row in 1:nrow(tmp)) {
+    sub = as.character(tmp[row, "SID"])
+    if (sub %in% no.corr.nn.sids) {
+      highest_num = 0
+      tmp[row, "highest_num"] = highest_num
+    } else {
+      highest_num = subset(lookup, SID == sub)$max
+      tmp[row, "highest_num"] = highest_num
+    }
+  }
+  return(tmp)
+}
+
+#run this function on SF dataframe
+all.data <- add_highest_num(all.data)
+
+all.data %>%
+  distinct(SID, highest_num)%>%
+  group_by(highest_num)%>%
+  summarise(n = n())
 # ```
 # 
 # ##Productivity gradient
@@ -1062,50 +827,302 @@ error.freq %>%
   kable()
 ```
 
-###Histogram Initial and Final Highest Count
+---
+
+#Figure: NN accuracy by HNN and HCNN
 ```{r}
-productivity.pal <- c("#666666","#00b8e6")
+#get mean performance for highest NN
+ms.hnn <- all.data %>%
+  filter(Task == "WCN")%>%
+  mutate(Number = factor(highest_num, levels = c("0", "7", 
+                                                            "24", "26", "30", 
+                                                            "62", "71", "83", "95")))%>%
+  group_by(Number)%>%
+  summarise(n = n(), 
+            mean = mean(Correct, na.rm = TRUE), 
+            sd = sd(Correct, na.rm = TRUE), 
+            se = sd/sqrt(n))%>%
+  mutate(Type = "Highest Next Number")
 
-unique.hc.data <- all.data %>%
-  distinct(SID, IHC, FHC, Productive, Language, Dataset)%>%
-  gather(IHC_FHC,highest_count, IHC:FHC)%>%
-  mutate(highest_count = as.integer(highest_count), 
-         IHC_FHC = factor(IHC_FHC, levels = c("IHC", "FHC"), 
-                          labels = c("Initial Highest Count", "Final Highest Count")))
+#get mean performance for HCNN
+ms.hcnn <- all.data %>%
+  filter(Task == "WCN")%>%
+  mutate(Number = factor(highest_contig, levels = c("0", "1", "7", 
+                                                            "24", "26", "30", 
+                                                            "62", "71", "83", "95")))%>%
+  group_by(Number)%>%
+  summarise(n = n(), 
+            mean = mean(Correct, na.rm = TRUE), 
+            sd = sd(Correct, na.rm = TRUE), 
+            se = sd/sqrt(n))%>%
+  mutate(Type = "Highest Contiguous Next Number")
 
-#Initial/Final
-unique.hc.data %>%
-ggplot(aes(x=highest_count, fill=Productive)) + 
-  geom_histogram(binwidth = 10, colour = "black") +
-  theme_bw(base_size = 10)+
-  facet_grid(~IHC_FHC) +
-  scale_x_continuous(breaks = seq(0, 140, 10))+
-  scale_fill_manual(values = productivity.pal) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1), 
-        panel.grid.minor = element_blank(), 
-        legend.title = element_blank())+
-  theme(legend.position = "bottom") + 
-  labs(x = "Highest count", y = "Frequency")
+#bind_rows
+ms.highest.all <- bind_rows(ms.hnn, ms.hcnn)
+
+#combine, plot
+ms.highest.all %>%
+  mutate(Number = factor(Number, levels = c("0", "1", "7", 
+                                                            "24", "26", "30", 
+                                                            "62", "71", "83", "95")))%>%
+  ggplot(aes(x = Number, y = mean, color = Type, group = Type)) + 
+  geom_point(size = 2) + 
+  geom_line(linetype = "dashed") +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), 
+                width = .1) + 
+  theme_bw(base_size = 13) + 
+  theme(panel.grid = element_blank(), 
+        legend.title = element_blank(), 
+        legend.position = "top") + 
+  labs(x = "Number reached", y = "Mean Next Number performance") +
+  scale_color_brewer(palette = "Paired")
+
+ ggsave("~/Documents/Projects/sf_math/Analysis/nn_by_hcnn.png", width = 5.5, height = 4.5)
+
 ```
 
+---
 
-####IHC/FHC scatter
+#Performance by Resilience: Unit, NN, Math Facts
+##Descriptives
 ```{r}
-initial_final %>%
-ggplot(aes(x = IHC, y = FHC, 
-                          color = Productive)) +
-  geom_point(size = 1) + geom_jitter(width = .1) +
-  labs(x = "Initial highest count", y = "Final highest count", 
-                      color = "", title = "") +
+all.data %>%
+  filter(Task == "SF" | 
+           Task == "WCN" | 
+           Task == "MF")%>%
+  group_by(Task, Productive)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE), 
+            sd = sd(Correct, na.rm = TRUE))%>%
+  kable()
+```
+
+##Figure: Mean performance by Resilience
+```{r}
+all.data %>%
+  filter(Task == "SF" |
+           Task == "WCN" |
+           Task == "MF")%>%
+  mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"), labels = c("Unit Task", "Next Number", "Math Facts")))%>%
+  group_by(SID, Productive, Task)%>%
+  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
+            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
+  ggplot(aes(x = Productive, y = mean, fill=Productive)) +
+  stat_summary(fun.y = mean, position = position_dodge(width = .95),
+                      geom="bar", alpha = .5, colour = "black") +
+  # geom_violin(alpha = .5) +
+  geom_point(aes(x = Productive, y = mean, colour = Productive),
+               position=position_jitter(width = .18, height = .035),
+               size=1.5,
+               show.legend=FALSE, 
+             inherit.aes = FALSE) +
+  stat_summary(fun.data = mean_se, geom="errorbar", 
+               position = position_dodge(width=0.90), width = 0.2, size = 1)+
+  ylab("Mean task performance") + 
+  xlab('') + 
   theme_bw(base_size = 13) + 
-  scale_x_continuous(breaks = seq(0, 140, 10)) + 
-  scale_y_continuous(breaks = seq(0, 140, 10)) + 
+  theme(legend.position = "bottom") +
   theme(panel.grid.minor = element_blank(), 
-        legend.position = "bottom", 
-        legend.text = element_text(size = 8)) +
-  scale_colour_manual(values = productivity.pal) +
-  theme(legend.position = "bottom") + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+        panel.grid.major = element_blank(),
+        axis.text.x = element_blank(), 
+        axis.ticks.x = element_blank(), 
+        legend.position = "right", 
+        legend.title = element_blank()) +
+  ylim(0, 1.0) +
+  scale_fill_manual(values = productivity.pal) +
+  scale_colour_manual(values = productivity.pal, guide = "none") + 
+  facet_grid(~Task)
+# 
+ggsave("~/Documents/Projects/sf_math/Analysis/mean_resilience.png", width = 7, height = 3.5)
+```
+
+##Analysis: Do Resilient Counters have better performance on tasks?
+```{r}
+#make model with mean performance
+ms.task <- all.data %>%
+  distinct(SID, Productive, Age, mean.unit, mean.mf, mean.nn)%>%
+  gather(key = "Task", value = "mean", -SID, - Productive, -Age)%>%
+  mutate(Task = ifelse(Task == "mean.unit", "SF", 
+                       ifelse(Task == "mean.nn", "WCN", "MF")))%>%
+  mutate(Task = factor(Task, levels = c("SF", "WCN", "MF")))%>%
+  mutate(Productive = factor(Productive, levels = c("Non-Resilient", "Resilient")))
+
+#mean performance
+resil.lm <- lm(mean ~ Productive + Task + Age, 
+               data = ms.task)
+
+#summary
+summary(resil.lm)
+
+#re-order
+summary(lm(mean ~ Productive + relevel(Task, ref = "WCN") + Age, 
+               data = ms.task))
+```
+
+---
+
+#Performance within/outside count range
+Do Resilient counters do better for numbers outside their Initial Highest Count?
+```{r}
+#need to get only kids that have numbers which fall outside their count range
+#filters out n = 28 kids
+model.mf.sf.all.df %<>%
+  mutate(Prod.tertiary = ifelse(IHC >= 95, "Resilient IHC >= 95", 
+                                ifelse((IHC < 95 & Productive == "Resilient"), "Resilient IHC < 95", "Non-Resilient")))
+
+model.mf.sf.all.df %>%
+  group_by(SID, Prod.tertiary, count_range, Task)%>%
+  summarise(n = n(), 
+            mean = mean(Correct, na.rm = TRUE), 
+            sd = sd(Correct, na.rm = TRUE), 
+            se = sd/(sqrt(n)))%>%
+  ggplot(aes(x = count_range, y = mean, fill = Prod.tertiary)) +
+  stat_summary(fun.y = mean, position = position_dodge(width = .95),
+                      geom="bar", alpha = .5, colour = "black") +
+  # geom_violin(alpha = .5) +
+  # geom_point(aes(x = count_range, y = mean, colour = Prod.tertiary),
+  #              position=position_jitter(width = .18, height = .035),
+  #              size=1.5,
+  #              show.legend=FALSE, 
+  #            inherit.aes = FALSE) +
+  stat_summary(fun.data = mean_se, geom="errorbar", 
+               position = position_dodge(width=0.90), width = 0.2, size = 1)+
+  ylab("Mean task performance") + 
+  xlab('') + 
+  theme_bw(base_size = 13) + 
+  theme(legend.position = "bottom") +
+  theme(panel.grid.minor = element_blank(), 
+        panel.grid.major = element_blank(),
+        legend.position = "right", 
+        legend.title = element_blank()) +
+  ylim(0, 1.0) + 
+  facet_grid(~Task)
+
+#look at only participants who have items within/outside their IHC
+range.base <- glmer(Correct ~ count_range*Productive + Task + age.c + (1|SID),
+                    family = "binomial", data = subset(model.mf.sf.all.df, IHC < 95))
+
+summary(range.base)#no significant interaction between count range and Productivity
+```
+
+---
+
+#Exploratory: Indefinite Next Number 
+Descriptives by item
+```{r}
+all.data %>%
+  filter(Task == "Indefinite", 
+         !is.na(Correct))%>%
+  group_by(Task_item)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE), 
+            sd = sd(Correct, na.rm = TRUE))%>%
+  kable()
+```
+
+Note: This does not include all participants
+```{r}
+#filter out anyone who has NA for mean indef
+indef.model <- model.df %>%
+  filter(!is.na(mean.indef.c))
+
+#does mean indefinite next number performance predict Unit Task
+#is indefinite on its own predictive
+indef.base.single <- glmer(Correct ~ count_range + age.c + (1|SID), 
+                    family = "binomial", data = indef.model)
+indef.indef.single <- glmer(Correct ~ mean.indef.c + count_range + age.c + (1|SID), 
+                    family = "binomial", data = indef.model)
+
+#compare
+anova(indef.base.single, indef.indef.single, test = 'LRT')
+summary(indef.indef.single)
+
+##add to final model with prod and math
+#model without indefinite
+indef.base <- glmer(Correct ~ mean.mf.c + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
+                    family = "binomial", data = indef.model)
+
+#model with indefinite
+indef.indef <- glmer(Correct ~ mean.indef.c + mean.mf.c + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
+                     family = "binomial", data = indef.model)
+
+#compare
+anova(indef.base, indef.indef, test = 'LRT') #mean indefinite significantly adds
+
+summary(indef.indef)
+
+```
+
+##Indefinite visualization by Resilience
+```{r}
+all.data %>%
+  filter(!is.na(mean.indef))%>%
+  filter(Task == "SF")%>%
+  mutate(indef.bin = ifelse(mean.indef < .25, "0 correct", 
+                            ifelse(mean.indef == .25, "1 correct", 
+                                   ifelse(mean.indef == .5, "2 correct", 
+                                          ifelse(mean.indef == .75, "3 correct", "4 correct")))))%>%
+  group_by(SID, Task, indef.bin)%>%
+  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
+            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
+  ggplot(aes(x = indef.bin, y = mean, fill=Task)) +
+  # geom_violin(aes(fill = Task), alpha = .4) + 
+  stat_summary(fun.y = mean, position = position_dodge(width = .95),
+                      geom="bar", alpha = .5, colour = "black") +
+  geom_point(aes(x = indef.bin, y = mean, colour = Task),
+               position=position_jitter(width=0.15,height=0.02),
+               size=1.5,
+               show.legend=TRUE, 
+             inherit.aes = FALSE) +
+  stat_summary(fun.data = mean_se, geom="errorbar", 
+               position = position_dodge(width=0.90), width = 0.1, size = 1)+
+  ylab("Mean Unit Task performance") + 
+  xlab('Mean Indefinite Next Number performance') + 
+  theme_bw(base_size = 15) + 
+  theme(legend.position = "right") +
+  theme(panel.grid.minor = element_blank(), 
+        panel.grid.major = element_blank(), 
+        legend.position = "none") +
+  ylim(0, 1.0) +
+  scale_fill_manual(values = "#091E5B") + 
+  scale_color_manual(values = "#091E5B") + 
+  coord_fixed(ratio = 1.8)
+
+# ggsave("~/Documents/Projects/sf_math/Analysis/indef.png")
+```
+
+##What about indefinite NN along with other tasks? 
+```{r}
+all.data %>%
+  filter(!is.na(mean.indef))%>%
+  filter(Task == "SF" | 
+           Task == "WCN" | 
+           Task == "MF" | 
+           Task == "Indefinite")%>%
+  group_by(SID, Task, sf.quartile)%>%
+  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
+            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
+  ggplot(aes(x = sf.quartile, y = mean, fill=Task)) +
+  # geom_violin(aes(fill = Task), alpha = .4) + 
+  stat_summary(fun.y = mean, position = position_dodge(width = .95),
+                      geom="bar", alpha = .5, colour = "black") +
+  geom_point(aes(x = sf.quartile, y = mean, colour = Task),
+               position=position_jitter(width=0.15,height=0.02),
+               size=1.5,
+               show.legend=TRUE, 
+             inherit.aes = FALSE) +
+  stat_summary(fun.data = mean_se, geom="errorbar", 
+               position = position_dodge(width=0.90), width = 0.1, size = 1)+
+  ylab("Mean Task performance") + 
+  xlab("Unit Task quartiles") + 
+  facet_grid(~sf.quartile, scale = "free_x") +
+  theme_bw(base_size = 15) + 
+  theme(legend.position = "right") +
+  theme(panel.grid.minor = element_blank(), 
+        panel.grid.major = element_blank(), 
+        legend.position = "none") +
+  ylim(0, 1.0) 
+  # scale_fill_manual(values = "#091E5B") + 
+  # scale_color_manual(values = "#091E5B") 
+  
 ```
 
 ***
@@ -1880,37 +1897,3 @@ anova(sf.indef.highest_contig.indef.fhc, sf.indef.highest_contig.indef.fhc.mf, t
 
 
 
-
-
-```{r, include = FALSE}
-# task.df <- all.data %>%
-#   filter(Task == "SF" |
-#            Task == "WCN" | 
-#            Task == "MF")%>%
-#   mutate(Task_item = as.integer(as.character(Task_item)), 
-#          age.c = as.vector(scale(Age, center = TRUE, scale=TRUE)), 
-#          task_item.c = as.vector(scale(Task_item, center = TRUE, scale=TRUE)))
-# 
-# task.model <- glmer(Correct ~ Task*novel_same + age.c + (1|SID), 
-#                     family = "binomial", data = task.df)
-# summary(task.model)
-```
-
-
-```{r, include = FALSE}
-# #Exploratory model: Predicting probability from highest count 
-# #Can you predict whether someone will be productive or nonproductive based on t5%heir initial highest count?
-#   
-# model.df %<>%
-#   mutate(productive.log = ifelse(productive == "productive", 1, 0))
-# 
-# model.prod <- model.df %>%
-#   distinct(SID, age, productive.log, initial_highest, final_highest)
-# 
-# model.prod.prob <- glr(productive.log ~ initial_highest + age + (1|SID), 
-#                     family = "binomial", data = model.prod)
-# model.prod.prob.base <- glmer(productive.log ~ age + (1|SID), 
-#                     family = "binomial", data = model.prod)
-# with(model.prod.prob@optinfo$derivs,max(abs(solve(Hessian,gradient)))<2e-3)
-# anova(model.prod.prob, model.prod.prob.base, test = 'LRT')
-```
