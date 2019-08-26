@@ -63,7 +63,7 @@ all.data %>%
 Exclusion reasons
 ```{r}
 #Why are kids being excluded?
-data.raw %>%
+all.data %>%
   filter(Exclude_analysis == 1)%>%
   distinct(SID, Exclude_analysis, Exclude_analysis_reason)%>%
   group_by(Exclude_analysis_reason)%>%
@@ -74,7 +74,7 @@ data.raw %>%
 
 ```{r}
 #exclude these kids from analysis
-all.data <- data.raw %>%
+all.data %<>%
   filter(Exclude_analysis != 1)
 ```
 
@@ -94,28 +94,6 @@ all.data %>%
   distinct(SID, Sex)%>%
   group_by(Sex)%>%
   summarise(n = n())
-```
-
-Age histogram
-```{r}
-#histogram of age
-all.data %>%
-  distinct(SID, Age)%>%
-ggplot(aes(x = Age)) +
-  geom_histogram(binwidth = .5, colour = "black") +
-  theme_bw() + 
-  theme(panel.grid.minor = element_blank()) +
-  scale_x_continuous(breaks = c(3.5, 4, 4.5, 5, 5.5, 6.1)) +
-  scale_fill_brewer(palette = "Dark2") + 
-  guides(fill = FALSE) +
-  labs(y = "Count")
-
-#demographics
-all.data %>%
-  distinct(SID, Age)%>%
-  summarise(mean_age = round(mean(Age), 2), 
-            sd_age = round(sd(Age), 2))%>%
-  kable()
 ```
 
 ###Task exclusions
@@ -180,63 +158,14 @@ all.data %>%
 Each trial on the Unit or WCN task was determined to be either within or outside a child's unprompted count range (IHC).
 ```{r}
 all.data %<>%
-  mutate(count_range = ifelse((Task == "SF" | Task == "WCN" | Task == "MF") & as.numeric(as.character(Task_item)) <= IHC, "Within", "Outside")) %>%
+  mutate(count_range = ifelse((Task == "SF" | Task == "WCN" | Task == "MF") & 
+                                as.numeric(as.character(Task_item)) <= IHC, "Within", 
+                              ifelse((Task == "SF" | Task == "WCN" | Task == "MF") &
+                                       as.numeric(as.character(Task_item)) > IHC, "Outside", NA))) %>%
   mutate(count_range = factor(count_range, levels = c("Within", "Outside")))
 ```
 
-##Highest next number (HNN) - not using this anymore
-Find the highest next number answered correctly for each participant.
-```{r}
-#Create a lookup table with the highest NN correctly answered
-lookup <- all.data %>%
-  filter(Task == "WCN")%>%
-  filter(Correct == 1)%>%
-  group_by(SID)%>%
-  summarise(max = max(as.integer(as.character(Task_item))))
-
-no.corr.nn <- all.data %>%
-  filter(Task == "WCN")%>%
-  group_by(SID)%>%
-  summarise(mean = mean(Correct, na.rm = TRUE))%>%
-  filter(mean == 0)
-
-no.corr.nn.sids <- as.vector(unique(no.corr.nn$SID))
-
-#Function that adds the highest NN to a participant's row in the SF dataframe
-add_highest_num <- function(df) {
-  tmp <- df
-  for (row in 1:nrow(tmp)) {
-    sub = as.character(tmp[row, "SID"])
-    if (sub %in% no.corr.nn.sids) {
-      highest_num = 0
-      tmp[row, "highest_num"] = highest_num
-    } else {
-      highest_num = subset(lookup, SID == sub)$max
-      tmp[row, "highest_num"] = highest_num
-    }
-  }
-  return(tmp)
-}
-
-#run this function on SF dataframe
-all.data <- add_highest_num(all.data)
-
-all.data %>%
-  distinct(SID, highest_num)%>%
-  group_by(highest_num)%>%
-  summarise(n = n())
-# ```
-# 
-# ##Productivity gradient
-# Exploratory measure of productivity. Accounts for recursive counting knowledge while attempting to disentangle the effects of Initial Highest Count and Final Highest Count. Productivity gradient is calculated by dividing the delta between IHC and FHC by the total number of numbers left in the task by subtracting the IHC from 120. 
-# ```{r}
-# all.data %<>%
-#   mutate(delta.hc = FHC-IHC, 
-#          prod.gradient = delta.hc/(120-IHC), 
-#          prod.gradient = ifelse(IHC == 120 | IHC == 119, 1, as.numeric(prod.gradient)))
-```
-
-##Mean Indefinite number performance
+##Mean performance for Indefinite, Unit, NN, and MF
 Mean performance on the indefinite number task for children who received it.
 ```{r}
 indef.mean <- all.data %>%
@@ -245,12 +174,7 @@ indef.mean <- all.data %>%
   summarise(mean.indef = mean(Correct, na.rm = TRUE))
 
 all.data <- full_join(all.data, indef.mean, by = "SID")
-```
 
-
-##Mean Math Facts performance, Mean NN performance, Mean successor Performance
-Mean performance on Math Facts, Next Number, and Successor task.
-```{r}
 mf.sum <- all.data %>%
   filter(Task == "MF")%>%
   group_by(SID)%>%
@@ -273,6 +197,7 @@ nn.mean <- all.data %>%
 all.data <- full_join(all.data, nn.mean, by = "SID")
 ```
 
+---
 ##Demographics
 ```{r}
 all.data %>%
