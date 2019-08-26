@@ -321,7 +321,6 @@ Start with HCNN, strongest predictor.
 #HCNN
 sf.large.base <- glmer(Correct ~ highest_contig.c + count_range + age.c + (1|SID), 
                        family = "binomial", data = model.df)
-summary(sf.large.base)
 
 #HCNN + FHC
 sf.large.plusfhc <- glmer(Correct ~ fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
@@ -348,7 +347,7 @@ mtable.sf.large
 ```
 
 #Math Facts model 
-Is mean Math Facts performance significantly predictive of SF knowledge? Yes - Chisq(1) = 54.09, p < .0001
+Is mean Math Facts performance significantly predictive of SF knowledge? Yes - Chisq(1) = 54.66, p < .0001
 ```{r}
 #build model
 sf.mf <- glmer(Correct ~ mean.mf.c + count_range + age.c + (1|SID), 
@@ -448,46 +447,7 @@ summary(mf.sf.all.task)
 
 ```
 
-##Figure: Line graph showing difference in performance between NN and Math Facts as function of Unit Task quartile
-
-```{r}
-task.pal <- c("#3AAADD", "#ed7d31")
- 
-##MF performance by quartile
-all.data %>% filter(Task == "WCN" |
-           Task == "MF")%>%
-  mutate(Task = factor(Task, levels = c("WCN", "MF"), 
-                       labels = c("Next Number", "Math Facts")), 
-         sf.quartile = factor(sf.quartile, labels = c("25% — 44%", "44% — 63%", "63% — 88%", "88% — 100%"))) %>% 
-  group_by(SID, sf.quartile, Task)%>%
-  summarise(mean.sub = mean(as.integer(as.character(Correct)), na.rm = TRUE), 
-            n = n(), 
-            sd = sd(as.integer(as.character(Correct)), na.rm = TRUE), 
-            se = sd/sqrt(n)) %>%
-  group_by(sf.quartile, Task)%>%
-  summarise(mean = mean(mean.sub), 
-            mean.se = mean(se))%>%
-  ggplot(aes(x = sf.quartile, y = mean, color=Task, group = Task)) +
-  geom_point(size = 2.75) + 
-  geom_line() +
-  geom_errorbar(aes(ymin = mean - mean.se, ymax = mean + mean.se), 
-                width = .05, size = 1) +
-  ylab("Mean task performance") + 
-  xlab('Mean Unit Task performance') + 
-  theme_bw(base_size = 15) + 
-  theme(legend.position = "bottom") +
-  theme(panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(),
-        legend.position = c(0.818, 0.2)) +
-  ylim(0, 1.0) +
-  scale_color_manual(values = task.pal)
-
-
-ggsave("~/Documents/Projects/sf_math/Analysis/3_tasks.png", width = 6, height = 5)
-```
-
-
-##Alternative figure: Bar graph showing difference between MF and NN as function of SF
+## Bar graph showing difference between MF and NN as function of SF
 ```{r}
 three.pal <- c("#173BAB", "#5CA7D8", "#DE8141")
 
