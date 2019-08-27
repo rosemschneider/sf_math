@@ -13,7 +13,7 @@ library(tidyverse)
 library(magrittr)
 library(langcog)
 library(lme4)
-library(stringr)
+library(stringr)    
 library(RColorBrewer)
 library(ggthemes)
 
@@ -56,8 +56,7 @@ Pre-exclusion kids
 ##How many kids pre-exclusions?
 all.data %>%
   distinct(SID)%>%
-  summarise(n = n())%>%
-  kable()
+  summarise(n = n())
 ```
 
 Exclusion reasons
@@ -68,8 +67,7 @@ all.data %>%
   distinct(SID, Exclude_analysis, Exclude_analysis_reason)%>%
   group_by(Exclude_analysis_reason)%>%
   summarise(n = n())%>%
-  mutate(total.n = sum(n)) %>%
-  kable()
+  mutate(total.n = sum(n)) 
 ```
 
 ```{r}
@@ -84,8 +82,7 @@ How many kids left after exclusions?
 all.data %>%
   distinct(SID)%>%
   summarise(n = n())%>%
-  mutate(total.n = sum(n))%>%
-  kable()
+  mutate(total.n = sum(n))
 ```
 
 Sex
@@ -102,8 +99,7 @@ Children were excluded from a given task if they did not complete at least ONE t
 #how many kids are excluded from which tasks
 all.data %>%
   filter(Exclude_task == 1)%>%
-  distinct(SID, Exclude_task, Excluded_task, Exclude_task_reason)%>%
-  kable()
+  distinct(SID, Exclude_task, Excluded_task, Exclude_task_reason)
 
 #exclude
 all.data %<>%
@@ -119,8 +115,7 @@ How many trials were excluded? Why?
 all.data %>%
   filter(Exclude_trial == 1)%>%
   group_by(Task, Exclude_trial_reason)%>%
-  summarise(n = n())%>%
-  kable()
+  summarise(n = n())
 
 #exclude these trials
 all.data %<>%
@@ -134,8 +129,7 @@ all.data %>%
   filter(Trial_number == "Training", #note that only one kid failed first trial of SF, no kid failed all
          Correct == 0)%>%
   group_by(Task)%>%
-  summarise(n = n()) %>%
-  kable()
+  summarise(n = n())
 
 #filter out training trials 
 all.data %<>%
@@ -147,8 +141,7 @@ all.data %>%
          Task == "WCN" |
            Task == "MF")%>%
   group_by(Task)%>%
-  summarise(n = n()) %>%
-  kable()
+  summarise(n = n()) 
 ```
 
 ---
@@ -168,33 +161,34 @@ all.data %<>%
 ##Mean performance for Indefinite, Unit, NN, and MF
 Mean performance on the indefinite number task for children who received it.
 ```{r}
-indef.mean <- all.data %>%
-  filter(Task == "Indefinite")%>%
-  group_by(SID)%>%
-  summarise(mean.indef = mean(Correct, na.rm = TRUE))
+compute_means <- function(df, TaskName) {
+  tmp.ms <- df %>%
+    filter(Task == TaskName) %>%
+    group_by(SID)%>%
+    summarise(mean = mean(Correct, na.rm = TRUE))
 
-all.data <- full_join(all.data, indef.mean, by = "SID")
+  return(tmp.ms)
+}
 
-mf.sum <- all.data %>%
-  filter(Task == "MF")%>%
-  group_by(SID)%>%
-  summarise(mean.mf = mean(Correct, na.rm = TRUE))
+#run for indefinite, mf, unit, and wcn
+indef.mean <- compute_means(all.data, "Indefinite") %>%
+  dplyr::rename("mean.indef" = "mean")
 
-all.data <- full_join(all.data, mf.sum, by = "SID")
+mf.mean <- compute_means(all.data, "MF") %>%
+  dplyr::rename("mean.mf" = "mean")
 
-sf.mean <- all.data %>%
-  filter(Task == "SF")%>%
-  group_by(SID)%>%
-  summarise(mean.unit = mean(Correct, na.rm = TRUE))
+sf.mean <- compute_means(all.data, "SF") %>%
+  dplyr::rename("mean.sf" = "mean")
 
-all.data <- full_join(all.data, sf.mean, by = "SID")
+nn.mean <- compute_means(all.data, "WCN") %>%
+  dplyr::rename("mean.nn" = "mean")
 
-nn.mean <- all.data %>%
-  filter(Task == "WCN")%>%
-  group_by(SID)%>%
-  summarise(mean.nn = mean(Correct, na.rm = TRUE))
+#temporary df name to make reduce run
+tmp.all.data <- all.data
 
-all.data <- full_join(all.data, nn.mean, by = "SID")
+#bind all these little guys to the main df
+all.data <- list(tmp.all.data, indef.mean, mf.mean, sf.mean, nn.mean) %>% reduce(full_join, by = "SID")
+
 ```
 
 ---
@@ -487,6 +481,13 @@ all.data %>%
 
 ggsave("~/Documents/Projects/sf_math/Analysis/all_tasks.png", width = 7, height = 4)
 ```
+
+## to add - analysis of task * problem interaction
+look at the same problems from unit and NN, unit and MF
+group problems by magnitude, analyze there
+
+
+
 
 ---
 
