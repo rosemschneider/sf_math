@@ -211,20 +211,6 @@ all.data %>%
 ---
 
 #Primary analyses
-17.1 Counting Productivity &amp; Successor Task Performance: To identify whether there is connection between counting experience and Successor Task performance, we will conduct three initial analyses, predicting Successor Task performance from either (1) Initial Highest Count, (2) Productivity (defined above), (3) final highest count, or (4) performance on the Next Number task.
-
-All models will be logistic mixed effects models, predicting performance on a trial as a function of the following
-predictors, with a random intercept for subject. In R, the formula will be glmer(SF_correct ~ (predictor) + age + (1|subject), family = binomial).
-Simple Models
--  Model 1: Successor.Performance ~ Highest.Next.Number + Within/Outside range + Age + (1|subject)
--  Model 2: Successor.Performance ~ Initial.Count + Within/Outside range + Age + (1|subject)
--  Model 3: Successor.Performance ~ Final.Count + Within/Outside range + Age + (1|subject)
--  Model 4: Successor.Performance ~ Productivity+ Within/Outside range + Age + (1|subject)
-
-After running these first four models, any predictor that significantly (p &lt;.05) predicted Successor Performance will be added into Model 5, which will be our “Large” model (containing all predictors that significantly predicted Successor Performance in the simple models).
-
-We will construct model 5 hierarchically. Model comparisons will be performed at each stage by running a likelihood ratio test between reduced and full models, with significant effects retained in the full model (Model 5). Model selection will be done on the basis of AIC evaluation and significant Chi-square statistic.
-
 First, make the model df
 ```{r}
 model.df <- all.data %>%
@@ -234,88 +220,154 @@ model.df <- all.data %>%
          fhc.c = as.vector(scale(FHC, center = TRUE, scale = TRUE)), 
          ihc.c = as.vector(scale(IHC, center = TRUE, scale = TRUE)),
          highest_contig.c = as.vector(scale(highest_contig, center = TRUE, scale=TRUE)), 
-         # highest_num.c = as.vector(scale(highest_num, center = TRUE, scale=TRUE)),
+         highest_num.c = as.vector(scale(highest_num, center = TRUE, scale=TRUE)),
          mean.mf.c = as.vector(scale(mean.mf, center = TRUE, scale=TRUE)),
          mean.indef.c = as.vector(scale(mean.indef, center = TRUE, scale=TRUE)),
          starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)))%>%
-  filter(Task == "SF")
+  filter(Task == "SF") # we're only predicting Unit Task performance, so filter down to this
 ```
 
-Make the models 
+##Step 1: Productivity models
+Which measure of productivity best fits the 
 ```{r}
+#general function for making models so we don't have to re-write it a million times
+
+make_single_model <- function(df, modelType) {
+  if (modelType == "Base") { 
+    model <- glmer(Correct ~ count_range + age.c + (1|SID), 
+                   family = "binomial", data = df)
+  } else {
+      model <- glmer(substitute(Correct ~ i + count_range + age.c + (1|SID), list(i = as.name(modelType))), 
+                      family = "binomial", data = df)
+  }
+  return(model)
+}
+
 #base
-sf.base <- glmer(Correct ~ count_range  + age.c + (1|SID), 
-                 family = "binomial", data = model.df)
-# #highest nn
-# sf.highest_nn <- glmer(Correct ~ highest_num.c + count_range + age.c + (1|SID), 
-#                  family = "binomial", data = model.df)
+sf.base <- make_single_model(model.df, "Base")
 
-#ihc
-sf.ihc <- glmer(Correct ~ ihc.c + count_range + age.c + (1|SID), 
-                 family = "binomial", data = model.df)
+#IHC
+sf.ihc <- make_single_model(model.df, "ihc.c")
 
-#fhc
-sf.fhc <- glmer(Correct ~ fhc.c + count_range + age.c + (1|SID), 
-                 family = "binomial", data = model.df)
+#FHC
+sf.fhc <- make_single_model(model.df, "fhc.c")
 
 #Productive
-sf.prod <- glmer(Correct ~ Productive + count_range + age.c + (1|SID), 
-                 family = "binomial", data = model.df)
+sf.productive <- make_single_model(model.df, "Productive")
 
-#Highest contiguous NN
-sf.highest_contig <- glmer(Correct ~ highest_contig.c + count_range + age.c + (1|SID), 
-                 family = "binomial", data = model.df)
+#HCNN
+sf.hcnn <- make_single_model(model.df, "highest_contig.c")
 
-# #Productivity gradient
-# sf.prod.gradient <- glmer(Correct ~ prod.gradient + count_range + age.c + (1|SID), 
-#                  family = "binomial", data = model.df)
+#HNN
+sf.hnn <- make_single_model(model.df, "highest_num.c")
 ```
 
 ##Regression table
 ```{r}
 library(memisc)
 mtable.sf <- mtable('Base Model' = sf.base,
-            # 'Model 1: Highest NN' = sf.highest_nn,
-            'Model 2: IHC' = sf.ihc,
-            'Model 3: FHC' = sf.fhc,
-            'Model 4: Productivity.' = sf.prod,
-            'Model 5: HCNN' = sf.highest_contig,
-            # 'Model 6: Prod. gradient' = sf.prod.gradient,
+            'Model 1: IHC' = sf.ihc,
+            'Model 2: FHC' = sf.fhc,
+            'Model 3: Productivity.' = sf.productive,
+            'Model 4: HCNN' = sf.hcnn,
+            'Model 5: HNN' = sf.hnn,
             summary.stats = c('Nagelkerke R-sq.','Log-likelihood','AIC','N'))
 mtable.sf
-
 ```
 
-###Test of productivity predictor in comparison to base
+##Step 2: Now use LRTs to test whether a given productivity predictor is significantly improving the fit of the base
+IHC: Chisq(1) = 19.65, *p* > .0001; AIC = 2701.3
 ```{r}
-# #base v. highest nn
-# anova(sf.base, sf.highest_nn, test = 'LRT')
-#base v. ihc
 anova(sf.base, sf.ihc, test = 'LRT')
-#base v. fhc
+```
+
+FHC: Chisq(1) = 32.508, *p* < .0001, AIC = 2688.5
+```{r}
 anova(sf.base, sf.fhc, test = 'LRT')
-#base v. productive
-anova(sf.base, sf.prod, test = 'LRT')
-#base v. highest_contig
-anova(sf.base, sf.highest_contig, test = 'LRT')
-# #base. v. prod. gradient
-# anova(sf.base, sf.prod.gradient, test = 'LRT')
+```
+
+Productivity/Resilience: Chisq(1) = 11.213, *p* = .0008, AIC = 2709.8
+```{r}
+anova(sf.base, sf.productive, test = 'LRT')
+```
+
+Highest Contiguous NN: Chisq(1) = 70.798, *p* < .0001, AIC = 2650.2
+```{r}
+anova(sf.base, sf.hcnn, test = 'LRT')
+```
+
+Follow-up: Highest Next Number: Chisq(1) = 10.237, *p* = .001, AIC = 2710.8
+```{r}
+tmp <- anova(sf.base, sf.hnn, test = 'LRT')
 ```
 
 ##Ordering of productivity predictor by AIC: 
 HCNN: 2650.2
 FHC: 2688.5
 IHC: 2701.3
-Productive: 2738.5
+Productive: 2709.8
+
+(follow-up) HNN: 2710.8
 
 
-##Model comparisons: Large model (with HCNN)
-Start with HCNN, strongest predictor.
+##Step 3: Large model building
+Does a given productivity predictor explain unique or overlapping variance? Begin with HCNN, which has the lowest AIC. 
 ```{r}
-#HCNN
+##to-do: make this flexible for more than one parameter
+
+#make a function to test a given predictor
+test_predictor <- function(base_model, parameter) {
+  reduced <- base_model
+  if (length(parameter) == 1) {
+    full <- glmer(substitute(Correct ~ i + highest_contig.c + count_range + age.c + (1|SID), 
+                             list(i = as.name(parameter))), 
+                        family = "binomial", data = model.df)
+  } else {
+    params <- str_flatten(unlist(parameter), collapse = "+")
+    full <- glmer(substitute(Correct ~ i + highest_contig.c + count_range + age.c + (1|SID), 
+                             list(i = as.name(params))), 
+                        family = "binomial", data = model.df)
+  }
+  lrt <- anova(reduced, full, test = 'LRT')
+  
+  if (lrt$`Pr(>Chisq)`[2] < .05) {
+    print(paste(parameter, "significantly improves fit, update base model"))
+    return(full)
+    # return(lrt)
+  }
+  else {
+    print(paste(parameter, "does NOT improve model, do NOT update base model"))
+    return(full)
+    # return(lrt)
+  }
+}
+```
+
+Build a base model with HCNN (lowest AIC)
+```{r}
+#HCNN - base model
 sf.large.base <- glmer(Correct ~ highest_contig.c + count_range + age.c + (1|SID), 
                        family = "binomial", data = model.df)
+```
 
+
+Test if FHC improves base model: FHC has next lowest AIC
+It does: Chisq(1) = 8.35, *p* = 0.004, AIC = 2648.3
+```{r}
+sf.large.fhc <- test_predictor(sf.large.base, "fhc.c")
+
+#get actual anova
+anova(sf.large.base, sf.large.fhc, test = 'LRT')
+```
+
+Test if IHC (next lowest AIC) improves this model
+It does not: Chisq(1) = 
+```{r}
+sf.large.plusihc <- test_predictor(sf.large.fhc, "ihc.c")
+
+#anova for actual values
+anova(sf.large.fhc, sf.large.plusihc, test= 'LRT')
+```
 #HCNN + FHC
 sf.large.plusfhc <- glmer(Correct ~ fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
                        family = "binomial", data = model.df)
