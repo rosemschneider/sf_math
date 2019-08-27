@@ -423,51 +423,20 @@ tab_model(sf.large.plusmf, transform = NULL)
 
 ***
 
-#Testing whether SF is generalized from Math Facts
-If children are acquiring SF from MF, we should expect that all children who demonstrate mastery of SF (in top quartile), should similarly be at ceiling (or close to ceiling, >.75 mean performance) in MF. 
+#Secondary analyses
+##Testing whether SF is generalized from Math Facts
+If children are acquiring SF from MF, we should expect that these children should also be at ceiling in Math Facts. Here, I am testing whether there is a difference in accuracy across the Unit, NN, and Math Facts tasks
 
 ```{r}
 #add quartiles for unit task
 all.data %<>%
-  mutate(sf.quartile = cut(mean.unit, 
-                                breaks=quantile(mean.unit, na.rm=TRUE), 
+  mutate(sf.quartile = cut(mean.sf, 
+                                breaks=quantile(mean.sf, na.rm=TRUE), 
                                 include.lowest=TRUE))
 
 ##ANALYSIS
 #Looking only at children who are at ceiling in the Unit Task, are they also at ceiling in the MF task?
-model.mf.sf.ceiling.df <- all.data %>%
-  filter(Task == "SF" | 
-           Task == "WCN" |
-           Task == "MF", 
-         sf.quartile == "(0.875,1]")%>%
-   mutate(highest_contig = as.integer(highest_contig), 
-         SID = factor(SID), 
-         age.c = as.vector(scale(Age, center = TRUE, scale=TRUE)), #scale and center continuous variables for model fit
-         fhc.c = as.vector(scale(FHC, center = TRUE, scale = TRUE)), 
-         ihc.c = as.vector(scale(IHC, center = TRUE, scale = TRUE)),
-         highest_contig.c = as.vector(scale(highest_contig, center = TRUE, scale=TRUE)), 
-         # highest_num.c = as.vector(scale(highest_num, center = TRUE, scale=TRUE)),
-         mean.mf.c = as.vector(scale(mean.mf, center = TRUE, scale=TRUE)),
-         mean.indef.c = as.vector(scale(mean.indef, center = TRUE, scale=TRUE)),
-         starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)))%>%
-  mutate(Task = factor(Task, levels = c("SF", "MF", "WCN")))
-
-#make base model
-mf.sf.ceiling.base <- glmer(Correct ~ count_range + age.c + (1|SID), 
-                            family = "binomial", data = model.mf.sf.ceiling.df)
-#now add task
-mf.sf.ceiling.task <- glmer(Correct ~ Task + count_range + age.c + (1|SID), 
-                            family = "binomial", data = model.mf.sf.ceiling.df)
-#test to see if there is a difference by task 
-anova(mf.sf.ceiling.base, mf.sf.ceiling.task, test = 'LRT') #yes, there is a significant effect of task
-
-#summary
-summary(mf.sf.ceiling.task)
-```
-
-###Follow up on the ceiling unit task analysis with an analysis which has all children
-```{r}
-model.mf.sf.all.df <- all.data %>%
+all.tasks.model <- all.data %>%
   filter(Task == "SF" | 
            Task == "WCN" |
            Task == "MF")%>%
@@ -477,24 +446,58 @@ model.mf.sf.all.df <- all.data %>%
          fhc.c = as.vector(scale(FHC, center = TRUE, scale = TRUE)), 
          ihc.c = as.vector(scale(IHC, center = TRUE, scale = TRUE)),
          highest_contig.c = as.vector(scale(highest_contig, center = TRUE, scale=TRUE)), 
-         # highest_num.c = as.vector(scale(highest_num, center = TRUE, scale=TRUE)),
+         highest_num.c = as.vector(scale(highest_num, center = TRUE, scale=TRUE)),
          mean.mf.c = as.vector(scale(mean.mf, center = TRUE, scale=TRUE)),
          mean.indef.c = as.vector(scale(mean.indef, center = TRUE, scale=TRUE)),
          starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)))%>%
-  mutate(Task = factor(Task, levels = c("SF", "MF", "WCN")))
+  mutate(Task = factor(Task, levels = c("MF", "SF", "WCN")))
 
 #make base model
+mf.sf.ceiling.base <- glmer(Correct ~ count_range + age.c + (1|SID), 
+                            family = "binomial", data = subset(all.tasks.model, sf.quartile == "(0.875,1]"))
+#now add task
+mf.sf.ceiling.task <- glmer(Correct ~ Task + count_range + age.c + (1|SID), 
+                            family = "binomial", data = subset(all.tasks.model, sf.quartile == "(0.875,1]"))
+
+#test to see if there is a difference by task 
+anova(mf.sf.ceiling.base, mf.sf.ceiling.task, test = 'LRT') #yes, there is a significant effect of task
+
+#Planned contrasts: Does MF differ from either SF or NN? Is there a difference between SF and NN?
+##testing contrasts
+task.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN) / 2
+             c(0, 1, -1))                # SF vs. NN
+cMat <- MASS::ginv(task.contrasts)
+
+planned.contrasts <- glmer(Correct ~ Task + count_range + age.c + (1|SID), data = subset(all.tasks.model,
+                                                                           sf.quartile == "(0.875,1]"), 
+             family = "binomial",
+            contrasts = list(Task = cMat))
+summary(planned.contrasts)
+```
+
+###Follow up on the ceiling unit task analysis with an analysis which has all children
+```{r}
+#make base model
 mf.sf.all.base <- glmer(Correct ~ count_range + age.c + (1|SID), 
-                            family = "binomial", data = model.mf.sf.all.df)
+                            family = "binomial", data = all.tasks.model)
 #now add task
 mf.sf.all.task <- glmer(Correct ~ Task + count_range + age.c + (1|SID), 
-                            family = "binomial", data = model.mf.sf.all.df)
+                            family = "binomial", data = all.tasks.model)
 #test to see if there is a difference by task 
 anova(mf.sf.all.base, mf.sf.all.task, test = 'LRT') #yes, there is a significant effect of task
 
-#summary
-summary(mf.sf.all.task)
 
+#Planned contrasts: Does MF differ from either SF or NN? Is there a difference between SF and NN?
+##testing contrasts
+task.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN) / 2
+             c(0, 1, -1))                # SF vs. NN
+cMat <- MASS::ginv(task.contrasts)
+
+planned.contrasts <- glmer(Correct ~ Task + count_range + age.c + (1|SID), data = all.tasks.model, 
+             family = "binomial",
+            contrasts = list(Task = cMat))
+
+summary(planned.contrasts)
 ```
 
 ## Bar graph showing difference between MF and NN as function of SF
