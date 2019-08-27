@@ -237,8 +237,8 @@ make_single_model <- function(df, modelType) {
     model <- glmer(Correct ~ count_range + age.c + (1|SID), 
                    family = "binomial", data = df)
   } else {
-      model <- glmer(substitute(Correct ~ i + count_range + age.c + (1|SID), list(i = as.name(modelType))), 
-                      family = "binomial", data = df)
+    formula <- paste("Correct ~", modelType, "+ count_range + age.c + (1|SID)")
+    model <- glmer(formula, data = df, family = "binomial")
   }
   return(model)
 }
@@ -313,30 +313,33 @@ Productive: 2709.8
 ##Step 3: Large model building
 Does a given productivity predictor explain unique or overlapping variance? Begin with HCNN, which has the lowest AIC. 
 ```{r}
-##to-do: make this flexible for more than one parameter
+#this is a function that compares a given base model to a full model which is constructed by adding some number of predictors in a list
+#function tests whether the FIRST item in a list significantly improves the fit of the model
+#there's a bit of hardcoding in here, but it makes life a little easier
 
-#make a function to test a given predictor
-test_predictor <- function(base_model, parameter) {
+#Remember to update the base model used on the basis of the function output
+test_predictor <- function(base_model, parameters, df) {
   reduced <- base_model
-  if (length(parameter) == 1) {
-    full <- glmer(substitute(Correct ~ i + highest_contig.c + count_range + age.c + (1|SID), 
-                             list(i = as.name(parameter))), 
-                        family = "binomial", data = model.df)
+  if (length(parameters) == 1) {
+    formula <- paste("Correct ~", parameters[1], "+ highest_contig.c + count_range + age.c + (1|SID)")
+    full <- glmer(formula, data = model.df, family = "binomial")
+
   } else {
-    params <- str_flatten(unlist(parameter), collapse = "+")
-    full <- glmer(substitute(Correct ~ i + highest_contig.c + count_range + age.c + (1|SID), 
-                             list(i = as.name(params))), 
-                        family = "binomial", data = model.df)
+    mult_params <- str_flatten(unlist(parameters), collapse = " + ") #get params out of list into str
+    
+    formula <- paste("Correct ~", mult_params, "+ highest_contig.c + count_range + age.c + (1|SID)")
+    full <- glmer(formula, data = model.df, family = "binomial")
   }
+  
   lrt <- anova(reduced, full, test = 'LRT')
   
   if (lrt$`Pr(>Chisq)`[2] < .05) {
-    print(paste(parameter, "significantly improves fit, update base model"))
+    print(paste(parameters[1], "significantly improves fit, update base model"))
     return(full)
     # return(lrt)
   }
   else {
-    print(paste(parameter, "does NOT improve model, do NOT update base model"))
+    print(paste(parameters[1], "does NOT improve model, do NOT update base model"))
     return(full)
     # return(lrt)
   }
@@ -354,38 +357,35 @@ sf.large.base <- glmer(Correct ~ highest_contig.c + count_range + age.c + (1|SID
 Test if FHC improves base model: FHC has next lowest AIC
 It does: Chisq(1) = 8.35, *p* = 0.004, AIC = 2648.3
 ```{r}
-sf.large.fhc <- test_predictor(sf.large.base, "fhc.c")
+sf.large.fhc <- test_predictor(sf.large.base, c("fhc.c"))
 
 #get actual anova
 anova(sf.large.base, sf.large.fhc, test = 'LRT')
 ```
 
 Test if IHC (next lowest AIC) improves this model
-It does not: Chisq(1) = 
+It does not: Chisq(1) = 0.422, *p* = 0.5, AIC = 2645.4
 ```{r}
-sf.large.plusihc <- test_predictor(sf.large.fhc, "ihc.c")
+sf.large.plusihc <- test_predictor(sf.large.fhc, c("ihc.c", "fhc.c"))
 
 #anova for actual values
 anova(sf.large.fhc, sf.large.plusihc, test= 'LRT')
 ```
-#HCNN + FHC
-sf.large.plusfhc <- glmer(Correct ~ fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
-                       family = "binomial", data = model.df)
-anova(sf.large.base, sf.large.plusfhc, test = 'LRT') #FHC adds to this model
 
-#IHC + FHC 
-sf.large.plusihc <- glmer(Correct ~ ihc.c + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
-                       family = "binomial", data = model.df)
-anova(sf.large.plusfhc, sf.large.plusihc, test = 'LRT') #IHC does not add to this model
+Test if Productivity improves this model
+It doesn't: Chisq(1) = 1.18, *p* = 0.27, AIC = 2644.7
+```{r}
+sf.large.plusprod <- test_predictor(sf.large.fhc, c("Productive", "fhc.c"))
 
-##Productivity + FHC
-sf.large.plusprod <- glmer(Correct ~ Productive + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
-                       family = "binomial", data = model.df)
-anova(sf.large.plusfhc, sf.large.plusprod, test = 'LRT') #productivity does not add to this model 
+#anova for actual values
+anova(sf.large.fhc, sf.large.plusprod, test= 'LRT')
+```
 
+Full table with all models tested above
+```{r}
 ##model table
 mtable.sf.large <- mtable('Base Model: HCNN' = sf.large.base,
-            'Model 1: FHC + HCNN' = sf.large.plusfhc,
+            'Model 1: FHC + HCNN' = sf.large.fhc,
             'Model 2: IHC + FHC + HCNN' = sf.large.plusihc,
             'Model 3: Prod. + FHC + HCNN' = sf.large.plusprod,
             summary.stats = c('Nagelkerke R-sq.','Log-likelihood','AIC','N'))
