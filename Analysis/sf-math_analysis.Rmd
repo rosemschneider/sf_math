@@ -392,27 +392,31 @@ mtable.sf.large <- mtable('Base Model: HCNN' = sf.large.base,
 mtable.sf.large
 ```
 
+###Final productivity predictors: HCNN and FHC
+
+---
+
 #Math Facts model 
-Is mean Math Facts performance significantly predictive of SF knowledge? Yes - Chisq(1) = 54.66, p < .0001
+##Step 1: Is mean Math Facts performance significantly predictive of SF knowledge? 
+Yes: Chisq(1) = 54.66, p < .0001
 ```{r}
 #build model
-sf.mf <- glmer(Correct ~ mean.mf.c + count_range + age.c + (1|SID), 
-               family = "binomial", data = model.df)
+sf.mf <- make_single_model(model.df, "mean.mf.c")
 
-#test
+#test whether mean math facts significantly predicts Unit Task accuracy
 anova(sf.base, sf.mf, test = 'LRT')
 mtable('Math Facts' = sf.mf)
 ```
 
-##Model comparison, Math Facts + FHC + HCNN
-Does Math Facts explain unique variance on top of FHC? 
-Yes - added to a model with FHC & HCNN, mean math facts performance explains unique variance. 
+##Step 2: Does Math Facts explain unique variance on top of HCNN and FHC? 
+Yes: Chisq(1) = 15.04, *p* = .0001, AIC = 2630.6
 ```{r}
-sf.large.plusmf <- glmer(Correct ~ mean.mf.c + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
-                       family = "binomial", data = model.df)
-anova(sf.large.plusfhc, sf.large.plusmf) #math facts significantly adds to the model
+#reminder that our base is sf.large.fhc
+sf.large.plusmf <- test_predictor(sf.large.fhc, c("mean.mf.c", "fhc.c")) 
 
-summary(sf.large.plusmf)
+#run LRT to get actual values
+anova(sf.large.fhc, sf.large.plusmf, test = 'LRT') #math facts significantly adds to the model
+
 library(sjPlot)
 tab_model(sf.large.plusmf, transform = NULL)
 ```
