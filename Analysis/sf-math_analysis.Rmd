@@ -451,7 +451,11 @@ all.tasks.model <- all.data %>%
          mean.indef.c = as.vector(scale(mean.indef, center = TRUE, scale=TRUE)),
          starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)))%>%
   mutate(Task = factor(Task, levels = c("MF", "SF", "WCN")))
+```
 
+Test whether there are significant differences in accuracy by task
+Yes: Chisq(2) = 178.15, *p* < .0001, AIC = 496.91
+```{r}
 #make base model
 mf.sf.ceiling.base <- glmer(Correct ~ count_range + age.c + (1|SID), 
                             family = "binomial", data = subset(all.tasks.model, sf.quartile == "(0.875,1]"))
@@ -461,9 +465,12 @@ mf.sf.ceiling.task <- glmer(Correct ~ Task + count_range + age.c + (1|SID),
 
 #test to see if there is a difference by task 
 anova(mf.sf.ceiling.base, mf.sf.ceiling.task, test = 'LRT') #yes, there is a significant effect of task
+```
 
-#Planned contrasts: Does MF differ from either SF or NN? Is there a difference between SF and NN?
-##testing contrasts
+Planned contrasts: Does MF differ from either SF or NN? Is there a difference between SF and NN?
+Yes: MF is significantly less accurate in comparison to SF or NN, but there is no difference between SF and NN
+```{r}
+##make appropriate contrasts
 task.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN) / 2
              c(0, 1, -1))                # SF vs. NN
 cMat <- MASS::ginv(task.contrasts)
@@ -475,7 +482,7 @@ planned.contrasts <- glmer(Correct ~ Task + count_range + age.c + (1|SID), data 
 summary(planned.contrasts)
 ```
 
-###Follow up on the ceiling unit task analysis with an analysis which has all children
+Follow up on the ceiling unit task analysis with an analysis which has all children
 ```{r}
 #make base model
 mf.sf.all.base <- glmer(Correct ~ count_range + age.c + (1|SID), 
@@ -509,10 +516,10 @@ all.data %>%
            Task == "WCN" |
            Task == "MF")%>%
   mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"), labels = c("Unit Task", "Next Number", "Math Facts")), 
-        sf.quartile = factor(sf.quartile, labels = c("25% — 44%", "44% — 63%", "63% — 88%", "88% — 100%")))%>%
+        sf.quartile = factor(sf.quartile, labels = c("25% — 44%", "44% — 63%", "63% — 88%", "88% — 100%")), 
+        Correct= as.numeric(as.character(Correct)))%>%
   group_by(SID, Task, sf.quartile)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
-            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
+  multi_boot_standard("Correct", na.rm = TRUE) %>%
   ggplot(aes(x = Task, y = mean, fill=Task)) +
   stat_summary(fun.y = mean, position = position_dodge(width = .95),
                       geom="bar", alpha = .5, colour = "black") +
@@ -522,7 +529,7 @@ all.data %>%
                size=1.5,
                show.legend=FALSE, 
              inherit.aes = FALSE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
+  stat_summary(fun.data = "mean_cl_boot", geom="linerange", 
                position = position_dodge(width=0.90), width = 0.2, size = 1)+
   ylab("Mean task performance") + 
   xlab('Unit Task performance quartiles') + 
