@@ -440,6 +440,7 @@ all.tasks.model <- all.data %>%
   filter(Task == "SF" | 
            Task == "WCN" |
            Task == "MF")%>%
+  droplevels()%>%
    mutate(highest_contig = as.integer(highest_contig), 
          SID = factor(SID), 
          age.c = as.vector(scale(Age, center = TRUE, scale=TRUE)), #scale and center continuous variables for model fit
@@ -551,36 +552,339 @@ ggsave("~/Documents/Projects/sf_math/Analysis/all_tasks.png", width = 7, height 
 ---
 
 ##Do children perform worse on every problem between NN, Unit, and MF?
+Interested in a set-size effect for Math Facts
+Is there an effect of set size on MF and SF?
+Then see what percentage of kids who succeed at small MF fail at larger MF as a function of their success in SF
+
+This isn't perfect,  but I'm doing a match on magnitude, because we tested novel & same items in every task. This allows us to do a number*task kind of analysis. Note that this is only including SF and MF, because we're interested in the difference between getting the conceptual structure and getting the rote-memorized math facts.
 ```{r}
+#average magnitudes of all three items tested within a given range
+sub.ten <- (5 + 6)/2
+teens <- 15 #exclude because this wasn't tested in both sf and mf
+twenties <- (20 + 21)/2
+thirties <- (32 + 34)/2
+forties <- 46 #exclude because this wasn't tested in both tasks
+fifties <- (51+57)/2
+sixties <- (60 + 62+64)/3
+seventies <- 73 #exclude because this wasn't tested in both tasks 
+eighties <- (81+84+86)/3
+nineties <- (93+95)/2
+
 #first, add a column indicating whether numbers were the same or different across tasks
-trial.type.df <- all.tasks.model %>%
+sf.mf.comparison <- all.tasks.model %>%
   mutate(Task_item = as.numeric(as.character(Task_item)))%>%
   mutate(trial.type = ifelse((Task_item == 20 | Task_item == 32 | 
                                Task_item == 57 | Task_item == 93), "SF_MF_same",
                              ifelse((Task_item == 7 | Task_item == 62 | 
-                                      Task_item == 95), "SF_NN_same", "Novel")))%>%
-  mutate(Task_item.factor = factor(Task_item))
+                                      Task_item == 95), "SF_NN_same", "Novel")), 
+         magnitude.match = ifelse(Task_item < 10, sub.ten, 
+                                  ifelse((Task_item >=10 & Task_item <20), teens, 
+                                         ifelse((Task_item >= 20 & Task_item < 30), twenties, 
+                                                ifelse((Task_item >= 30 & Task_item < 40), thirties, 
+                                                       ifelse((Task_item >= 40 & Task_item < 50), forties, 
+                                                              ifelse((Task_item >= 50 & Task_item < 60), fifties, 
+                                                                     ifelse((Task_item >= 60 & Task_item < 70), sixties, 
+                                                                            ifelse((Task_item >= 70 & Task_item < 80), seventies, 
+                                                                                   ifelse((Task_item >=80 & Task_item < 90), eighties, nineties))))))))), 
+         magnitude.match = round(magnitude.match, 2),
+         magnitude.match.c = as.vector(scale(magnitude.match, center = TRUE, scale=TRUE)))%>%
+  filter(magnitude.match != teens, 
+         magnitude.match != forties, 
+         magnitude.match != seventies, 
+         Task == "SF" | Task == "MF")
+```
 
-#For all children, is there an interaction between numerosity and Task on SF and NN
-model1 <- glmer(Correct ~ Task_item.factor*Task + count_range + age.c + (1|SID), 
-                data = subset(trial.type.df, trial.type == "SF_MF_same"), 
+###Get a visualization of this for children overall
+```{r}
+two.pal <- c("#173BAB", "#DE8141")
+
+sf.mf.comparison %>%
+  mutate(Task = factor(Task, levels = c("SF", "MF"), labels = c("Unit", "Math Facts")),
+         magnitude.match = sort(magnitude.match),
+         magnitude.match = factor(magnitude.match))%>%
+  group_by(Task, magnitude.match)%>%
+  multi_boot_standard("Correct", na.rm = TRUE) %>%
+  ggplot(aes(x = magnitude.match, y = mean, colour = Task, group = Task)) +
+  geom_point(size = 2) + 
+  geom_line() +
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) +
+  theme_bw(base_size = 10) + 
+  # facet_grid(~trial.type, scale = "free_x") +
+  scale_colour_manual(values = two.pal) +
+  theme(legend.position = "bottom", 
+        legend.title = element_blank()) +
+  labs(x = "Magnitude match - number queried", y = "Mean performance") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+###Get a visualization of this for children by SF quartile
+```{r}
+sf.mf.comparison %>%
+  mutate(Task = factor(Task, levels = c("SF", "MF"), labels = c("Unit", "Math Facts")),
+         magnitude.match = sort(magnitude.match),
+         magnitude.match = factor(magnitude.match), 
+         sf.quartile = factor(sf.quartile, labels = c("25% — 44%", "44% — 63%", "63% — 88%", "88% — 100%")))%>%
+  group_by(sf.quartile, Task, magnitude.match)%>%
+  multi_boot_standard("Correct", na.rm = TRUE) %>%
+  ggplot(aes(x = magnitude.match, y = mean, colour = Task, group = Task)) +
+  geom_point(size = 2) + 
+  geom_line() +
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) +
+  theme_bw(base_size = 10) + 
+  facet_grid(~sf.quartile) +
+  scale_colour_manual(values = two.pal) +
+  theme(legend.position = "bottom", 
+        legend.title = element_blank()) +
+  labs(x = "Magnitude match - number queried", y = "Mean performance") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+```
+
+##Step 2: Is there an interaction between item magnitude and task for SF and MF?
+No; there is no interaction. Children are just uniformly worse on the MF task in comparison to SF. 
+```{r}
+#build a base model
+comp.sf.mf.base <- glmer(Correct ~ Task + count_range + age.c + (1|SID), 
+                data =  sf.mf.comparison, 
                 family = "binomial", 
                 control=glmerControl(optimizer="bobyqa",
                          optCtrl=list(maxfun=2e4)))
+
+#add interaction with magnitude match
+comp.sf.mf.mag <- glmer(Correct ~ magnitude.match.c+Task + count_range + age.c + (1|SID), 
+                data =  sf.mf.comparison, 
+                family = "binomial", 
+                control=glmerControl(optimizer="bobyqa",
+                         optCtrl=list(maxfun=2e4)))
+
+#add interaction with magnitude match
+comp.sf.mf.int <- glmer(Correct ~ magnitude.match.c*Task + count_range + age.c + (1|SID), 
+                data =  sf.mf.comparison, 
+                family = "binomial", 
+                control=glmerControl(optimizer="bobyqa",
+                         optCtrl=list(maxfun=2e4)))
+
+#compare
+anova(comp.sf.mf.base, comp.sf.mf.mag,comp.sf.mf.int, test = 'lrt')
+```
+
+##Step 3: What percentage of children succeed on an item in Unit, and then fail on the same (or similar item) in MF? 
+I think it might make sense to look at this through quartiles
+```{r}
+matched.items <- c(5, 6, 20, 32, 57, 62, 64, 86, 84, 93)
+
+match.df <- sf.mf.comparison %>%
+  filter(Task_item %in% matched.items)%>%
+  dplyr::select(SID, sf.quartile, Task, magnitude.match, Correct)%>%
+  spread(key = "Task", value = "Correct")%>%
+   mutate(magnitude.match = sort(magnitude.match), 
+         magnitude.match = factor(magnitude.match))%>%
+  group_by(SID, sf.quartile, magnitude.match)%>%
+  mutate(sf.mf.success = ifelse((MF == 1 & SF == 1), "SF and MF correct", 
+                                ifelse((MF == 0 & SF == 1), "MF incorrect", 
+                                ifelse((MF == 1 & SF ==0), "SF incorrect", "SF and MF incorrect"))))
+
+match.df %>% 
+  filter(!is.na(sf.mf.success))%>%
+  group_by(sf.quartile, magnitude.match, sf.mf.success)%>%
+  summarise(n = n())%>%
+  ggplot(aes(x = magnitude.match, y= n, fill = sf.mf.success)) + 
+  geom_bar(stat = "identity") +
+  facet_grid(~sf.mf.success) + 
+  theme(legend.position = "top")
+
+#For a given magnitude, what is the proportion of children who succeed on SF, but fail on MF? 
+match.df %>%
+  filter(!is.na(sf.mf.success))%>%
+  group_by(magnitude.match, sf.mf.success)%>%
+  summarise(n = n())%>%
+  group_by(magnitude.match)%>%
+  mutate(total.n = sum(n), 
+         prop = n/total.n)%>%
+  ggplot(aes(x = magnitude.match, y = prop, fill = sf.mf.success)) + 
+  geom_bar(stat = "identity")
+
+#roughly 50% of children succeed on SF but fail on MF for every number
+
+#what about by unit task performance? 
+match.df %>%
+  filter(!is.na(sf.mf.success))%>%
+  group_by(sf.quartile, magnitude.match, sf.mf.success)%>%
+  summarise(n = n())%>%
+  group_by(magnitude.match)%>%
+  mutate(total.n = sum(n), 
+         prop = n/total.n)%>%
+  ggplot(aes(x = magnitude.match, y = prop, fill = sf.mf.success)) + 
+  geom_bar(stat = "identity") + 
+  facet_grid(~sf.quartile) + 
+  theme(legend.position = "top")
+
+#is there a difference in the number of children who succeed on SF but fail on MF for a given number across quartiles? 
+
+
+#### !! what I want to do is: 
+#identify kids at equation 'understanders' based on spontaneous response to 1+1 - this will require a bit of re-coding, I think
+#then, looking at children who understand 1+1, separate Unit task problems into success and failure
+#then, for a given magnitude, what proportion of children either succeeded or failed for mf?
+
+understanders <- sf.mf.comparison %>%
+  filter(Task == "MF", 
+         Task_item == 5)%>%
+  group_by(SID)%>%
+  mutate(equation.understander = ifelse(Correct == 1, "understander", "non-understander"))%>%
+  dplyr::select(SID, equation.understander)
+
+understander.df <- left_join(sf.mf.comparison, understanders, by = "SID")
+
+understander.df %>%
+  filter(Task_item %in% matched.items,
+         equation.understander == "understander")%>%
+  filter(!is.na(equation.understander))%>%
+  dplyr::select(SID, Task, magnitude.match, equation.understander, Correct)%>%
+  spread(key = "Task", value = "Correct")%>%
+  mutate(magnitude.match = factor(sort(magnitude.match)))%>%
+  mutate(sf.success = ifelse(SF == 1, "sf correct", "sf incorrect"), 
+         mf.success = ifelse(MF == 1, "mf correct", "mf incorrect"), 
+         mf.success = factor(mf.success, levels = c("mf incorrect", "mf correct"), 
+                             labels = c("Incorrect Math Facts", "Correct Math Facts")), 
+         sf.success = factor(sf.success, levels = c("sf correct", "sf incorrect"), 
+                             labels = c("Correct Unit Task items", "Incorrect Unit Task Items")))%>%
+  group_by(magnitude.match, equation.understander, sf.success, mf.success)%>%
+  summarise(n = n())%>%
+  group_by(magnitude.match)%>%
+  mutate(total.n = sum(n), 
+         prop = n/total.n)%>%
+  ggplot(aes(x = magnitude.match, y = prop, fill =  mf.success)) +
+  geom_bar(stat = "identity") + 
+  facet_grid(~sf.success) + 
+  labs(y = 'Proportion of children', x = "Magnitude of MF problem") + 
+  scale_fill_brewer(palette = "Set1")
+
+#what about for the same items in both tasks
+understander.df %>%
+  filter(Task_item == 20 | 
+           Task_item == 32 | 
+           Task_item == 57 | 
+           Task_item == 93)%>%
+  filter(!is.na(equation.understander))%>%
+  dplyr::select(SID, Task, Task_item, equation.understander, Correct)%>%
+  spread(key = "Task", value = "Correct")%>%
+  mutate(Task_item = factor(sort(Task_item)))%>%
+  mutate(sf.success = ifelse(SF == 1, "sf correct", "sf incorrect"), 
+         mf.success = ifelse(MF == 1, "mf correct", "mf incorrect"), 
+         mf.success = factor(mf.success, levels = c("mf incorrect", "mf correct"), 
+                             labels = c("Incorrect Math Facts", "Correct Math Facts")), 
+         sf.success = factor(sf.success, levels = c("sf correct", "sf incorrect"), 
+                             labels = c("Correct Unit Task items", "Incorrect Unit Task Items")), 
+         equation.understander = factor(equation.understander, levels = c("understander", "non-understander"), 
+                                        labels = c("Addition knower (5+1)", "Addition non-knower (5+1)")))%>%
+  group_by(Task_item, equation.understander, sf.success, mf.success)%>%
+  filter(!is.na(mf.success))%>%
+  summarise(n = n())%>%
+  group_by(Task_item)%>%
+  mutate(total.n = sum(n), 
+         prop = n/total.n)%>%
+  ggplot(aes(x = Task_item, y = n, fill =  mf.success)) +
+  geom_bar(stat = "identity", position = position_dodge(preserve = 'single'), color = "black") + 
+  facet_grid(equation.understander~sf.success, scale = "free_x") + 
+  theme_bw(base_size = 10) +
+  labs(y = 'Number of children correct/incorrect', x = "Math Facts Problem") + 
+  scale_fill_brewer(palette = "Set1") + 
+  guides(fill = guide_legend(title = "Math Facts performance")) + 
+  theme(panel.grid = element_blank())
+
+  
+#what is the average MF performance of kids who "get" MF for these items? 
+understander.ms <- understander.df %>%
+  filter(Task_item == 20 | 
+           Task_item == 32 | 
+           Task_item == 57 | 
+           Task_item == 93)%>%
+  filter(!is.na(equation.understander))%>%
+  group_by(equation.understander, Task)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE))
+
+
+```
+
+
+```{r}
+#For all children, test whether there is a difference between tasks for items that were repeated across both tasks
+
 #Correct ~ Number*Task + count_range + age.c + (1|SID)
 
-number.contrasts <- rbind(c(1.2, -0.4, -0.4, -0.4),     # 20 vs. (32 + 57 + 93 ) / 3
-             c(0, 1, -0.5, 0.5), # 32 vs. (57 + 93) /2
-             c(0, 0, 1, -1))      # 57 vs 93         
-cMat <- MASS::ginv(number.contrasts)
+trial.type.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN)/2
+             c(0, 1, -1))      # sf vs. NN        
+cMat <- MASS::ginv(trial.type.contrasts)
 
-planned.contrasts <- glmer(Correct ~ Task_item.factor*Task + count_range + age.c + (1|SID), 
-                           data = subset(trial.type.df, trial.type == "SF_MF_same"), 
+planned.contrasts <- glmer(Correct ~ Task + count_range + age.c + (1|SID), 
+                           data = subset(trial.type.df, trial.type == "SF_MF_same" | trial.type == "SF_NN_same"), 
              family = "binomial",
-            contrasts = list(Task_item.factor = cMat), 
+            contrasts = list(Task = cMat), 
             control=glmerControl(optimizer="bobyqa",
                          optCtrl=list(maxfun=2e4)))
 summary(planned.contrasts)
+
+##interim: for items that are repeated, MF is worse than SF by a lot; SF is worse than NN by a little
+
+#look at magnitude match*task interaction
+task.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN)/2
+             c(0, 1, -1))      # sf vs. NN        
+cMat <- MASS::ginv(task.contrasts)
+
+planned.contrasts <- glmer(Correct ~ magnitude.match.c*Task + count_range + age.c + (1|SID), 
+                           data = trial.type.df, 
+             family = "binomial",
+            contrasts = list(Task = cMat), 
+            control=glmerControl(optimizer="bobyqa",
+                         optCtrl=list(maxfun=2e4)))
+summary(planned.contrasts)
+
+
+#for all kids
+trial.type.df %>%
+  mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"), labels = c("Unit", 
+                                                                       "Next Number", 
+                                                                       "Math Facts")),
+         magnitude.match = sort(magnitude.match),
+         magnitude.match = factor(magnitude.match))%>%
+  group_by(Task, magnitude.match)%>%
+  multi_boot_standard("Correct", na.rm = TRUE) %>%
+  ggplot(aes(x = magnitude.match, y = mean, colour = Task, group = Task)) +
+  geom_point(size = 2) + 
+  geom_line() +
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) +
+  theme_bw(base_size = 10) + 
+  # facet_grid(~trial.type, scale = "free_x") +
+  # scale_colour_manual(values = productivity.pal) +
+  theme(legend.position = "bottom", 
+        legend.title = element_blank()) +
+  labs(x = "Magnitude match - number queried", y = "Mean performance") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+#for top quartile
+trial.type.df %>%
+  filter(sf.quartile == "(0.875,1]")%>%
+  mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"), labels = c("Unit", 
+                                                                       "Next Number", 
+                                                                       "Math Facts")),
+         magnitude.match = sort(magnitude.match),
+         magnitude.match = factor(magnitude.match))%>%
+  group_by(Task, magnitude.match)%>%
+  multi_boot_standard("Correct", na.rm = TRUE) %>%
+  ggplot(aes(x = magnitude.match, y = mean, colour = Task, group = Task)) +
+  geom_point(size = 2) + 
+  geom_line() +
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) +
+  theme_bw(base_size = 10) + 
+  # facet_grid(~trial.type, scale = "free_x") +
+  # scale_colour_manual(values = productivity.pal) +
+  theme(legend.position = "bottom", 
+        legend.title = element_blank()) +
+  labs(x = "Magnitude match - number queried", y = "Mean performance") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+
 
 trial.type.df %>%
   mutate(Task_item = factor(Task_item, levels = c("5", "6", "7", "15", "20", 
@@ -608,6 +912,13 @@ trial.type.df %>%
         legend.title = element_blank()) +
   labs(x = "Number queried", y = "Mean performance") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+
+
+##some sanity
+#what I want to know: 
+#for items that are repeated across both tasks
+#does performance differ between MF and SF and NN and SF
 ```
 
 
