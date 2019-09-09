@@ -235,10 +235,10 @@ Which measure of productivity best fits the data?
 
 make_single_model <- function(df, modelType) {
   if (modelType == "Base") { 
-    model <- glmer(Correct ~ count_range + age.c + (1|SID), 
+    model <- glmer(Correct ~ count_range + age.c + (1|SID) + (1|starting_num.c), 
                    family = "binomial", data = df)
   } else {
-    formula <- paste("Correct ~", modelType, "+ count_range + age.c + (1|SID)")
+    formula <- paste("Correct ~", modelType, "+ count_range + age.c + (1|SID) + (1|starting_num.c)")
     model <- glmer(formula, data = df, family = "binomial")
   }
   return(model)
@@ -262,10 +262,6 @@ sf.hcnn <- make_single_model(model.df, "highest_contig.c")
 #HNN
 sf.hnn <- make_single_model(model.df, "highest_num.c")
 
-
-model.df %<>%
-  mutate(Task_item = as.numeric(as.character(Task_item)))
-
 ```
 
 ##Regression table
@@ -276,44 +272,45 @@ mtable.sf <- mtable('Base Model' = sf.base,
             'Model 2: FHC' = sf.fhc,
             'Model 3: Productivity.' = sf.productive,
             'Model 4: HCNN' = sf.hcnn,
-            'Model 5: HNN' = sf.hnn,
+            # 'Model 5: HNN' = sf.hnn,
             summary.stats = c('Nagelkerke R-sq.','Log-likelihood','AIC','N'))
 mtable.sf
+# write.mtable(mtable.sf, file="Figures/single_models.txt")
 ```
 
 ##Step 2: Now use LRTs to test whether a given productivity predictor is significantly improving the fit of the base
-IHC: Chisq(1) = 19.65, *p* > .0001; AIC = 2701.3
+IHC: Chisq(1) = 24.141, *p* > .0001; AIC = 2672.5
 ```{r}
 anova(sf.base, sf.ihc, test = 'LRT')
 ```
 
-FHC: Chisq(1) = 32.508, *p* < .0001, AIC = 2688.5
+FHC: Chisq(1) = 35.381, *p* < .0001, AIC = 2661.2
 ```{r}
 anova(sf.base, sf.fhc, test = 'LRT')
 ```
 
-Productivity/Resilience: Chisq(1) = 11.213, *p* = .0008, AIC = 2709.8
+Productivity/Resilience: Chisq(1) = 11.405, *p* = .0007, AIC = 2685.2
 ```{r}
 anova(sf.base, sf.productive, test = 'LRT')
 ```
 
-Highest Contiguous NN: Chisq(1) = 70.798, *p* < .0001, AIC = 2650.2
+Highest Contiguous NN: Chisq(1) = 72.058, *p* < .0001, AIC = 2624.5
 ```{r}
 anova(sf.base, sf.hcnn, test = 'LRT')
 ```
 
-Follow-up: Highest Next Number: Chisq(1) = 10.237, *p* = .001, AIC = 2710.8
+Follow-up: Highest Next Number: Chisq(1) = 10.577, *p* = .001, AIC = 2686.0
 ```{r}
-tmp <- anova(sf.base, sf.hnn, test = 'LRT')
+anova(sf.base, sf.hnn, test = 'LRT')
 ```
 
 ##Ordering of productivity predictor by AIC: 
-HCNN: 2650.2
-FHC: 2688.5
-IHC: 2701.3
-Productive: 2709.8
+HCNN: 2624.5
+FHC: 2661.2
+IHC: 2672.5
+Productive: 2685.2 
 
-(follow-up) HNN: 2710.8
+(follow-up) HNN: 2686.0
 
 
 ##Step 3: Large model building
@@ -327,13 +324,13 @@ Does a given productivity predictor explain unique or overlapping variance? Begi
 test_predictor <- function(base_model, parameters, df) {
   reduced <- base_model
   if (length(parameters) == 1) {
-    formula <- paste("Correct ~", parameters[1], "+ highest_contig.c + count_range + age.c + (1|SID)")
+    formula <- paste("Correct ~", parameters[1], "+ highest_contig.c + count_range + age.c + (1|SID) + (1|starting_num.c)")
     full <- glmer(formula, data = model.df, family = "binomial")
 
   } else {
     mult_params <- str_flatten(unlist(parameters), collapse = " + ") #get params out of list into str
     
-    formula <- paste("Correct ~", mult_params, "+ highest_contig.c + count_range + age.c + (1|SID)")
+    formula <- paste("Correct ~", mult_params, "+ highest_contig.c + count_range + age.c + (1|SID) + (1|starting_num.c)")
     full <- glmer(formula, data = model.df, family = "binomial")
   }
   
@@ -355,13 +352,14 @@ test_predictor <- function(base_model, parameters, df) {
 Build a base model with HCNN (lowest AIC)
 ```{r}
 #HCNN - base model
-sf.large.base <- glmer(Correct ~ highest_contig.c + count_range + age.c + (1|SID), 
+sf.large.base <- glmer(Correct ~ highest_contig.c + count_range + age.c + (1|SID) + 
+                         (1|starting_num.c), 
                        family = "binomial", data = model.df)
 ```
 
 
 Test if FHC improves base model: FHC has next lowest AIC
-It does: Chisq(1) = 8.35, *p* = 0.004, AIC = 2648.3
+It does: Chisq(1) = 10.447, *p* = 0.001, AIC = 2616.1
 ```{r}
 sf.large.fhc <- test_predictor(sf.large.base, c("fhc.c"))
 
@@ -396,6 +394,8 @@ mtable.sf.large <- mtable('Base Model: HCNN' = sf.large.base,
             'Model 3: Prod. + FHC + HCNN' = sf.large.plusprod,
             summary.stats = c('Nagelkerke R-sq.','Log-likelihood','AIC','N'))
 mtable.sf.large
+
+sjPlot::tab_model(sf.large.fhc)
 ```
 
 ###Final productivity predictors: HCNN and FHC
@@ -404,7 +404,7 @@ mtable.sf.large
 
 #Math Facts model 
 ##Step 1: Is mean Math Facts performance significantly predictive of SF knowledge? 
-Yes: Chisq(1) = 54.66, p < .0001
+Yes: Chisq(1) = 57.336, p < .0001
 ```{r}
 #build model
 sf.mf <- make_single_model(model.df, "mean.mf.c")
@@ -412,6 +412,7 @@ sf.mf <- make_single_model(model.df, "mean.mf.c")
 #test whether mean math facts significantly predicts Unit Task accuracy
 anova(sf.base, sf.mf, test = 'LRT')
 mtable('Math Facts' = sf.mf)
+summary(sf.mf)
 ```
 
 ##Step 2: Does Math Facts explain unique variance on top of HCNN and FHC? 
@@ -425,6 +426,7 @@ anova(sf.large.fhc, sf.large.plusmf, test = 'LRT') #math facts significantly add
 
 library(sjPlot)
 tab_model(sf.large.plusmf, transform = NULL)
+summary(sf.large.plusmf)
 ```
 
 ***
@@ -1076,6 +1078,7 @@ error.freq %>%
 ```
 
 ---
+
 #Highest Contiguous Next Number
 ##Figure: NN accuracy by HNN and HCNN
 ```{r}
@@ -1265,28 +1268,62 @@ ggsave("Figures/indef_unit.png", width = 4, height = 3)
 
 ----
 #Secondary analyses
-
 ##Analysis: Do Resilient Counters have better performance on tasks?
+
+Yes; there is a main effect of 
 ```{r}
 #make model with mean performance
 ms.task <- all.data %>%
-  distinct(SID, Productive, Age, mean.unit, mean.mf, mean.nn)%>%
+  distinct(SID, Productive, Age, mean.sf, mean.mf, mean.nn)%>%
   gather(key = "Task", value = "mean", -SID, - Productive, -Age)%>%
-  mutate(Task = ifelse(Task == "mean.unit", "SF", 
+  mutate(Task = ifelse(Task == "mean.sf", "SF", 
                        ifelse(Task == "mean.nn", "WCN", "MF")))%>%
-  mutate(Task = factor(Task, levels = c("SF", "WCN", "MF")))%>%
-  mutate(Productive = factor(Productive, levels = c("Non-Resilient", "Resilient")))
+  mutate(Productive = factor(Productive, levels = c("Non-Resilient", "Resilient")), 
+        age.c = as.vector(scale(Age, center = TRUE, scale=TRUE)), 
+        Task = factor(Task, levels = c("MF", "SF", "WCN")))
 
 #mean performance
-resil.lm <- lm(mean ~ Productive + Task + Age, 
+resil.lm <- lm(mean ~ Productive*Task + age.c, 
                data = ms.task)
 
 #summary
 summary(resil.lm)
 
-#re-order
-summary(lm(mean ~ Productive + relevel(Task, ref = "WCN") + Age, 
-               data = ms.task))
+#Planned contrasts: Does MF differ from either SF or NN? Is there a difference between SF and NN?
+##testing contrasts
+task.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN) / 2
+             c(0, 1, -1))                # SF vs. NN
+cMat <- MASS::ginv(task.contrasts)
+
+planned.contrasts <- lm(mean ~ Productive*Task + age.c, data = ms.task, 
+            contrasts = list(Task = cMat))
+
+summary(planned.contrasts)
+
+#exploratory with accuracy
+task.model <- all.data %>%
+  filter(Task == "SF" | 
+           Task == "MF" | 
+           Task == "WCN")%>%
+  mutate(age.c = as.vector(scale(Age, center = TRUE, scale=TRUE)), 
+         Task = factor(Task, levels = c("MF", "SF", "WCN")), 
+         Productive = factor(Productive, levels = c("Non-Resilient", "Resilient")), 
+         starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)), 
+         Task_item = as.numeric(as.character(Task_item)))
+
+#planned contrasts
+task.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN) / 2
+             c(0, 1, -1))                # SF vs. NN
+cMat <- MASS::ginv(task.contrasts)
+
+planned.contrasts <- glmer(Correct ~ Productive*Task + count_range + age.c + (1|SID) + (1|starting_num.c), data = task.model, 
+                           family = 'binomial',
+            contrasts = list(Task = cMat), 
+            control=glmerControl(optimizer="bobyqa",
+                         optCtrl=list(maxfun=2e4)))
+
+summary(planned.contrasts)
+sjPlot::tab_model(planned.contrasts)
 ```
 
 ---
