@@ -566,7 +566,7 @@ summary(planned.contrasts)
 
 ## Bar graph showing difference between MF and NN as function of SF
 ```{r}
-three.pal <- c("#173BAB", "#5CA7D8", "#DE8141")
+ three.pal <- c("#173BAB", "#5CA7D8", "#DE8141")
 
 all.data %>%
   filter(Task == "SF" |
@@ -598,8 +598,8 @@ all.data %>%
         axis.ticks.x = element_blank(), 
         legend.position = "top") +
   ylim(0, 1.0) +
-  scale_fill_manual(values = three.pal) +
-  scale_colour_manual(values = three.pal, guide = "none") + 
+  scale_fill_manual(values = ) +
+  scale_colour_manual(values = , guide = "none") + 
   facet_wrap(~sf.quartile, strip.position = "bottom", ncol = 4)
 
 ggsave("~/Documents/Projects/sf_math/Analysis/Figures/all_tasks.png", width = 7, height = 4)
@@ -978,9 +978,7 @@ Prompts by productivity
 #how many prompts do productive and nonproductive counters need? and what kind of errors do they make?
 #mean number of prompts by Productivity
 error.freq %>%
-  mutate(IHC = as.numeric(as.character(IHC)), 
-         FHC = as.numeric(as.character(FHC)))%>%
-  filter(IHC != 120)%>%
+  filter(IHC != 120)%>% #remove kids who spontaneously count to 120
   group_by(Productive, Error_type)%>%
   summarise(n = n())%>%
   group_by(Productive)%>%
@@ -1013,7 +1011,7 @@ error.freq.decade <- error.freq %>%
 ###Error by decade
 ```{r}
 error.freq.decade %>%
-  filter(IHC != 120)%>%
+  filter(IHC != 120)%>% #remove kids who counted to 120 on their own
   mutate(error.decade = factor(error.decade, levels = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 
                                                         90, 100, 110)),
          error.base = factor(error.base))%>%
@@ -1062,8 +1060,6 @@ error.freq.decade %>%
         panel.grid.minor = element_blank())
 ```
 
-
-
 ##How many errors?
 ```{r}
 error.freq %>%
@@ -1080,8 +1076,8 @@ error.freq %>%
 ```
 
 ---
-
-#Figure: NN accuracy by HNN and HCNN
+#Highest Contiguous Next Number
+##Figure: NN accuracy by HNN and HCNN
 ```{r}
 #get mean performance for highest NN
 ms.hnn <- all.data %>%
@@ -1129,39 +1125,38 @@ ms.highest.all %>%
 
 ---
 
-#Performance by Resilience: Unit, NN, Math Facts
+#SF, NN, and MF Tasks
 ##Descriptives
 ```{r}
 all.data %>%
   filter(Task == "SF" | 
            Task == "WCN" | 
            Task == "MF")%>%
-  group_by(Task, Productive)%>%
+  group_by(Task)%>%
   summarise(mean = mean(Correct, na.rm = TRUE), 
             sd = sd(Correct, na.rm = TRUE))%>%
   kable()
 ```
 
-##Figure: Mean performance by Resilience
+##Figure: Mean performance
 ```{r}
 all.data %>%
   filter(Task == "SF" |
            Task == "WCN" |
            Task == "MF")%>%
   mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"), labels = c("Unit Task", "Next Number", "Math Facts")))%>%
-  group_by(SID, Productive, Task)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
-            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
-  ggplot(aes(x = Productive, y = mean, fill=Productive)) +
+  group_by(SID, Task)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE))%>%
+  ggplot(aes(x = Task, y = mean, fill=Task)) +
   stat_summary(fun.y = mean, position = position_dodge(width = .95),
                       geom="bar", alpha = .5, colour = "black") +
   # geom_violin(alpha = .5) +
-  geom_point(aes(x = Productive, y = mean, colour = Productive),
+  geom_point(aes(x = Task, y = mean, colour = Task),
                position=position_jitter(width = .18, height = .035),
                size=1.5,
                show.legend=FALSE, 
              inherit.aes = FALSE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
+  stat_summary(fun.data = mean_cl_boot, geom="linerange", 
                position = position_dodge(width=0.90), width = 0.2, size = 1)+
   ylab("Mean task performance") + 
   xlab('') + 
@@ -1169,17 +1164,107 @@ all.data %>%
   theme(legend.position = "bottom") +
   theme(panel.grid.minor = element_blank(), 
         panel.grid.major = element_blank(),
-        axis.text.x = element_blank(), 
-        axis.ticks.x = element_blank(), 
-        legend.position = "right", 
+        legend.position = "none", 
         legend.title = element_blank()) +
   ylim(0, 1.0) +
-  scale_fill_manual(values = productivity.pal) +
-  scale_colour_manual(values = productivity.pal, guide = "none") + 
-  facet_grid(~Task)
+  scale_fill_manual(values = ) +
+  scale_colour_manual(values = , guide = "none")
 # 
-ggsave("~/Documents/Projects/sf_math/Analysis/mean_resilience.png", width = 7, height = 3.5)
+# ggsave("~/Documents/Projects/sf_math/Analysis/mean_resilience.png", width = 7, height = 3.5)
 ```
+
+***
+
+#Exploratory: Indefinite Next Number 
+Demographics 
+```{r}
+all.data %>%
+  filter(!is.na(mean.indef))%>%
+  distinct(SID, Age)%>%
+  summarise(n = n(),
+            mean = mean(Age, na.rm = TRUE), 
+            sd = sd(Age, na.rm = TRUE))
+```
+
+Descriptives by item
+```{r}
+all.data %>%
+  filter(Task == "Indefinite", 
+         !is.na(Correct))%>%
+  group_by(Task_item)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE), 
+            sd = sd(Correct, na.rm = TRUE))%>%
+  kable()
+
+#overall performance
+all.data %>%
+  filter(Task == "Indefinite", 
+         !is.na(Correct))%>%
+  summarise(mean = mean(Correct, na.rm = TRUE), 
+            sd = sd(Correct, na.rm = TRUE))
+```
+
+##Analysis: Does performance on the Indef. Task predict Unit Task performance?
+Yes: Chisq = 53.73, *p* < .0001
+```{r}
+#filter out anyone who has NA for mean indef
+indef.model <- model.df %>%
+  filter(!is.na(mean.indef.c))
+
+#does mean indefinite next number performance predict Unit Task
+#is indefinite on its own predictive
+indef.base.single <- glmer(Correct ~ count_range + age.c + (1|SID), 
+                    family = "binomial", data = indef.model)
+indef.indef.single <- glmer(Correct ~ mean.indef.c + count_range + age.c + (1|SID), 
+                    family = "binomial", data = indef.model)
+
+#compare
+anova(indef.base.single, indef.indef.single, test = 'LRT')
+summary(indef.indef.single)
+```
+
+Does indefinite next number predict Unit Task when controlling for FHC, MF, and HCNN?
+Yes: Chisq = 15.211, *p* < .0001
+```{r}
+##add to final model with prod and math
+#model without indefinite
+indef.base <- glmer(Correct ~ mean.mf.c + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
+                    family = "binomial", data = indef.model)
+
+#model with indefinite
+indef.indef <- glmer(Correct ~ mean.indef.c + mean.mf.c + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
+                     family = "binomial", data = indef.model)
+
+#compare
+anova(indef.base, indef.indef, test = 'LRT') #mean indefinite significantly adds
+
+summary(indef.indef)
+
+```
+
+##Relationship between indefinite and Unit Task
+```{r}
+##Highest Contiguous Next Number
+all.data %>%
+  filter(!is.na(mean.indef))%>%
+  distinct(SID, mean.sf, mean.indef)%>%
+  ggplot(aes(x = mean.indef, y = mean.sf, color = "#101D57")) + 
+  geom_count(stat = "sum", 
+             show.legend = FALSE) + 
+  geom_smooth(aes(fill = "#101D57"), alpha = .3, 
+              show.legend = FALSE) + 
+  scale_color_manual(values = "#101D57") + 
+  scale_fill_manual(values = "#101D57") + 
+  theme_bw(base_size = 8) +
+  theme(panel.grid = element_blank()) +
+  labs(x = 'Mean Indefinite Next Number Performance', 
+       y = "Mean Unit Task performance") 
+
+ggsave("Figures/indef_unit.png", width = 4, height = 3)
+```
+
+----
+#Secondary analyses
 
 ##Analysis: Do Resilient Counters have better performance on tasks?
 ```{r}
@@ -1252,134 +1337,6 @@ summary(range.base)#no significant interaction between count range and Productiv
 
 ---
 
-#Exploratory: Indefinite Next Number 
-Demographics 
-```{r}
-all.data %>%
-  filter(!is.na(mean.indef))%>%
-  distinct(SID, Age)%>%
-  summarise(n = n(),
-            mean = mean(Age, na.rm = TRUE), 
-            sd = sd(Age, na.rm = TRUE))
-```
-
-Descriptives by item
-```{r}
-all.data %>%
-  filter(Task == "Indefinite", 
-         !is.na(Correct))%>%
-  group_by(Task_item)%>%
-  summarise(mean = mean(Correct, na.rm = TRUE), 
-            sd = sd(Correct, na.rm = TRUE))%>%
-  kable()
-```
-
-Note: This does not include all participants
-```{r}
-#filter out anyone who has NA for mean indef
-indef.model <- model.df %>%
-  filter(!is.na(mean.indef.c))
-
-#does mean indefinite next number performance predict Unit Task
-#is indefinite on its own predictive
-indef.base.single <- glmer(Correct ~ count_range + age.c + (1|SID), 
-                    family = "binomial", data = indef.model)
-indef.indef.single <- glmer(Correct ~ mean.indef.c + count_range + age.c + (1|SID), 
-                    family = "binomial", data = indef.model)
-
-#compare
-anova(indef.base.single, indef.indef.single, test = 'LRT')
-summary(indef.indef.single)
-
-##add to final model with prod and math
-#model without indefinite
-indef.base <- glmer(Correct ~ mean.mf.c + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
-                    family = "binomial", data = indef.model)
-
-#model with indefinite
-indef.indef <- glmer(Correct ~ mean.indef.c + mean.mf.c + fhc.c + highest_contig.c + count_range + age.c + (1|SID), 
-                     family = "binomial", data = indef.model)
-
-#compare
-anova(indef.base, indef.indef, test = 'LRT') #mean indefinite significantly adds
-
-summary(indef.indef)
-
-```
-
-##Indefinite visualization by Resilience
-```{r}
-all.data %>%
-  filter(!is.na(mean.indef))%>%
-  filter(Task == "SF")%>%
-  mutate(indef.bin = ifelse(mean.indef < .25, "0 correct", 
-                            ifelse(mean.indef == .25, "1 correct", 
-                                   ifelse(mean.indef == .5, "2 correct", 
-                                          ifelse(mean.indef == .75, "3 correct", "4 correct")))))%>%
-  group_by(SID, Task, indef.bin)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
-            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
-  ggplot(aes(x = indef.bin, y = mean, fill=Task)) +
-  # geom_violin(aes(fill = Task), alpha = .4) + 
-  stat_summary(fun.y = mean, position = position_dodge(width = .95),
-                      geom="bar", alpha = .5, colour = "black") +
-  geom_point(aes(x = indef.bin, y = mean, colour = Task),
-               position=position_jitter(width=0.15,height=0.02),
-               size=1.5,
-               show.legend=TRUE, 
-             inherit.aes = FALSE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
-               position = position_dodge(width=0.90), width = 0.1, size = 1)+
-  ylab("Mean Unit Task performance") + 
-  xlab('Mean Indefinite Next Number performance') + 
-  theme_bw(base_size = 15) + 
-  theme(legend.position = "right") +
-  theme(panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(), 
-        legend.position = "none") +
-  ylim(0, 1.0) +
-  scale_fill_manual(values = "#091E5B") + 
-  scale_color_manual(values = "#091E5B") + 
-  coord_fixed(ratio = 1.8)
-
-# ggsave("~/Documents/Projects/sf_math/Analysis/indef.png")
-```
-
-##What about indefinite NN along with other tasks? 
-```{r}
-all.data %>%
-  filter(!is.na(mean.indef))%>%
-  filter(Task == "SF" | 
-           Task == "WCN" | 
-           Task == "MF" | 
-           Task == "Indefinite")%>%
-  group_by(SID, Task, sf.quartile)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
-            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
-  ggplot(aes(x = sf.quartile, y = mean, fill=Task)) +
-  # geom_violin(aes(fill = Task), alpha = .4) + 
-  stat_summary(fun.y = mean, position = position_dodge(width = .95),
-                      geom="bar", alpha = .5, colour = "black") +
-  geom_point(aes(x = sf.quartile, y = mean, colour = Task),
-               position=position_jitter(width=0.15,height=0.02),
-               size=1.5,
-               show.legend=TRUE, 
-             inherit.aes = FALSE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
-               position = position_dodge(width=0.90), width = 0.1, size = 1)+
-  ylab("Mean Task performance") + 
-  xlab("Unit Task quartiles") + 
-  facet_grid(~sf.quartile, scale = "free_x") +
-  theme_bw(base_size = 15) + 
-  theme(legend.position = "right") +
-  theme(panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(), 
-        legend.position = "none") +
-  ylim(0, 1.0) 
-  # scale_fill_manual(values = "#091E5B") + 
-  # scale_color_manual(values = "#091E5B") 
-  
-```
 
 ***
 
@@ -1728,8 +1685,8 @@ tmp %>%
         panel.grid.major = element_blank(), 
         legend.title = element_blank()) +
   ylim(0, 1.0) +
-  scale_fill_manual(values = three.pal, guide = "none") +
-  scale_colour_manual(values = three.pal, guide = "none")
+  scale_fill_manual(values = , guide = "none") +
+  scale_colour_manual(values = , guide = "none")
 
 ggsave("~/Documents/Projects/sf_math/Analysis/all_tasks_ceiling.png", width = 5.25, height = 4.5)
 ```
