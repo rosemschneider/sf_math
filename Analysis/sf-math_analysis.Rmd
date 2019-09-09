@@ -192,6 +192,7 @@ all.data <- list(tmp.all.data, indef.mean, mf.mean, sf.mean, nn.mean) %>% reduce
 ```
 
 ---
+
 ##Demographics
 ```{r}
 all.data %>%
@@ -228,7 +229,7 @@ model.df <- all.data %>%
 ```
 
 ##Step 1: Productivity models
-Which measure of productivity best fits the 
+Which measure of productivity best fits the data?
 ```{r}
 #general function for making models so we don't have to re-write it a million times
 
@@ -260,6 +261,11 @@ sf.hcnn <- make_single_model(model.df, "highest_contig.c")
 
 #HNN
 sf.hnn <- make_single_model(model.df, "highest_num.c")
+
+
+model.df %<>%
+  mutate(Task_item = as.numeric(as.character(Task_item)))
+
 ```
 
 ##Regression table
@@ -423,6 +429,55 @@ tab_model(sf.large.plusmf, transform = NULL)
 
 ***
 
+#Visualization of model fits
+```{r}
+item.pal <- c("#173BAB", "#5CA7D8", "#DE8141")
+
+##Math Facts
+all.data %>%
+  distinct(SID, mean.sf, mean.mf)%>%
+  ggplot(aes(x = mean.mf, y = mean.sf, colour = "#DE8141")) + 
+  geom_count(stat = "sum", show.legend = FALSE) + 
+  geom_smooth(aes(fill = "#DE8141"), alpha = .3,  
+              show.legend = FALSE) + 
+  scale_color_manual(values = "#DE8141") + 
+  scale_fill_manual(values = "#DE8141") +
+  labs(x = "Mean Math Facts performance", 
+       y = "Mean Unit Task performance") + 
+  theme_bw(base_size = 8) + 
+  theme(panel.grid = element_blank())
+
+ggsave("Figures/unit_by_mf.png", height = 3, width = 4)
+
+##Highest Contiguous Next Number
+all.data %>%
+  mutate(highest_contig = factor(highest_contig, levels = c("0", "1", 
+                                                            "7", "24", "26", "30", "62", 
+                                                            "71", "83", "95")))%>%
+  mutate(highest_contig.num = as.numeric(highest_contig))%>%
+  distinct(SID, mean.sf, highest_contig, highest_contig.num)%>%
+  ggplot(aes(x = highest_contig.num, y = mean.sf, color = "#3AAADD")) + 
+  geom_count(stat = "sum", 
+             show.legend = FALSE) + 
+  geom_smooth(aes(fill = "#3AAADD"), alpha = .3, 
+              show.legend = FALSE) + 
+  scale_color_manual(values = "#3AAADD") + 
+  scale_fill_manual(values = "#3AAADD") + 
+  theme_bw(base_size = 8) +
+  theme(panel.grid = element_blank()) +
+  labs(x = 'Highest Contiguous Next Number', 
+       y = "Mean Unit Task performance") + 
+    scale_x_continuous(breaks = (1:length(as.numeric(levels(factor(all.data$highest_contig, levels = c("0", "1", 
+                                                            "7", "24", "26", "30", "62", 
+                                                            "71", "83", "95")))))), 
+                     labels = as.character(levels(factor(all.data$highest_contig, levels = c("0", "1", 
+                                                            "7", "24", "26", "30", "62", 
+                                                            "71", "83", "95")))))
+ggsave("Figures/hcnn_unit.png", width = 4, height = 3)
+```
+
+***
+
 #Secondary analyses
 ##Testing whether SF is generalized from Math Facts
 If children are acquiring SF from MF, we should expect that these children should also be at ceiling in Math Facts. Here, I am testing whether there is a difference in accuracy across the Unit, NN, and Math Facts tasks
@@ -466,6 +521,7 @@ mf.sf.ceiling.task <- glmer(Correct ~ Task + count_range + age.c + (1|SID),
 
 #test to see if there is a difference by task 
 anova(mf.sf.ceiling.base, mf.sf.ceiling.task, test = 'LRT') #yes, there is a significant effect of task
+summary(mf.sf.ceiling.task)
 ```
 
 Planned contrasts: Does MF differ from either SF or NN? Is there a difference between SF and NN?
@@ -546,12 +602,12 @@ all.data %>%
   scale_colour_manual(values = three.pal, guide = "none") + 
   facet_wrap(~sf.quartile, strip.position = "bottom", ncol = 4)
 
-ggsave("~/Documents/Projects/sf_math/Analysis/all_tasks.png", width = 7, height = 4)
+ggsave("~/Documents/Projects/sf_math/Analysis/Figures/all_tasks.png", width = 7, height = 4)
 ```
 
 ---
 
-##Do children perform worse on every problem between NN, Unit, and MF?
+##Looking at the dissociation between Math Facts and the Unit Task
 Interested in a set-size effect for Math Facts
 Is there an effect of set size on MF and SF?
 Then see what percentage of kids who succeed at small MF fail at larger MF as a function of their success in SF
@@ -561,14 +617,14 @@ This isn't perfect,  but I'm doing a match on magnitude, because we tested novel
 #average magnitudes of all three items tested within a given range
 sub.ten <- (5 + 6)/2
 teens <- 15 #exclude because this wasn't tested in both sf and mf
-twenties <- (20 + 21)/2
-thirties <- (32 + 34)/2
+twenties <- 20
+thirties <- 32
 forties <- 46 #exclude because this wasn't tested in both tasks
-fifties <- (51+57)/2
-sixties <- (60 + 62+64)/3
+fifties <- 57
+sixties <- (62+64)/2
 seventies <- 73 #exclude because this wasn't tested in both tasks 
-eighties <- (81+84+86)/3
-nineties <- (93+95)/2
+eighties <- (84+86)/2
+nineties <- 93
 
 #first, add a column indicating whether numbers were the same or different across tasks
 sf.mf.comparison <- all.tasks.model %>%
@@ -591,38 +647,53 @@ sf.mf.comparison <- all.tasks.model %>%
   filter(magnitude.match != teens, 
          magnitude.match != forties, 
          magnitude.match != seventies, 
-         Task == "SF" | Task == "MF")
+         Task == "SF" | Task == "MF")%>%
+  droplevels()
+
+##filter out 21 for MF
+sf.mf.comparison.matched <- sf.mf.comparison %>%
+  filter(Task_item != 21, 
+         Task_item != 7, 
+         Task_item != 51, 
+         Task_item != 95, 
+         Task_item != 15, 
+         Task_item != 34, 
+         Task_item != 60, 
+         Task_item != 73, 
+         Task_item != 81)
 ```
 
 ###Get a visualization of this for children overall
 ```{r}
 two.pal <- c("#173BAB", "#DE8141")
 
-sf.mf.comparison %>%
-  mutate(Task = factor(Task, levels = c("SF", "MF"), labels = c("Unit", "Math Facts")),
-         magnitude.match = sort(magnitude.match),
-         magnitude.match = factor(magnitude.match))%>%
+sf.mf.comparison.matched %>%
+  mutate(Task = factor(Task, levels = c("SF", "MF"), labels = c("Unit Task", "Math Facts")), 
+         magnitude.match = factor(magnitude.match, levels = c("5.5", "20", 
+                                                              "32", "57", "63", "85", "93")))%>%
   group_by(Task, magnitude.match)%>%
   multi_boot_standard("Correct", na.rm = TRUE) %>%
   ggplot(aes(x = magnitude.match, y = mean, colour = Task, group = Task)) +
-  geom_point(size = 2) + 
+  geom_point(size = 3) + 
   geom_line() +
   geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) +
-  theme_bw(base_size = 10) + 
+  theme_bw(base_size = 13) + 
   # facet_grid(~trial.type, scale = "free_x") +
   scale_colour_manual(values = two.pal) +
-  theme(legend.position = "bottom", 
-        legend.title = element_blank()) +
-  labs(x = "Magnitude match - number queried", y = "Mean performance") +
+  theme(legend.position = "right", 
+        panel.grid = element_blank()) +
+  labs(x = "Magnitude of number queried", y = "Mean performance") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+ggsave("~/Documents/Projects/sf_math/Analysis/Figures/magnitude_overall_comp.png")
 ```
 
 ###Get a visualization of this for children by SF quartile
 ```{r}
-sf.mf.comparison %>%
+sf.mf.comparison.matched %>%
   mutate(Task = factor(Task, levels = c("SF", "MF"), labels = c("Unit", "Math Facts")),
-         magnitude.match = sort(magnitude.match),
-         magnitude.match = factor(magnitude.match), 
+         magnitude.match = factor(magnitude.match, levels = c("5.5", "20", 
+                                                              "32", "57", "63", "85", "93")),
          sf.quartile = factor(sf.quartile, labels = c("25% — 44%", "44% — 63%", "63% — 88%", "88% — 100%")))%>%
   group_by(sf.quartile, Task, magnitude.match)%>%
   multi_boot_standard("Correct", na.rm = TRUE) %>%
@@ -641,92 +712,34 @@ sf.mf.comparison %>%
 ```
 
 ##Step 2: Is there an interaction between item magnitude and task for SF and MF?
-No; there is no interaction. Children are just uniformly worse on the MF task in comparison to SF. 
+Yes, there is an interaction; Chisq = 4.89, p = .03 
 ```{r}
-#build a base model
-comp.sf.mf.base <- glmer(Correct ~ Task + count_range + age.c + (1|SID), 
-                data =  sf.mf.comparison, 
-                family = "binomial", 
-                control=glmerControl(optimizer="bobyqa",
-                         optCtrl=list(maxfun=2e4)))
+sf.mf.comparison.matched %<>%
+  mutate(Task = factor(Task, levels = c("SF", "MF")))
 
-#add interaction with magnitude match
+#magnitude match
 comp.sf.mf.mag <- glmer(Correct ~ magnitude.match.c+Task + count_range + age.c + (1|SID), 
-                data =  sf.mf.comparison, 
+                data =  sf.mf.comparison.matched, 
                 family = "binomial", 
                 control=glmerControl(optimizer="bobyqa",
                          optCtrl=list(maxfun=2e4)))
 
 #add interaction with magnitude match
 comp.sf.mf.int <- glmer(Correct ~ magnitude.match.c*Task + count_range + age.c + (1|SID), 
-                data =  sf.mf.comparison, 
+                data =  sf.mf.comparison.matched, 
                 family = "binomial", 
                 control=glmerControl(optimizer="bobyqa",
                          optCtrl=list(maxfun=2e4)))
 
 #compare
-anova(comp.sf.mf.base, comp.sf.mf.mag,comp.sf.mf.int, test = 'lrt')
+anova(comp.sf.mf.mag,comp.sf.mf.int, test = 'lrt')
+summary(comp.sf.mf.int)
 ```
 
 ##Step 3: What percentage of children succeed on an item in Unit, and then fail on the same (or similar item) in MF? 
 I think it might make sense to look at this through quartiles
 ```{r}
-matched.items <- c(5, 6, 20, 32, 57, 62, 64, 86, 84, 93)
-
-match.df <- sf.mf.comparison %>%
-  filter(Task_item %in% matched.items)%>%
-  dplyr::select(SID, sf.quartile, Task, magnitude.match, Correct)%>%
-  spread(key = "Task", value = "Correct")%>%
-   mutate(magnitude.match = sort(magnitude.match), 
-         magnitude.match = factor(magnitude.match))%>%
-  group_by(SID, sf.quartile, magnitude.match)%>%
-  mutate(sf.mf.success = ifelse((MF == 1 & SF == 1), "SF and MF correct", 
-                                ifelse((MF == 0 & SF == 1), "MF incorrect", 
-                                ifelse((MF == 1 & SF ==0), "SF incorrect", "SF and MF incorrect"))))
-
-match.df %>% 
-  filter(!is.na(sf.mf.success))%>%
-  group_by(sf.quartile, magnitude.match, sf.mf.success)%>%
-  summarise(n = n())%>%
-  ggplot(aes(x = magnitude.match, y= n, fill = sf.mf.success)) + 
-  geom_bar(stat = "identity") +
-  facet_grid(~sf.mf.success) + 
-  theme(legend.position = "top")
-
-#For a given magnitude, what is the proportion of children who succeed on SF, but fail on MF? 
-match.df %>%
-  filter(!is.na(sf.mf.success))%>%
-  group_by(magnitude.match, sf.mf.success)%>%
-  summarise(n = n())%>%
-  group_by(magnitude.match)%>%
-  mutate(total.n = sum(n), 
-         prop = n/total.n)%>%
-  ggplot(aes(x = magnitude.match, y = prop, fill = sf.mf.success)) + 
-  geom_bar(stat = "identity")
-
-#roughly 50% of children succeed on SF but fail on MF for every number
-
-#what about by unit task performance? 
-match.df %>%
-  filter(!is.na(sf.mf.success))%>%
-  group_by(sf.quartile, magnitude.match, sf.mf.success)%>%
-  summarise(n = n())%>%
-  group_by(magnitude.match)%>%
-  mutate(total.n = sum(n), 
-         prop = n/total.n)%>%
-  ggplot(aes(x = magnitude.match, y = prop, fill = sf.mf.success)) + 
-  geom_bar(stat = "identity") + 
-  facet_grid(~sf.quartile) + 
-  theme(legend.position = "top")
-
-#is there a difference in the number of children who succeed on SF but fail on MF for a given number across quartiles? 
-
-
-#### !! what I want to do is: 
-#identify kids at equation 'understanders' based on spontaneous response to 1+1 - this will require a bit of re-coding, I think
-#then, looking at children who understand 1+1, separate Unit task problems into success and failure
-#then, for a given magnitude, what proportion of children either succeeded or failed for mf?
-
+#Classify children as "addition understanders" or "addition non-understanders"
 understanders <- sf.mf.comparison %>%
   filter(Task == "MF", 
          Task_item == 5)%>%
@@ -736,202 +749,88 @@ understanders <- sf.mf.comparison %>%
 
 understander.df <- left_join(sf.mf.comparison, understanders, by = "SID")
 
+##Descriptives for MF understanders and non-understanders
 understander.df %>%
-  filter(Task_item %in% matched.items,
-         equation.understander == "understander")%>%
-  filter(!is.na(equation.understander))%>%
-  dplyr::select(SID, Task, magnitude.match, equation.understander, Correct)%>%
-  spread(key = "Task", value = "Correct")%>%
-  mutate(magnitude.match = factor(sort(magnitude.match)))%>%
-  mutate(sf.success = ifelse(SF == 1, "sf correct", "sf incorrect"), 
-         mf.success = ifelse(MF == 1, "mf correct", "mf incorrect"), 
-         mf.success = factor(mf.success, levels = c("mf incorrect", "mf correct"), 
-                             labels = c("Incorrect Math Facts", "Correct Math Facts")), 
-         sf.success = factor(sf.success, levels = c("sf correct", "sf incorrect"), 
-                             labels = c("Correct Unit Task items", "Incorrect Unit Task Items")))%>%
-  group_by(magnitude.match, equation.understander, sf.success, mf.success)%>%
-  summarise(n = n())%>%
-  group_by(magnitude.match)%>%
-  mutate(total.n = sum(n), 
-         prop = n/total.n)%>%
-  ggplot(aes(x = magnitude.match, y = prop, fill =  mf.success)) +
-  geom_bar(stat = "identity") + 
-  facet_grid(~sf.success) + 
-  labs(y = 'Proportion of children', x = "Magnitude of MF problem") + 
-  scale_fill_brewer(palette = "Set1")
+  group_by(equation.understander, Task)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE), 
+            sd = sd(Correct, na.rm = TRUE))
 
-#what about for the same items in both tasks
+#graph understanders and non-understanders performance for MF 
 understander.df %>%
+  filter(Task == "MF", 
+         !is.na(equation.understander))%>%
+  mutate(Task_item = factor(Task_item, levels=c(5, 20, 21, 32, 57, 64, 86, 93)))%>%
+  group_by(equation.understander, Task_item)%>%
+  multi_boot_standard("Correct", na.rm = TRUE)%>%
+  ggplot(aes(x = Task_item, y = mean, color = equation.understander, group = equation.understander)) + 
+  geom_point(size = 3) + 
+  geom_line() + 
+  geom_linerange(aes(ymin = ci_lower, ymax =  ci_upper)) + 
+  theme_bw(base_size = 13) + 
+  theme(panel.grid = element_blank()) + 
+  scale_color_brewer(palette = "Set2")
+```
+
+GLMM: Testing whether, for addition knowers, they are more accurate on math facts for items on which they succeeded in Unit Task
+```{r}
+##analysis: testing whether, for addition knowers, they are more accurate on math facts for items that they succeeded on in Unit Task 
+tmp <- understander.df %>%
+  filter(equation.understander == "understander")%>%
   filter(Task_item == 20 | 
            Task_item == 32 | 
            Task_item == 57 | 
            Task_item == 93)%>%
-  filter(!is.na(equation.understander))%>%
-  dplyr::select(SID, Task, Task_item, equation.understander, Correct)%>%
-  spread(key = "Task", value = "Correct")%>%
-  mutate(Task_item = factor(sort(Task_item)))%>%
-  mutate(sf.success = ifelse(SF == 1, "sf correct", "sf incorrect"), 
-         mf.success = ifelse(MF == 1, "mf correct", "mf incorrect"), 
-         mf.success = factor(mf.success, levels = c("mf incorrect", "mf correct"), 
-                             labels = c("Incorrect Math Facts", "Correct Math Facts")), 
-         sf.success = factor(sf.success, levels = c("sf correct", "sf incorrect"), 
-                             labels = c("Correct Unit Task items", "Incorrect Unit Task Items")), 
-         equation.understander = factor(equation.understander, levels = c("understander", "non-understander"), 
-                                        labels = c("Addition knower (5+1)", "Addition non-knower (5+1)")))%>%
-  group_by(Task_item, equation.understander, sf.success, mf.success)%>%
-  filter(!is.na(mf.success))%>%
-  summarise(n = n())%>%
+  dplyr::select(SID, Task, Task_item, Correct, equation.understander)%>%
+  filter(Task == "SF")%>%
+  group_by(SID, Task_item)%>%
+  mutate(sf.correct = ifelse((Correct == 1), "Unit Task Correct", "Unit Task Incorrect"))%>%
+  dplyr::select(SID, Task_item, sf.correct)
+
+tmp1 <- left_join(understander.df, tmp, by = c("SID", "Task_item"))%>%
+  filter(!is.na(sf.correct), 
+         Task == "MF")
+
+model.test.base <- glmer(Correct ~ count_range + age.c + (1|SID), data = tmp1, family = "binomial")
+model.test <- glmer(Correct ~ sf.correct + count_range + age.c + (1|SID), data = tmp1, family = "binomial")
+anova(model.test.base, model.test, test= 'lrt')
+summary(model.test)
+```
+
+What percentage of addition understanders go on to succeed or fail on later MF problems by whether they got that number correct or incorrect? 
+```{r}
+tmp1 %>%
+  mutate(Task_item = factor(Task_item)) %>%
+  mutate(mf.correct = factor(Correct, levels = c(0,1), 
+                             labels = c("Math Facts Incorrect", "Math Facts Correct")), 
+         sf.correct = factor(sf.correct, levels = c("Unit Task Incorrect", "Unit Task Correct")))%>%
+  group_by(Task_item, sf.correct, mf.correct)%>%
+  summarise(n = n()) %>%
   group_by(Task_item)%>%
   mutate(total.n = sum(n), 
          prop = n/total.n)%>%
-  ggplot(aes(x = Task_item, y = n, fill =  mf.success)) +
-  geom_bar(stat = "identity", position = position_dodge(preserve = 'single'), color = "black") + 
-  facet_grid(equation.understander~sf.success, scale = "free_x") + 
-  theme_bw(base_size = 10) +
-  labs(y = 'Number of children correct/incorrect', x = "Math Facts Problem") + 
+  ggplot(aes(x = Task_item, y = prop, fill = mf.correct)) +
+  geom_bar(stat = "identity", color = "black") + 
+  facet_grid(mf.correct~sf.correct) + 
+  labs(y = 'Proportion of children correct/incorrect on Math Facts', x = 'Item') + 
   scale_fill_brewer(palette = "Set1") + 
-  guides(fill = guide_legend(title = "Math Facts performance")) + 
-  theme(panel.grid = element_blank())
-
+  theme_bw(base_size = 13) + 
+  theme(panel.grid = element_blank(), 
+        legend.position = "none")  
   
-#what is the average MF performance of kids who "get" MF for these items? 
-understander.ms <- understander.df %>%
-  filter(Task_item == 20 | 
-           Task_item == 32 | 
-           Task_item == 57 | 
-           Task_item == 93)%>%
+ggsave("~/Documents/Projects/sf_math/Analysis/Figures/addition_knowers_MathFacts.png", height = 5)
+
+##Finally, mean performance by addition understander
+tmp1 %>%
   filter(!is.na(equation.understander))%>%
-  group_by(equation.understander, Task)%>%
-  summarise(mean = mean(Correct, na.rm = TRUE))
-
-
-```
-
-
-```{r}
-#For all children, test whether there is a difference between tasks for items that were repeated across both tasks
-
-#Correct ~ Number*Task + count_range + age.c + (1|SID)
-
-trial.type.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN)/2
-             c(0, 1, -1))      # sf vs. NN        
-cMat <- MASS::ginv(trial.type.contrasts)
-
-planned.contrasts <- glmer(Correct ~ Task + count_range + age.c + (1|SID), 
-                           data = subset(trial.type.df, trial.type == "SF_MF_same" | trial.type == "SF_NN_same"), 
-             family = "binomial",
-            contrasts = list(Task = cMat), 
-            control=glmerControl(optimizer="bobyqa",
-                         optCtrl=list(maxfun=2e4)))
-summary(planned.contrasts)
-
-##interim: for items that are repeated, MF is worse than SF by a lot; SF is worse than NN by a little
-
-#look at magnitude match*task interaction
-task.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN)/2
-             c(0, 1, -1))      # sf vs. NN        
-cMat <- MASS::ginv(task.contrasts)
-
-planned.contrasts <- glmer(Correct ~ magnitude.match.c*Task + count_range + age.c + (1|SID), 
-                           data = trial.type.df, 
-             family = "binomial",
-            contrasts = list(Task = cMat), 
-            control=glmerControl(optimizer="bobyqa",
-                         optCtrl=list(maxfun=2e4)))
-summary(planned.contrasts)
-
-
-#for all kids
-trial.type.df %>%
-  mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"), labels = c("Unit", 
-                                                                       "Next Number", 
-                                                                       "Math Facts")),
-         magnitude.match = sort(magnitude.match),
-         magnitude.match = factor(magnitude.match))%>%
-  group_by(Task, magnitude.match)%>%
-  multi_boot_standard("Correct", na.rm = TRUE) %>%
-  ggplot(aes(x = magnitude.match, y = mean, colour = Task, group = Task)) +
-  geom_point(size = 2) + 
-  geom_line() +
-  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) +
-  theme_bw(base_size = 10) + 
-  # facet_grid(~trial.type, scale = "free_x") +
-  # scale_colour_manual(values = productivity.pal) +
-  theme(legend.position = "bottom", 
-        legend.title = element_blank()) +
-  labs(x = "Magnitude match - number queried", y = "Mean performance") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
-
-#for top quartile
-trial.type.df %>%
-  filter(sf.quartile == "(0.875,1]")%>%
-  mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"), labels = c("Unit", 
-                                                                       "Next Number", 
-                                                                       "Math Facts")),
-         magnitude.match = sort(magnitude.match),
-         magnitude.match = factor(magnitude.match))%>%
-  group_by(Task, magnitude.match)%>%
-  multi_boot_standard("Correct", na.rm = TRUE) %>%
-  ggplot(aes(x = magnitude.match, y = mean, colour = Task, group = Task)) +
-  geom_point(size = 2) + 
-  geom_line() +
-  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) +
-  theme_bw(base_size = 10) + 
-  # facet_grid(~trial.type, scale = "free_x") +
-  # scale_colour_manual(values = productivity.pal) +
-  theme(legend.position = "bottom", 
-        legend.title = element_blank()) +
-  labs(x = "Magnitude match - number queried", y = "Mean performance") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
-
-
-
-trial.type.df %>%
-  mutate(Task_item = factor(Task_item, levels = c("5", "6", "7", "15", "20", 
-                                                  "21", "24", "26", "30", "32", 
-                                                  "34", "46", "51", "57", "60", "62", "64", 
-                                                  "71", "73", "81", "83", "84", "86",
-                                                  "93", "95")), 
-         Task = factor(Task, levels = c("SF", "WCN", "MF"), labels = c("Unit", 
-                                                                       "Next Number", 
-                                                                       "Math Facts")))%>%
-  group_by(trial.type, Task, Task_item)%>%
+  group_by(equation.understander, sf.correct)%>%
   summarise(mean = mean(Correct, na.rm = TRUE), 
-            n = n(), 
-            sd = sd(Correct, na.rm = TRUE), 
-            se = sd/sqrt(n)) %>%
-  ggplot(aes(x = Task_item, y = mean, colour = Task, group = Task)) +
-  geom_point(size = 2) + 
-  geom_line() +
-  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), 
-                width = .1) +
-  theme_bw(base_size = 10) + 
-  facet_grid(~trial.type, scale = "free_x") +
-  # scale_colour_manual(values = productivity.pal) +
-  theme(legend.position = "bottom", 
-        legend.title = element_blank()) +
-  labs(x = "Number queried", y = "Mean performance") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
-
-
-
-##some sanity
-#what I want to know: 
-#for items that are repeated across both tasks
-#does performance differ between MF and SF and NN and SF
+            sd = sd(Correct, na.rm = TRUE))
 ```
-
-
-
-
-
-
-
-
 
 ---
 
-#Highest Count
+#By-task descriptives & visualizations
+##Highest Count
 
 Descriptives
 ```{r}
@@ -1026,48 +925,74 @@ ggsave("~/Documents/Projects/sf_math/Analysis/density.png")
 
 ###How many children who stopped before 120 were able to count at least a little beyond their IHC?
 ```{r}
+#read in hc data
+hc.df <- read.csv("~/Documents/Projects/sf_math/Data/sf_math_hc.csv")%>%
+  dplyr::rename("IHC" = "IHC_final", 
+                "FHC" = "FHC_final")%>%
+  dplyr::select(SID, Last_successful, Error, Prompt, After_prompt, IHC, FHC, Special_count, Exclude_trial, 
+                Exclude_trial_reason)%>%
+  filter(Exclude_trial != 1)%>% 
+  droplevels()
+
+#merge with productivity classifications
+productive <- all.data %>%
+  distinct(SID, Productive)
+
+hc.full <- left_join(hc.df, productive, by = "SID")%>%
+  filter(!is.na(Productive))%>%#manual exclusion from data - these SIDS excuded from data, but did HC 
+  mutate(IHC = as.numeric(as.character(IHC)), 
+         FHC = as.numeric(as.character(FHC)))%>%
+  mutate(IHC = ifelse(IHC > 120, 120, as.numeric(IHC)), 
+         FHC = ifelse(FHC > 120, 120, as.numeric(FHC)))
+
+#make error frequency df 
+error.freq <- hc.full %>%
+  filter(!is.na(Last_successful))%>%
+  mutate(Error_type = ifelse(Last_successful %% 10 == 9 , "Decade end", 
+                             ifelse(Last_successful %% 10 == 0, "Decade beginning", "Mid-decade")), 
+         IHC = as.numeric(as.character(IHC)), 
+         FHC = as.numeric(as.character(FHC)))
+
 #how many kids counted spontaneously to 120?
 all.data %>%
   distinct(SID, IHC)%>%
-  filter(IHC == 120)
+  filter(IHC == 120)%>%
+  summarise(n=n())
 
-error.freq %>%
+#of the kids who stopped before 120, how many of them counting a little bit beyond?
+#these ns are not right
+hc.full %>%
   distinct(SID, IHC, FHC)%>%
   filter(IHC != 120)%>%
   mutate(delta.count = FHC-IHC, 
          counted.beyond = ifelse(delta.count > 0, "counted beyond IHC", "could not count beyond IHC"))%>%
   group_by(counted.beyond)%>%
   summarise(n = n(), 
-            mean.delta = mean(delta.count))
+            mean.delta = mean(delta.count, na.rm = TRUE), 
+            sd.delta = sd(delta.count, na.rm = TRUE))
 ```
 
 
 Prompts by productivity
 ```{r}
 #how many prompts do productive and nonproductive counters need? and what kind of errors do they make?
-#bind productive and hc.df 
-productive %<>% 
-  dplyr::select(SID, Productive)
-
-error.freq <- full_join(hc.df, productive, by = "SID")%>%
-  filter(!is.na(Last_successful))%>%
-  mutate(Error_type = ifelse(Last_successful %% 10 == 9 , "Decade end", 
-                             ifelse(Last_successful %% 10 == 0, "Decade beginning", "Mid-decade")))
-
 #mean number of prompts by Productivity
-mean_prompts.type <- error.freq %>%
+error.freq %>%
+  mutate(IHC = as.numeric(as.character(IHC)), 
+         FHC = as.numeric(as.character(FHC)))%>%
+  filter(IHC != 120)%>%
   group_by(Productive, Error_type)%>%
   summarise(n = n())%>%
   group_by(Productive)%>%
   mutate(total.n = sum(n), 
-            prop = n/total.n)
-mean_prompts.type %>%
+            prop = n/total.n)%>%
   kable()
 
 ```
 
 ##Where are errors happening?
 ```{r}
+#create a df with individual error decades
 error.freq.decade <- error.freq %>%
   mutate(error.decade = ifelse(Last_successful < 10, 0, 
                                ifelse(Last_successful >= 10 & Last_successful < 20, 10, 
@@ -1088,6 +1013,7 @@ error.freq.decade <- error.freq %>%
 ###Error by decade
 ```{r}
 error.freq.decade %>%
+  filter(IHC != 120)%>%
   mutate(error.decade = factor(error.decade, levels = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 
                                                         90, 100, 110)),
          error.base = factor(error.base))%>%
@@ -1160,14 +1086,11 @@ error.freq %>%
 #get mean performance for highest NN
 ms.hnn <- all.data %>%
   filter(Task == "WCN")%>%
-  mutate(Number = factor(highest_num, levels = c("0", "7", 
+  mutate(Number = factor(highest_num, levels = c("1", "7", 
                                                             "24", "26", "30", 
                                                             "62", "71", "83", "95")))%>%
   group_by(Number)%>%
-  summarise(n = n(), 
-            mean = mean(Correct, na.rm = TRUE), 
-            sd = sd(Correct, na.rm = TRUE), 
-            se = sd/sqrt(n))%>%
+  multi_boot_standard("Correct", na.rm = TRUE)%>%
   mutate(Type = "Highest Next Number")
 
 #get mean performance for HCNN
@@ -1177,25 +1100,22 @@ ms.hcnn <- all.data %>%
                                                             "24", "26", "30", 
                                                             "62", "71", "83", "95")))%>%
   group_by(Number)%>%
-  summarise(n = n(), 
-            mean = mean(Correct, na.rm = TRUE), 
-            sd = sd(Correct, na.rm = TRUE), 
-            se = sd/sqrt(n))%>%
+  multi_boot_standard("Correct", na.rm = TRUE)%>%
   mutate(Type = "Highest Contiguous Next Number")
 
 #bind_rows
-ms.highest.all <- bind_rows(ms.hnn, ms.hcnn)
+ms.highest.all <- bind_rows(ms.hnn, ms.hcnn)%>%
+  ungroup()%>%
+  mutate(Number = factor(Number, levels = c("0", "1", "7", 
+                                                            "24", "26", "30", 
+                                                            "62", "71", "83", "95")))
 
 #combine, plot
 ms.highest.all %>%
-  mutate(Number = factor(Number, levels = c("0", "1", "7", 
-                                                            "24", "26", "30", 
-                                                            "62", "71", "83", "95")))%>%
   ggplot(aes(x = Number, y = mean, color = Type, group = Type)) + 
-  geom_point(size = 2) + 
+  geom_point(size = 3) + 
   geom_line(linetype = "dashed") +
-  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), 
-                width = .1) + 
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
   theme_bw(base_size = 13) + 
   theme(panel.grid = element_blank(), 
         legend.title = element_blank(), 
@@ -1333,6 +1253,16 @@ summary(range.base)#no significant interaction between count range and Productiv
 ---
 
 #Exploratory: Indefinite Next Number 
+Demographics 
+```{r}
+all.data %>%
+  filter(!is.na(mean.indef))%>%
+  distinct(SID, Age)%>%
+  summarise(n = n(),
+            mean = mean(Age, na.rm = TRUE), 
+            sd = sd(Age, na.rm = TRUE))
+```
+
 Descriptives by item
 ```{r}
 all.data %>%
@@ -1456,8 +1386,8 @@ all.data %>%
 ##Mean Math Facts and Next Number by Unit Task performance
 ```{r}
 all.data %>%
-  distinct(SID, mean.unit, mean.mf)%>%
-  ggplot(aes(x = mean.mf, y = mean.unit, colour = "#ed7d31")) + 
+  distinct(SID, mean.sf, mean.mf)%>%
+  ggplot(aes(x = mean.mf, y = mean.sf, colour = "#ed7d31")) + 
   geom_count(stat = "sum", show.legend = FALSE) + 
   geom_smooth(aes(fill = "#ed7d31"), alpha = .3, method = 'lm', 
               show.legend = FALSE) + 
