@@ -1174,8 +1174,8 @@ all.data %>%
         legend.position = "none", 
         legend.title = element_blank()) +
   ylim(0, 1.0) +
-  scale_fill_manual(values = ) +
-  scale_colour_manual(values = , guide = "none")
+  scale_fill_manual(values = three.pal) +
+  scale_colour_manual(values = three.pal, guide = "none")
 # 
 # ggsave("~/Documents/Projects/sf_math/Analysis/mean_resilience.png", width = 7, height = 3.5)
 ```
@@ -1274,7 +1274,7 @@ ggsave("Figures/indef_unit.png", width = 4, height = 3)
 #Secondary analyses
 ##Analysis: Do Resilient Counters have better performance on tasks?
 
-Yes; there is a main effect of 
+
 ```{r}
 #make model with mean performance
 ms.task <- all.data %>%
@@ -1314,20 +1314,6 @@ task.model <- all.data %>%
          Productive = factor(Productive, levels = c("Non-Resilient", "Resilient")), 
          starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)), 
          Task_item = as.numeric(as.character(Task_item)))
-
-#planned contrasts
-task.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN) / 2
-             c(0, 1, -1))                # SF vs. NN
-cMat <- MASS::ginv(task.contrasts)
-
-planned.contrasts <- glmer(Correct ~ Productive*Task + count_range + age.c + (1|SID) + (1|starting_num.c), data = task.model, 
-                           family = 'binomial',
-            contrasts = list(Task = cMat), 
-            control=glmerControl(optimizer="bobyqa",
-                         optCtrl=list(maxfun=2e4)))
-
-summary(planned.contrasts)
-sjPlot::tab_model(planned.contrasts)
 ```
 
 ---
@@ -1337,9 +1323,14 @@ Do Resilient counters do better for numbers outside their Initial Highest Count?
 ```{r}
 #need to get only kids that have numbers which fall outside their count range
 #filters out n = 28 kids
-model.mf.sf.all.df %<>%
-  mutate(Prod.tertiary = ifelse(IHC >= 95, "Resilient IHC >= 95", 
-                                ifelse((IHC < 95 & Productive == "Resilient"), "Resilient IHC < 95", "Non-Resilient")))
+model.mf.sf.all.df <- all.data %>%
+  filter(Task == "SF" | 
+           Task == "WCN" |
+           Task == "MF") %>%
+  mutate(Prod.tertiary = ifelse((IHC >= 95 & Productive == "Resilient"), "Resilient IHC >= 95", 
+                                ifelse((IHC < 95 & Productive == "Resilient"), "Resilient IHC < 95", "Non-Resilient")), 
+         age.c = as.vector(scale(as.numeric(as.character(Age)), center = TRUE, scale = TRUE)), 
+         Task = factor(Task, levels = c("MF", "SF", "WCN")))
 
 model.mf.sf.all.df %>%
   group_by(SID, Prod.tertiary, count_range, Task)%>%
@@ -1371,9 +1362,27 @@ model.mf.sf.all.df %>%
 
 #look at only participants who have items within/outside their IHC
 range.base <- glmer(Correct ~ count_range*Productive + Task + age.c + (1|SID),
-                    family = "binomial", data = subset(model.mf.sf.all.df, IHC < 95))
+                    family = "binomial", data = subset(model.mf.sf.all.df, IHC <=95))
 
-summary(range.base)#no significant interaction between count range and Productivity
+summary(range.base)
+
+#look at only participants who have items within/outside their IHC for Unit
+range.base <- glmer(Correct ~ count_range*Productive + age.c + (1|SID),
+                    family = "binomial", data = subset(model.df, IHC <=95))
+
+summary(range.base)
+
+#look at only participants who have items within/outside their IHC for NN
+range.base <- glmer(Correct ~ count_range*Productive + age.c + (1|SID),
+                    family = "binomial", data = subset(model.mf.sf.all.df, IHC <=95 & Task == "WCN"))
+
+summary(range.base)
+
+#...for MF?
+range.base <- glmer(Correct ~ count_range*Productive + age.c + (1|SID),
+                    family = "binomial", data = subset(model.mf.sf.all.df, IHC <=95 & Task == "MF"))
+
+summary(range.base)
 ```
 
 ---
@@ -1455,281 +1464,43 @@ ggsave("~/Documents/Projects/sf_math/Analysis/hcnn_unit.png")
 #   ggplot(aes(x = highest_contig, y = ))
 ```
 
-#Unit Task
-##With individual prod points
-```{r}
-all.data %>%
-  filter(Task == "SF")%>%
-  group_by(SID, Productive)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
-            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
-  ggplot(aes(x = Productive, y = mean, fill=Productive)) +
-  geom_violin(aes(fill = Productive, colour = Productive), alpha = .1, size = 1) +
-  geom_point(aes(x = Productive, y = mean, colour = Productive),
-               position=position_jitter(width=0.15,height=0.02),
-               size=1.5,
-             alpha = .9,
-               show.legend=TRUE, 
-             inherit.aes = FALSE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
-               position = position_dodge(width=0.90), width = 0.1, size = 1.5)+
-  ylab("Mean Unit Task performance") + 
-  xlab('') + 
-  theme_bw(base_size = 13) + 
-  theme(legend.position = "bottom") +
-  theme(panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(), 
-        legend.title = element_blank()) +
-  ylim(0, 1.0) +
-  scale_fill_manual(values = productivity.pal, guide = "none") +
-  scale_colour_manual(values = productivity.pal, guide ="none")
-```
-
-##By productivity and count range
-```{r}
-all.data %>%
-  filter(Task == "SF")%>%
-  group_by(SID, count_range, Productive)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct)), na.rm=TRUE),
-            sd = sd(as.numeric(as.character(Correct)), na.rm=TRUE)) %>%
-ggplot(aes(x=count_range, y=mean, fill = Productive)) +
-  geom_violin(aes(colour = Productive, fill = Productive), alpha = .1, size = 1, 
-              show.legend = FALSE)  + 
-  geom_point(position=position_jitterdodge(jitter.width = .3, 
-                                           jitter.height = .1, 
-                                           dodge.width = .9),
-             aes(colour = Productive, group=Productive), 
-             size=1.5,
-             alpha = .9,
-               show.legend=TRUE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
-               position = position_dodge(width=0.90), width = 0.2, 
-               show.legend = FALSE, size = 1) +
-  ylab("Mean Unit Task performance") + 
-  xlab('') + 
-  theme_bw(base_size = 13) + 
-  theme(legend.position = "bottom") + 
-  ylim(0, 1.0) +
-  scale_fill_manual(values = productivity.pal) + 
-  scale_colour_manual(values = productivity.pal) +
-  theme(panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(), 
-        legend.position = "bottom", 
-        legend.title = element_blank())
-  
-```
-
-***
-
-#NN Task
-###With individual prod points
-```{r}
-all.data %>%
-  filter(Task == "WCN")%>%
-  group_by(SID, Productive)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
-            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
-  ggplot(aes(x = Productive, y = mean, fill=Productive)) +
-  geom_violin(aes(fill = Productive, colour = Productive), alpha = .1, size = 1) +
-  geom_point(aes(x = Productive, y = mean, colour = Productive),
-               position=position_jitter(width=0.15,height=0.02),
-               size=1.5,
-             alpha = .9,
-               show.legend=TRUE, 
-             inherit.aes = FALSE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
-               position = position_dodge(width=0.90), width = 0.1, size = 1.5)+
-  ylab("Mean Next Number performance") + 
-  xlab('') + 
-  theme_bw(base_size = 13) + 
-  theme(legend.position = "bottom") +
-  theme(panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(), 
-        legend.title = element_blank()) +
-  ylim(0, 1.0) +
-  scale_fill_manual(values = productivity.pal, guide = "none") +
-  scale_colour_manual(values = productivity.pal, guide ="none")
-```
-
-##By productivity and count range
-```{r}
-all.data %>%
-  filter(Task == "WCN")%>%
-  group_by(SID, count_range, Productive)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct)), na.rm=TRUE),
-            sd = sd(as.numeric(as.character(Correct)), na.rm=TRUE)) %>%
-ggplot(aes(x=count_range, y=mean, fill = Productive)) +
-  geom_violin(aes(colour = Productive, fill = Productive), alpha = .1, size = 1, 
-              show.legend = FALSE)  + 
-  geom_point(position=position_jitterdodge(jitter.width = .3, 
-                                           jitter.height = .1, 
-                                           dodge.width = .9),
-             aes(colour = Productive, group=Productive), 
-             size=1.5,
-             alpha = .9,
-               show.legend=TRUE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
-               position = position_dodge(width=0.90), width = 0.2, 
-               show.legend = FALSE, size = 1) +
-  ylab("Mean Next Number performance") + 
-  xlab('') + 
-  theme_bw(base_size = 13) + 
-  theme(legend.position = "bottom") + 
-  ylim(0, 1.0) +
-  scale_fill_manual(values = productivity.pal) + 
-  scale_colour_manual(values = productivity.pal) +
-  theme(panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(), 
-        legend.position = "bottom", 
-        legend.title = element_blank())
-```
-
-***
-
-#Math Facts
-##With individual prod points
-```{r}
-all.data %>%
-  filter(Task == "MF")%>%
-  group_by(SID, Productive)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
-            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
-  ggplot(aes(x = Productive, y = mean, fill=Productive)) +
-  geom_violin(aes(fill = Productive, colour = Productive), alpha = .1, size = 1) +
-  geom_point(aes(x = Productive, y = mean, colour = Productive),
-               position=position_jitter(width=0.15,height=0.02),
-               size=1.5,
-             alpha = .9,
-               show.legend=TRUE, 
-             inherit.aes = FALSE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
-               position = position_dodge(width=0.90), width = 0.1, size = 1.5)+
-  ylab("Mean Math Facts performance") + 
-  xlab('') + 
-  theme_bw(base_size = 13) + 
-  theme(legend.position = "bottom") +
-  theme(panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(), 
-        legend.title = element_blank()) +
-  ylim(0, 1.0) +
-  scale_fill_manual(values = productivity.pal, guide = "none") +
-  scale_colour_manual(values = productivity.pal, guide ="none")
-```
-
-##By productivity and count range
-```{r}
-all.data %>%
-  filter(Task == "MF")%>%
-  group_by(SID, count_range, Productive)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct)), na.rm=TRUE),
-            sd = sd(as.numeric(as.character(Correct)), na.rm=TRUE)) %>%
-ggplot(aes(x=count_range, y=mean, fill = Productive)) +
-  geom_violin(aes(colour = Productive, fill = Productive), alpha = .1, size = 1, 
-              show.legend = FALSE)  + 
-  geom_point(position=position_jitterdodge(jitter.width = .3, 
-                                           jitter.height = .1, 
-                                           dodge.width = .9),
-             aes(colour = Productive, group=Productive), 
-             size=1.5,
-             alpha = .9,
-               show.legend=TRUE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
-               position = position_dodge(width=0.90), width = 0.2, 
-               show.legend = FALSE, size = 1) +
-  ylab("Mean Math Facts performance") + 
-  xlab('') + 
-  theme_bw(base_size = 13) + 
-  theme(legend.position = "bottom") + 
-  ylim(0, 1.0) +
-  scale_fill_manual(values = productivity.pal) + 
-  scale_colour_manual(values = productivity.pal) +
-  theme(panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(), 
-        legend.position = "bottom", 
-        legend.title = element_blank())
-  
-```
-
-***
-
-#Indefinite
-##With individual prod points
-NB, this does not include all participants.
-```{r}
-all.data %>%
-  filter(Task == "Indefinite")%>%
-  group_by(SID, Productive)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
-            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
-  ggplot(aes(x = Productive, y = mean, fill=Productive)) +
-  geom_violin(aes(fill = Productive, colour = Productive), alpha = .1, size = 1) +
-  geom_point(aes(x = Productive, y = mean, colour = Productive),
-               position=position_jitter(width=0.15,height=0.02),
-               size=1.5,
-             alpha = .9,
-               show.legend=TRUE, 
-             inherit.aes = FALSE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
-               position = position_dodge(width=0.90), width = 0.1, size = 1.5)+
-  ylab("Mean Indefinite performance") + 
-  xlab('') + 
-  theme_bw(base_size = 13) + 
-  theme(legend.position = "bottom") +
-  theme(panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(), 
-        legend.title = element_blank()) +
-  ylim(0, 1.0) +
-  scale_fill_manual(values = productivity.pal, guide = "none") +
-  scale_colour_manual(values = productivity.pal, guide ="none")
-```
-
-***
-
 #Unit, NN, and MF together
 ##With individual prod points
 ```{r}
-
-
-#now for just kids at ceiling
-tmp <- all.data %>%
-  mutate(sf.quartile = cut(mean.unit, 
-                                breaks=quantile(mean.unit, na.rm=TRUE), 
-                                include.lowest=TRUE))%>%
-  mutate(mf.ceiling = ifelse(mean.mf >= .75, ">= 75% correct", "< 75% correct"))
-
-
-tmp %>%
-    filter(Task == "SF" |
+all.data %>%
+  filter(Task == "SF" |
            Task == "WCN" |
-           Task == "MF", 
-           sf.quartile == "(0.875,1]")%>%
-  mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"), labels = c("Unit Task", "Next Number", "Math Facts")))%>%
-  group_by(SID, Task)%>%
-  summarise(mean = mean(as.numeric(as.character(Correct), na.rm=TRUE)),
-            sd = sd(as.numeric(as.character(Correct), na.rm=TRUE))) %>%
-  ggplot(aes(x = Task, y = mean, fill=Task)) +
-  stat_summary(fun.y = mean, position = position_dodge(width = .95),
-                      geom="bar", alpha = .5, colour = "black") +
-  # geom_violin(alpha = .5) +
-  geom_point(aes(x = Task, y = mean, colour = Task),
-               position=position_jitter(width = .18, height = .035),
-               size=1.5,
-               show.legend=TRUE, 
-             inherit.aes = FALSE) +
-  stat_summary(fun.data = mean_se, geom="errorbar", 
-               position = position_dodge(width=0.90), width = 0.1, size = 1)+
-  ylab("Mean task performance") + 
-  xlab('Task') + 
+           Task == "MF")%>%
+  mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"),
+                         labels= c("Unit Task", "Next Number", "Math Facts")))%>%
+  group_by(SID, Task, Productive)%>%
+  summarise(mean = mean(as.numeric(as.character(Correct)), na.rm=TRUE)) %>%
+  ggplot(aes(x=Productive, y=mean, fill = Productive)) +
+  stat_summary(fun.y = mean, position = position_dodge(width = .95), 
+                      geom="bar", alpha = .4, colour = "black") +
+  geom_point(position=position_jitterdodge(jitter.width = .3,
+                                           jitter.height = .1,
+                                           dodge.width = .9),
+             aes(colour = Productive, group=Productive),
+             size=2,
+             alpha = .9,
+               show.legend=TRUE) +
+  stat_summary(fun.data = mean_cl_boot, geom="linerange", 
+               position = position_dodge(width=0.90), width = 0.2, size = 1, 
+               show.legend = FALSE) +
+  ylab("Mean performance") + 
+  xlab('') + 
   theme_bw(base_size = 13) + 
-  theme(legend.position = "bottom") +
+  ylim(0, 1.0) +
+  scale_colour_manual(values = productivity.pal) +
+  scale_fill_manual(values = productivity.pal) +
   theme(panel.grid.minor = element_blank(), 
         panel.grid.major = element_blank(), 
-        legend.title = element_blank()) +
-  ylim(0, 1.0) +
-  scale_fill_manual(values = , guide = "none") +
-  scale_colour_manual(values = , guide = "none")
+        legend.title = element_blank(), 
+        legend.position = "none") + 
+  facet_grid(~Task)
 
-ggsave("~/Documents/Projects/sf_math/Analysis/all_tasks_ceiling.png", width = 5.25, height = 4.5)
+ggsave("Figures/3tasks_resilience.png")
 ```
 
 ##By productivity and count range (this needs a little work)
