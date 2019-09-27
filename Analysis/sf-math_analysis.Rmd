@@ -1451,7 +1451,10 @@ all.data %<>%
 
 #visualize
 clusters %<>%
-  mutate(Cluster = factor(CLUST, levels = c(1, 2, 3, 4, 5))) 
+  mutate(Cluster = factor(CLUST, levels = c(2, 4, 1, 3, 5))) 
+
+##out of curiosity, how do these clusters do on the unit task?
+
 
 ggplot(clusters, aes(x = IHC, y = FHC, color =Cluster, fill = Cluster, shape = Cluster)) + 
   geom_point(size = 3, position = position_jitter()) + 
@@ -1469,18 +1472,44 @@ ggplot(clusters, aes(x = IHC, y = FHC, color =Cluster, fill = Cluster, shape = C
     panel.background = element_blank()) + 
   labs(x = "Initial Highest Count", 
        y= "Final Highest Count")
-ggsave("Figures/GMM.png")
+ggsave("Figures/GMM.png", width = 7, height = 4)
 
-##out of curiosity, how do these clusters do on the unit task?
+
+
 all.data %>%
+  mutate(CLUST = factor(CLUST, levels = c(2, 4, 1, 3, 5)))%>%
   filter(Task == "SF")%>%
   mutate(CLUST = factor(CLUST))%>%
-  group_by(CLUST)%>%
-  langcog::multi_boot_standard("Correct", na.rm = TRUE) %>%
-  ggplot(aes(x = CLUST, y = mean, fill = CLUST)) + 
-  geom_bar(stat = 'identity') + 
-  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) +
-  langcog::scale_fill_solarized()
+  group_by(SID, CLUST)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE))%>%
+  ggplot(aes(x=CLUST, y = mean, fill = CLUST, group = CLUST)) +
+  # stat_summary(fun.y = mean, position = position_dodge(width = .95), 
+  #                     geom="bar", alpha = .4, colour = "black") +
+  geom_violin(alpha = .2) +
+  geom_point(position=position_jitterdodge(jitter.width = .5,
+                                           jitter.height = .1,
+                                           dodge.width = .9),
+             aes(colour = CLUST, group=CLUST),
+             size=2,
+             alpha = .9,
+               show.legend=TRUE) +
+  stat_summary(fun.data = mean_cl_boot, geom="linerange", 
+               position = position_dodge(width=0.90), width = 0.2, size = 1, 
+               show.legend = FALSE) +
+  ylab("Mean Unit Task performance") + 
+  xlab('Cluster') + 
+  theme_bw(base_size = 13) + 
+  ylim(0, 1.0) +
+  langcog::scale_colour_solarized(guide = "none") +
+  langcog::scale_fill_solarized("Cluster") +
+  theme(panel.grid.minor = element_blank(), 
+        panel.grid.major = element_blank(), 
+        legend.title = element_blank(), 
+        legend.position = "none") 
+
+ggsave("Figures/Unit_by_cluster.png")
+
+
 
 #now, predict Unit Task by cluster 
 model.df.clust <- all.data %>%
@@ -1494,12 +1523,37 @@ model.df.clust <- all.data %>%
          mean.mf.c = as.vector(scale(mean.mf, center = TRUE, scale=TRUE)),
          mean.indef.c = as.vector(scale(mean.indef, center = TRUE, scale=TRUE)),
          starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)), 
-         CLUST = factor(CLUST, levels = c(1, 2, 3, 4, 5)))%>%
+         CLUST = factor(CLUST, levels = c(2, 4, 1, 3, 5)))%>%
   filter(Task == "SF") # we're only predicting Unit Task performance, so filter down to this
 
 model.clust <- glmer(Correct ~ CLUST + count_range + age.c + (1|SID) + (1|starting_num.c), 
-                     family = "binomial", data = model.df.clust)
+                     family = "binomial", data = model.df.clust, 
+                     control=glmerControl(optimizer="bobyqa",
+                         optCtrl=list(maxfun=2e4)))
+model.clust.base <- glmer(Correct ~ count_range + age.c + (1|SID) + (1|starting_num.c), 
+                     family = "binomial", data = model.df.clust, 
+                     control=glmerControl(optimizer="bobyqa",
+                         optCtrl=list(maxfun=2e4)))
+
+#compare 
+anova(model.clust.base, model.clust, test = 'LRT')
 summary(model.clust)
+
+##make appropriate contrast
+clust.contrasts <- rbind(c(1, -0.25, -0.25, -0.25, -0.25),     # 2 vs (4,3,5,1)/4
+             c(0, .75, -.25, -.25, -.25),  # 4 vs (3,5,1)/3
+             c(0, 0, 1, -.5, -.5), # 1 vs (3,5)/2 
+             c(0, 0, 0, 1, -1))     #3 vs. 5          
+cMat <- MASS::ginv(clust.contrasts)
+
+#starting number is not going to be informative here, I think because everyone is at ceiling in the Unit Task and WCN
+planned.contrasts <- glmer(Correct ~ CLUST + count_range + age.c + (1|SID) +
+                             (1|starting_num.c), data = subset(model.df.clust), 
+             family = "binomial",
+            contrasts = list(CLUST = cMat), 
+            control=glmerControl(optimizer="bobyqa",
+                         optCtrl=list(maxfun=2e4)))
+summary(planned.contrasts)
 ```
 
 ---
