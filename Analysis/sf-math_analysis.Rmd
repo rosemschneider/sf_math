@@ -1385,6 +1385,123 @@ range.base <- glmer(Correct ~ count_range*Productive + age.c + (1|SID),
 summary(range.base)
 ```
 
+##Cluster analysis 
+```{r}
+library(mclust)
+
+#make a function to identify cluster membership for Initial Highest Count
+
+initial_final <- all.data %>%
+  distinct(SID, IHC, FHC)%>%
+  dplyr::select(-SID)
+
+BIC <- mclustBIC(initial_final)
+
+#plot
+mod1 <- Mclust(initial_final, x = BIC)
+summary(mod1, parameters = TRUE)
+plot(mod1, what = "classification")
+
+
+#now combine with SIDs so that we can do analysis
+prod.clust <- function(df) {
+  
+  all.clust <- data.frame()
+ 
+    #get IHC and FHC for each participant
+    tmp.df <- df %>%
+      distinct(SID, IHC, FHC)%>%
+      dplyr::select(-SID)
+    
+    #run cluster analysis
+    BIC <- mclustBIC(tmp.df)
+    tmp.mclust <- Mclust(tmp.df, x = BIC)
+    tmp.df$CLUST <- tmp.mclust$classification
+    tmp.df$id <- row.names(tmp.df)
+    
+    #add SIDs back in
+    tmp.sids <- df %>%
+      distinct(SID, IHC, FHC)
+    
+    tmp.sids$id <- row.names(tmp.sids)
+    
+    tmp.all <- right_join(tmp.sids, tmp.df, by = "id")
+    
+    #add to large df to get back at end
+    all.clust <- bind_rows(all.clust, tmp.all)
+  
+  return(all.clust)
+}
+
+clusters <- prod.clust(all.data)%>%
+  dplyr::select(SID, IHC.x, FHC.x, CLUST)%>%
+  dplyr::rename(IHC = IHC.x, 
+                FHC = FHC.x)
+
+#add clusters to all.data
+all.data <- full_join(all.data, clusters, by = "SID")
+
+check <- all.data %>%
+  filter(IHC.x != IHC.y) # all good
+
+all.data %<>%
+  dplyr::select(-IHC.y, -FHC.y)%>%
+  dplyr::rename(IHC = IHC.x,
+                FHC = FHC.x)
+
+#visualize
+clusters %<>%
+  mutate(Cluster = factor(CLUST, levels = c(1, 2, 3, 4, 5))) 
+
+ggplot(clusters, aes(x = IHC, y = FHC, color =Cluster, fill = Cluster, shape = Cluster)) + 
+  geom_point(size = 3, position = position_jitter()) + 
+  stat_ellipse(aes(x=IHC, y=FHC,color=Cluster, group=Cluster, fill = Cluster),
+               geom="polygon", level = .8, alpha = .15, 
+               type = "norm") + 
+  scale_x_continuous(breaks = seq(0, 120, 10)) + 
+  scale_y_continuous(breaks = seq(0, 120, 10)) + 
+  theme_bw(base_size = 13) + 
+  langcog::scale_color_solarized() + 
+  theme(axis.line = element_line(colour = "black"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank()) + 
+  labs(x = "Initial Highest Count", 
+       y= "Final Highest Count")
+ggsave("Figures/GMM.png")
+
+##out of curiosity, how do these clusters do on the unit task?
+all.data %>%
+  filter(Task == "SF")%>%
+  mutate(CLUST = factor(CLUST))%>%
+  group_by(CLUST)%>%
+  langcog::multi_boot_standard("Correct", na.rm = TRUE) %>%
+  ggplot(aes(x = CLUST, y = mean, fill = CLUST)) + 
+  geom_bar(stat = 'identity') + 
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) +
+  langcog::scale_fill_solarized()
+
+#now, predict Unit Task by cluster 
+model.df.clust <- all.data %>%
+   mutate(highest_contig = as.integer(highest_contig), 
+         SID = factor(SID), 
+         age.c = as.vector(scale(Age, center = TRUE, scale=TRUE)), #scale and center continuous variables for model fit
+         fhc.c = as.vector(scale(FHC, center = TRUE, scale = TRUE)), 
+         ihc.c = as.vector(scale(IHC, center = TRUE, scale = TRUE)),
+         highest_contig.c = as.vector(scale(highest_contig, center = TRUE, scale=TRUE)), 
+         highest_num.c = as.vector(scale(highest_num, center = TRUE, scale=TRUE)),
+         mean.mf.c = as.vector(scale(mean.mf, center = TRUE, scale=TRUE)),
+         mean.indef.c = as.vector(scale(mean.indef, center = TRUE, scale=TRUE)),
+         starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)), 
+         CLUST = factor(CLUST, levels = c(1, 2, 3, 4, 5)))%>%
+  filter(Task == "SF") # we're only predicting Unit Task performance, so filter down to this
+
+model.clust <- glmer(Correct ~ CLUST + count_range + age.c + (1|SID) + (1|starting_num.c), 
+                     family = "binomial", data = model.df.clust)
+summary(model.clust)
+```
+
 ---
 
 
