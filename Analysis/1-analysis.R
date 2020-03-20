@@ -402,6 +402,15 @@ mf.unit.correct.comparison %>%
   summarise(mean = mean(MF, na.rm = TRUE), 
             sd = sd(MF, na.rm = TRUE))
 
+#t-test for accuracy
+mf.unit.comparison.ms <- mf.unit.correct.comparison %>%
+  filter(addition.understander == 1)%>%
+  group_by(SID, SF)%>%
+  summarise(mean = mean(MF, na.rm = TRUE))
+
+t.test(subset(mf.unit.comparison.ms, SF == 0)$mean, 
+       subset(mf.unit.comparison.ms, SF == 1)$mean, var.equal = TRUE)
+
 #save this data for graphing
 save(mf.unit.correct.comparison, file = "mf_unit_correct_comparison.RData")
 
