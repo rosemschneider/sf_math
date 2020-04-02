@@ -17,6 +17,7 @@ library(RColorBrewer)
 library(ggthemes)
 library(broom.mixed)
 library(ggpubr)
+library(patchwork)
 
 '%!in%' <- function(x,y)!('%in%'(x,y))
 
@@ -206,6 +207,9 @@ car::Anova(final.model)
 summary(final.model)
 
 # ...visualization of productivity parameter estimates ----
+base.model.output <- tidy(base.model, conf.int=T) %>% #coefficients, cis, and p values
+  mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))%>%
+  mutate(Model = "Base")
 ihc.model.output <- tidy(ihc.model, conf.int=T) %>% #coefficients, cis, and p values
   mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))%>%
   mutate(Model = "Initial Highest Count")
@@ -223,7 +227,8 @@ math.model.output <- tidy(mf.model, conf.int=T) %>% #coefficients, cis, and p va
   mutate(Model = "Math Facts")
 
 #bind together
-all.model.output <- bind_rows(ihc.model.output, 
+all.model.output <- bind_rows(base.model.output,
+                                   ihc.model.output, 
                                    fhc.model.output, 
                                    prod.model.output, 
                                    hcnn.model.output, 
@@ -239,11 +244,18 @@ all.model.output %<>%
                               ifelse(term == "count_rangeOutside", "Outside count range", "Age"))),
          term = factor(term, levels = c("Age", "Outside count range", 
                                         "Productivity/Math Facts", "Intercept")),
-         Model = factor(Model, levels = c("Initial Highest Count", 
+         Model = factor(Model, levels = c("Base",
+                                          "Initial Highest Count", 
                                           "Final Highest Count", 
                                           "Counting Resilience", 
                                           "Highest Next Number", 
-                                          "Math Facts")),
+                                          "Math Facts"), 
+                        labels = c("a) Base",
+                                   "b) Initial Highest Count", 
+                                   "c) Final Highest Count", 
+                                   "d) Counting Resilience", 
+                                   "e) Highest Next Number", 
+                                   "f) Math Facts")),
          p.val.rounded = round(p.value, 3), 
          p.stars = ifelse(p.val.rounded < .001, "***", 
                           ifelse((p.val.rounded >= .001 & p.val.rounded < .01), "**", 
@@ -251,24 +263,107 @@ all.model.output %<>%
          p.val.rounded = ifelse(p.val.rounded == 0, "<.001", p.val.rounded))
 
 all.model.output %>%
-  ggplot(aes(x = estimate, y = term, color = Model)) + 
+  ggplot(aes(x = estimate, y = term, color = "#062a9e")) + 
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey") +
-  geom_point() + 
-  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height =0) +
+  geom_point(size = 2) + 
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height =0, 
+                 size = .5) +
   geom_text(label = all.model.output$p.stars, 
-            nudge_y = .09) +
-  theme_bw(base_size = 10) +
+            nudge_y = .2, 
+            size = 4.5) +
+  theme_bw(base_size = 11) +
   theme(legend.position = "none", 
         panel.grid.minor.x = element_blank()) +
   facet_wrap(~Model, ncol = 2) + 
   labs(x = "Parameter estimate", 
        y = "") + 
-  langcog::scale_color_solarized()
+  scale_color_manual(values = "#062a9e")
 ggsave('Figures/individ_parameter_estimates.png', width = 6, height = 5)
 
+# ...visualizing final large model ----
+large.model.output <- tidy(large.plus.mf, conf.int=T) %>% #coefficients, cis, and p values
+  mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))
+
+large.model.output %<>%
+  dplyr::select(term, estimate, conf.low, conf.high, p.value)%>%
+  filter(term != "sd__(Intercept)")%>%
+  mutate(term = ifelse(term == "(Intercept)", "Intercept", 
+                       ifelse(term == "fhc.c", "Final Highest Count", 
+                              ifelse(term == "highest_contig.c", "Highest Next Number",
+                                     ifelse(term == "mean.mf.c", "Mean Math Facts",
+                              ifelse(term == "count_rangeOutside", "Outside count range", "Age"))))),
+         term = factor(term, levels = c("Age", "Outside count range", 
+                                        "Final Highest Count", "Highest Next Number", 
+                                        "Mean Math Facts", "Intercept")),
+         p.val.rounded = round(p.value, 3), 
+         p.stars = ifelse(p.val.rounded < .001, "***", 
+                          ifelse((p.val.rounded >= .001 & p.val.rounded < .01), "**", 
+                                 ifelse((p.val.rounded >= .01 & p.val.rounded < .05), "*", ""))), 
+         p.val.rounded = ifelse(p.val.rounded == 0, "<.001", p.val.rounded))
+
+large.model.output %>%
+  ggplot(aes(x = estimate, y = term, color = "#062a9e")) + 
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey") +
+  geom_point(size = 2) + 
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height =0, 
+                 size = .5) +
+  geom_text(label = large.model.output$p.stars, 
+            nudge_y = .2, 
+            size = 4.5) +
+  theme_bw(base_size = 11) +
+  theme(legend.position = "none", 
+        panel.grid.minor.x = element_blank()) +
+  labs(x = "Parameter estimate", 
+       y = "") + 
+  scale_color_manual(values = "#062a9e")
+ggsave('Figures/large_parameter_estimates.png', width = 5, height = 3)
 
 
+# ...visualization of NN/MF and Unit performance
+hcnn.unit <- all.data %>%
+  mutate(highest_contig = factor(highest_contig, levels = c("0", "1", 
+                                                            "7", "24", "26", "30", "62", 
+                                                            "71", "83", "95")))%>%
+  mutate(highest_contig.num = as.numeric(highest_contig))%>%
+  distinct(SID, sf.mean, highest_contig, highest_contig.num)%>%
+  ggplot(aes(x = highest_contig.num, y = sf.mean, color = "#3AAADD")) + 
+  geom_count(stat = "sum", 
+             show.legend = FALSE) + 
+  geom_smooth(aes(fill = "#3AAADD"), method = 'lm', alpha = .3, 
+              show.legend = FALSE) + 
+  scale_color_manual(values = "#3AAADD") + 
+  scale_fill_manual(values = "#3AAADD") + 
+  theme_bw(base_size = 11) +
+  theme(panel.grid = element_blank()) +
+  labs(x = 'Highest Contiguous Next Number', 
+       y = "Mean Unit Task performance") + 
+  scale_x_continuous(breaks = (1:length(as.numeric(levels(factor(all.data$highest_contig, levels = c("0", "1", 
+                                                                                                     "7", "24", "26", "30", "62", 
+                                                                                                     "71", "83", "95")))))), 
+                     labels = as.character(levels(factor(all.data$highest_contig, levels = c("0", "1", 
+                                                                                             "7", "24", "26", "30", "62", "71", "83", "95")))))
+# ggsave("Figures/unit_by_hcnn.png", width = 4, height = 3.25)
+                      
+## math facts
+mf.unit <- all.data %>%
+  distinct(SID, sf.mean, mf.mean)%>%
+  ggplot(aes(x = mf.mean, y = sf.mean, colour = "#DE8141")) + 
+  geom_count(stat = "sum", show.legend = FALSE) + 
+  geom_smooth(aes(fill = "#DE8141"), 
+              method = 'lm', alpha = .3,  
+              show.legend = FALSE) + 
+  scale_color_manual(values = "#DE8141") + 
+  scale_fill_manual(values = "#DE8141") +
+  labs(x = "Mean Math Facts performance", 
+       y = "Mean Unit Task performance") + 
+  theme_bw(base_size = 11) + 
+  theme(panel.grid = element_blank())
+# ggsave("Figures/unit_by_mf.png", width = 4, height = 3.25)
 
+hcnn.unit +mf.unit
+ggsave("Figures/hcnn_mf_unit.png", width = 8, height = 3.25)
+
+                                                                                                                                                                 
 
 # Is SF generalized from Math Facts? ----
 ##Testing whether SF is generalized from Math Facts
@@ -349,13 +444,14 @@ all.data %>%
                position = position_dodge(width=0.95), width = 0.2, size = 1)+
   ylab("Mean task performance") + 
   xlab('Unit Task performance quartiles') + 
-  theme_bw(base_size = 10) + 
+  theme_bw(base_size = 11) + 
   theme(legend.position = "bottom") +
   theme(panel.grid.minor = element_blank(), 
         panel.grid.major = element_blank(),
         axis.text.x = element_blank(), 
         axis.ticks.x = element_blank(), 
-        legend.position = "top") +
+        legend.position = "top", 
+        legend.title = element_blank()) +
   ylim(0, 1.0) +
   scale_fill_manual(values = three.tasks.pal ) +
   scale_colour_manual(values = three.tasks.pal , guide = "none") + 
@@ -497,12 +593,14 @@ mf.unit.correct.comparison %>%
   ggplot(aes(x = Task_item, y = prop, fill = SF, group = SF)) +
   geom_bar(stat = "identity", color = "black") +
   facet_grid(~MF) + 
-  labs(y = 'Proportion of children correct/incorrect on Math Facts', x = 'Number queried', 
+  labs(y = 'Prop. children correct/incorrect on Math Facts', x = 'Number queried', 
        fill = "Unit Task correct/incorrect") + 
   scale_fill_brewer(palette = "Set1") + 
-  theme_bw(base_size = 10) + 
+  theme_bw(base_size = 11) + 
   theme(panel.grid = element_blank(), 
-        legend.position = "top")  
+        legend.position = "top", 
+        legend.title = element_blank()) 
+ggsave("Figures/mf_unit_comparison.png", width = 6, height = 4.5)
 
 ## ... analysis: testing whether, for addition knowers, they are more accurate on math facts for items that they succeeded on in Unit Task ---- 
 
@@ -595,7 +693,7 @@ all.data %>%
                size = 1, color = "black") +
   scale_color_manual(values = "#2a8db8") + 
   scale_fill_manual(values = '#2a8db8') + 
-  theme_bw(base_size = 10) +
+  theme_bw(base_size = 11) +
   theme(panel.grid = element_blank()) +
   scale_y_continuous(limits = c(0, 1)) +
   labs(x = 'Mean Indefinite Next Number Performance', 
