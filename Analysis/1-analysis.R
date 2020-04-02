@@ -16,6 +16,7 @@ library(stringr)
 library(RColorBrewer)
 library(ggthemes)
 library(broom.mixed)
+library(ggpubr)
 
 '%!in%' <- function(x,y)!('%in%'(x,y))
 
@@ -115,7 +116,8 @@ highest_counts %>%
 # Models ----
 model.df <- all.data %>%
   filter(Task == "SF")%>%
-  mutate(starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)))
+  mutate(starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)), 
+         Productive = factor(Productive, levels = c("Non-resilient", "Resilient")))
 
 # ...Productivity model select ----
 base.model <- glmer(Correct ~ count_range + age.c + (1|SID) + (1|starting_num.c), 
@@ -202,6 +204,71 @@ anova(final.prod.model, large.plus.mf, test = 'lrt') #significant
 final.model <- large.plus.mf
 car::Anova(final.model)
 summary(final.model)
+
+# ...visualization of productivity parameter estimates ----
+ihc.model.output <- tidy(ihc.model, conf.int=T) %>% #coefficients, cis, and p values
+  mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))%>%
+  mutate(Model = "Initial Highest Count")
+fhc.model.output <- tidy(fhc.model, conf.int=T) %>% #coefficients, cis, and p values
+  mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))%>%
+  mutate(Model = "Final Highest Count")
+prod.model.output <- tidy(resilient.model, conf.int=T) %>% #coefficients, cis, and p values
+  mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))%>%
+  mutate(Model = "Counting Resilience")
+hcnn.model.output <- tidy(hcnn.model, conf.int=T) %>% #coefficients, cis, and p values
+  mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))%>%
+  mutate(Model = "Highest Next Number")
+math.model.output <- tidy(mf.model, conf.int=T) %>% #coefficients, cis, and p values
+  mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))%>%
+  mutate(Model = "Math Facts")
+
+#bind together
+all.model.output <- bind_rows(ihc.model.output, 
+                                   fhc.model.output, 
+                                   prod.model.output, 
+                                   hcnn.model.output, 
+                                   math.model.output)
+
+all.model.output %<>%
+  dplyr::select(term, estimate, conf.low, conf.high, p.value, Model)%>%
+  filter(term != "sd__(Intercept)")%>%
+  mutate(term = ifelse(term == "(Intercept)", "Intercept", 
+                       ifelse((term == "ihc.c" | term == "fhc.c" |
+                                term == "highest_contig.c" | term == "ProductiveResilient" |
+                                 term == "mean.mf.c"), "Productivity/Math Facts", 
+                              ifelse(term == "count_rangeOutside", "Outside count range", "Age"))),
+         term = factor(term, levels = c("Age", "Outside count range", 
+                                        "Productivity/Math Facts", "Intercept")),
+         Model = factor(Model, levels = c("Initial Highest Count", 
+                                          "Final Highest Count", 
+                                          "Counting Resilience", 
+                                          "Highest Next Number", 
+                                          "Math Facts")),
+         p.val.rounded = round(p.value, 3), 
+         p.stars = ifelse(p.val.rounded < .001, "***", 
+                          ifelse((p.val.rounded >= .001 & p.val.rounded < .01), "**", 
+                                 ifelse((p.val.rounded >= .01 & p.val.rounded < .05), "*", ""))), 
+         p.val.rounded = ifelse(p.val.rounded == 0, "<.001", p.val.rounded))
+
+all.model.output %>%
+  ggplot(aes(x = estimate, y = term, color = Model)) + 
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey") +
+  geom_point() + 
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height =0) +
+  geom_text(label = all.model.output$p.stars, 
+            nudge_y = .09) +
+  theme_bw(base_size = 10) +
+  theme(legend.position = "none", 
+        panel.grid.minor.x = element_blank()) +
+  facet_wrap(~Model, ncol = 2) + 
+  labs(x = "Parameter estimate", 
+       y = "") + 
+  langcog::scale_color_solarized()
+ggsave('Figures/individ_parameter_estimates.png', width = 6, height = 5)
+
+
+
+
 
 # Is SF generalized from Math Facts? ----
 ##Testing whether SF is generalized from Math Facts
