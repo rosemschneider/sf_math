@@ -675,6 +675,46 @@ large.plus.indef <- glmer(Correct ~ indef.mean.c + mean.mf.c + fhc.c + highest_c
 anova(final.large, large.plus.indef, test = 'lrt')
 summary(large.plus.indef)
 
+# ... visualization of large indef model output ----
+large.indef.model.output <- tidy(large.plus.indef, conf.int=T) %>% #coefficients, cis, and p values
+  mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))
+
+large.indef.model.output %<>%
+  dplyr::select(term, estimate, conf.low, conf.high, p.value)%>%
+  filter(term != "sd__(Intercept)")%>%
+  mutate(term = ifelse(term == "(Intercept)", "Intercept", 
+                       ifelse(term == "fhc.c", "Final Highest Count", 
+                              ifelse(term == "highest_contig.c", "Highest Next Number",
+                                     ifelse(term == "mean.mf.c", "Mean Math Facts",
+                                            ifelse(term == "indef.mean.c", "Mean Indefinite Number",
+                                              ifelse(term == "count_rangeOutside", "Outside count range", "Age")))))),
+         term = factor(term, levels = c("Age", "Outside count range", 
+                                        "Final Highest Count", "Highest Next Number", 
+                                        "Mean Math Facts", "Mean Indefinite Number", "Intercept")),
+         p.val.rounded = round(p.value, 3), 
+         p.stars = ifelse(p.val.rounded < .001, "***", 
+                          ifelse((p.val.rounded >= .001 & p.val.rounded < .01), "**", 
+                                 ifelse((p.val.rounded >= .01 & p.val.rounded < .05), "*", ""))), 
+         p.val.rounded = ifelse(p.val.rounded == 0, "<.001", p.val.rounded))
+
+large.indef.model.output %>%
+  ggplot(aes(x = estimate, y = term, color = "#062a9e")) + 
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey") +
+  geom_point(size = 2) + 
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height =0, 
+                 size = .5) +
+  geom_text(label = large.indef.model.output$p.stars, 
+            nudge_y = .2, 
+            size = 4.5) +
+  theme_bw(base_size = 11) +
+  theme(legend.position = "none", 
+        panel.grid.minor.x = element_blank()) +
+  labs(x = "Parameter estimate", 
+       y = "") + 
+  scale_color_manual(values = "#062a9e")
+ggsave('Figures/large_indef_parameter_estimates.png', width = 5, height = 3)
+
+
 # ... visualize - relationship between Unit and Indefinite ----
 
 all.data %>%
@@ -699,3 +739,14 @@ all.data %>%
   labs(x = 'Mean Indefinite Next Number Performance', 
        y = "Mean Unit Task performance") 
 ggsave("Figures/indef_unit.png", width = 5, height = 3.5)
+
+# Follow-up: What is the average distance between IHC and HCNN? 
+all.data %>% 
+  filter(IHC <= 95)%>%
+  distinct(SID, IHC, highest_contig)%>%
+  mutate(delta.hc = IHC - highest_contig)%>%
+  summarise(mean = mean(delta.hc), 
+            sd = sd(delta.hc), 
+            min = min(delta.hc), 
+            max = max(delta.hc), 
+            median = median(delta.hc))
