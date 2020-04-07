@@ -106,7 +106,74 @@ p5 <- insert_xaxis_grob(pmain, xdens, grid::unit(.2, "null"), position = "top")
 count_dens <- insert_yaxis_grob(p5, ydens, grid::unit(.2, "null"), position = "right")
 ggdraw(count_dens)
 ggsave("Figures/hc_density_scatter.png", width = 5, height =5)
-# ggdraw(p6)
-# png(filename = "hk_density.png")
-# ggdraw(p6)
-# dev.off()
+
+
+# 2. Relationship between Counting Resilience and general task performance
+#model df 
+model.df <- all.data %>%
+  filter(Task == "SF" | 
+           Task == "WCN" | 
+           Task == "MF")%>%
+  mutate(age.c  = as.vector(scale(Age, center = TRUE, scale = TRUE)), 
+         Task_item = as.numeric(as.character(Task_item)), 
+         count_range = ifelse(Task_item <= IHC, "Within", "Outside"), 
+         Productive = factor(Productive, levels = c("Non-resilient", "Resilient")))
+
+#main effects with contrasts
+task.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN) / 2
+                        c(0, 1, -1))                # SF vs. NN
+cMat <- MASS::ginv(task.contrasts)
+
+prod.base.contrast <- glmer(Correct ~ Productive + Task + count_range + age.c + (1|SID), 
+                              data = model.df, 
+                              family = "binomial",
+                              contrasts = list(Task = cMat))
+car::Anova(prod.base.contrast)
+summary(prod.base.contrast)
+
+#interaction with contrasts
+prod.int.contrast <- glmer(Correct ~ Productive*Task + count_range + age.c + (1|SID), 
+                            data = model.df, 
+                            family = "binomial",
+                            contrasts = list(Task = cMat))
+anova(prod.base.contrast, prod.int.contrast, test = 'lrt')
+car::Anova(prod.int.contrast)
+summary(prod.int.contrast)
+
+
+
+# ...visualization ----
+all.data %>%
+  filter(Task == "SF" | 
+           Task == "WCN" | 
+           Task == "MF")%>%
+  mutate(Task = factor(Task, levels = c("SF", "WCN", "MF"), 
+                       labels = c("Unit Task", "Next Number", "Math Facts")))%>%
+  group_by(SID, Productive, Task)%>%
+  multi_boot_standard("Correct", na.rm = TRUE) %>%
+  ggplot(aes(x = Task, y = mean, fill=Productive)) +
+  stat_summary(fun.y = mean, position = position_dodge(width = .95),
+               geom="bar", alpha = .5, colour = "black") +
+  # geom_violin(alpha = .5) +
+  geom_point(aes(x = Task, y = mean, colour = Productive),
+             position=position_jitterdodge(jitter.width = .18, jitter.height = .035, 
+                                           dodge.width = .95),
+             size=1.5,
+             show.legend=FALSE, 
+             inherit.aes = FALSE) +
+  stat_summary(fun.data = "mean_cl_boot", geom="linerange", 
+               position = position_dodge(width=0.95), width = 0.2, size = 1)+
+  ylab("Mean task performance") + 
+  xlab('Task') + 
+  theme_bw(base_size = 11) + 
+  theme(legend.position = "bottom") +
+  theme(panel.grid.minor = element_blank(), 
+        panel.grid.major = element_blank(),
+        legend.position = "top", 
+        legend.title = element_blank()) +
+  ylim(0, 1.0) +
+  scale_fill_manual(values = productivity.pal ) +
+  scale_colour_manual(values = productivity.pal , guide = "none")
+ggsave("Figures/productivity_3_tasks.png", width = 6, height = 5)
+
+
