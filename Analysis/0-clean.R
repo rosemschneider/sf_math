@@ -54,7 +54,6 @@ data.raw %<>%
 ## check when kids are missing more than 20% of data within a task
 task.check <- data.raw %>%
   filter(Task != "GiveN", 
-         Task != "Indefinite",
          Trial_number != "Training") %>%
   mutate(data.missing = ifelse(is.na(Response), "MISSING", "PRESENT"))%>%
   group_by(SID, Task, data.missing)%>%
@@ -64,10 +63,11 @@ task.check <- data.raw %>%
   mutate(MISSING = ifelse(is.na(MISSING), 0, MISSING), 
          PRESENT = ifelse(is.na(PRESENT), 0, PRESENT),
          completed = PRESENT - MISSING,
-         total.possible.n = ifelse(Task == "SF", 16, 8), 
+         total.possible.n = ifelse(Task == "SF", 16, 
+                                   ifelse((Task == "WCN" | Task == "MF"), 8, 4)), 
          prop = completed/total.possible.n, 
          exclude_task_check = ifelse(prop < .8, "EXCLUDE", "INCLUDE"))%>%
-  dplyr::select(SID, exclude_task_check)
+  dplyr::select(SID, Task, exclude_task_check)
 
 #add this to data
 data.raw <- left_join(data.raw, task.check, by = c("SID", "Task"))
