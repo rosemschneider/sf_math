@@ -15,8 +15,9 @@ library(stringr)
 '%!in%' <- function(x,y)!('%in%'(x,y))
 
 # Load trial data ----
-data.raw <- read.csv('../Data/sf_math_data.csv', na.strings = c("", " ", "NA", "NaN", "NA ")) %>%
-  filter(SID != "?")%>% #hard-code, one participant with unrecorded SID
+data.raw <- read.csv('../Data/sf_math_data.csv') %>%
+  filter(SID != "?", 
+         Exclude_analysis_reason != "ALREADY PARTICIPATED ON 4/20/18")%>% #hard-code, one participant with unrecorded SID
   mutate(Age = round(as.numeric(as.character(Age)), 2))%>%
   dplyr::select(-Response_single, -Response_double)%>% #remove double coding
   dplyr::rename(Response = Response_final)%>%#rename for code
@@ -24,7 +25,8 @@ data.raw <- read.csv('../Data/sf_math_data.csv', na.strings = c("", " ", "NA", "
 
 ## ...exclusions ----
 ## how many kids pre-exclusion?
-total.pre.excl <- length(unique(data.raw$SID))
+total.pre.excl <- data.raw %>%
+  distinct(SID, Age)
 
 ## why are kids excluded? 
 data.raw %>%
@@ -33,14 +35,26 @@ data.raw %>%
   group_by(Exclude_analysis_reason)%>%
   summarise(n = n())
 
+## why are kids excluded minus CP - this is plus 1, because there is one kid who has less than 20% of data, so 38
+data.raw %>%
+  filter(Exclude_analysis == 1, 
+         Exclude_analysis_reason != "NOT CP KNOWER")%>%
+  distinct(SID, Exclude_analysis_reason)%>%
+  group_by(Exclude_analysis_reason)%>%
+  summarise(n = n())%>%
+  mutate(total.n = sum(n))
+
 ## Exclude these kids
 data.raw %<>%
   filter(Exclude_analysis != 1)
+  
+## Note: 5 kids excluded manually for less than 50% data
 
-## Task exclusions
+## Task exclusions 
 ## check when kids are missing more than 20% of data within a task
 task.check <- data.raw %>%
   filter(Task != "GiveN", 
+         Task != "Indefinite",
          Trial_number != "Training") %>%
   mutate(data.missing = ifelse(is.na(Response), "MISSING", "PRESENT"))%>%
   group_by(SID, Task, data.missing)%>%
@@ -50,15 +64,37 @@ task.check <- data.raw %>%
   mutate(MISSING = ifelse(is.na(MISSING), 0, MISSING), 
          PRESENT = ifelse(is.na(PRESENT), 0, PRESENT),
          completed = PRESENT - MISSING,
-          total.possible.n = ifelse(Task == "SF", 16, 
-                                   ifelse(Task == "WCN", 8, 
-                                          ifelse(Task == "MF", 8, 4))), 
+         total.possible.n = ifelse(Task == "SF", 16, 8), 
          prop = completed/total.possible.n, 
-         exclude_task_check = ifelse(prop < .8, "EXCLUDE", "INCLUDE"))
-
+         exclude_task_check = ifelse(prop < .8, "EXCLUDE", "INCLUDE"))%>%
+  dplyr::select(SID, exclude_task_check)
 
 #add this to data
 data.raw <- left_join(data.raw, task.check, by = c("SID", "Task"))
+
+## Now check to see whether kids are missing more than 20% of data overall
+overall.check <- data.raw %>%
+  filter(Task != "GiveN", 
+         Task != "Indefinite",
+         Trial_number != "Training") %>%
+  mutate(data.missing = ifelse(is.na(Response), "MISSING", "PRESENT"))%>%
+  group_by(SID, data.missing)%>%
+  summarise(n = n())%>%
+  pivot_wider(names_from = data.missing, 
+              values_from = n)%>%
+  mutate(MISSING = ifelse(is.na(MISSING), 0, MISSING), 
+         PRESENT = ifelse(is.na(PRESENT), 0, PRESENT), 
+         completed = PRESENT - MISSING,
+         total.possible.n = 32, 
+         prop = completed/total.possible.n, 
+         exclude_overall_check = ifelse(prop < .8, "EXCLUDE", "INCLUDE"))%>%
+  dplyr::select(SID, exclude_overall_check) #one kid who needs to be excluded for less than 20% of data
+
+#add this to data
+data.raw <- left_join(data.raw, overall.check, by = c("SID")) %>%
+            mutate(Exclude_analysis_reason = ifelse(exclude_overall_check == "EXCLUDE", 
+                                 'MORE THAN 20% OF DATA MISSING', 
+                                 as.character(Exclude_analysis_reason)))
 
 # how many tasks excluded? 
 data.raw %>%
@@ -69,8 +105,8 @@ data.raw %>%
 
 # now exclude
 data.raw %<>%
-  filter(exclude_task_check != "EXCLUDE")%>%
-  dplyr::select(-MISSING, -PRESENT, -exclude_task_check, -prop, -completed, -total.possible.n)
+  filter(exclude_task_check != "EXCLUDE", 
+         exclude_overall_check != "EXCLUDE")
 
 ## Response exclusions (NAs)
 data.raw %<>%
@@ -88,7 +124,7 @@ global.check <- data.raw %>%
          total.possible.n = 16+8+8, 
          prop = total.n/total.possible.n, 
          global.exclude = ifelse(prop < .8, "EXCLUDE", "INCLUDE"))%>%
-  distinct(SID, global.exclude)
+  distinct(SID, global.exclude) #n = 8 kids missing more than 20% of data post task exclusions
 
 # add to data 
 data.raw <- left_join(data.raw, global.check, by = "SID")
@@ -96,6 +132,10 @@ data.raw <- left_join(data.raw, global.check, by = "SID")
 data.raw %<>%
   filter(global.exclude != "EXCLUDE")%>%
   dplyr::select(-global.exclude)
+
+#how many kids?
+data.raw %>%
+  distinct(SID, Age)
 
 # Highest contiguous Next Number ----
 
