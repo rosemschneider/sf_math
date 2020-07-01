@@ -114,7 +114,13 @@ highest_counts %>%
             sd = sd(n), 
             mean = mean(n)) 
 
-# Models ----
+# Descriptives of all three tasks ----
+all.data %>%
+  group_by(Task)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE), 
+            sd = sd(Correct, na.rm = TRUE))
+
+  # Models ----
 model.df <- all.data %>%
   filter(Task == "SF")%>%
   mutate(starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)), 
@@ -154,7 +160,6 @@ summary(fhc.model)
 summary(resilient.model)
 #hcnn
 summary(hcnn.model)
-
 
 ## Large model building - start with HCNN, then add FHC, then IHC, then Resilience
 large.model.base <- hcnn.model
@@ -264,21 +269,21 @@ all.model.output %<>%
 
 all.model.output %>%
   ggplot(aes(x = estimate, y = term, color = "#062a9e")) + 
-  geom_vline(xintercept = 0, linetype = "dashed", color = "grey") +
-  geom_point(size = 2) + 
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey", size = .25) +
+  geom_point(size = 1) + 
   geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height =0, 
                  size = .5) +
   geom_text(label = all.model.output$p.stars, 
-            nudge_y = .2, 
-            size = 4.5) +
-  theme_bw(base_size = 11) +
+            nudge_y = .15, 
+            size = 3) +
+  theme_bw(base_size = 8) +
   theme(legend.position = "none", 
         panel.grid.minor.x = element_blank()) +
   facet_wrap(~Model, ncol = 2) + 
   labs(x = "Parameter estimate", 
        y = "") + 
   scale_color_manual(values = "#062a9e")
-ggsave('Figures/individ_parameter_estimates.png', width = 6, height = 5)
+ggsave('Figures/individ_parameter_estimates.png', units = "in", width = 3.5, height = 3.5)
 
 # ...visualizing final large model ----
 large.model.output <- tidy(large.plus.mf, conf.int=T) %>% #coefficients, cis, and p values
@@ -310,13 +315,13 @@ large.model.output %>%
   geom_text(label = large.model.output$p.stars, 
             nudge_y = .2, 
             size = 4.5) +
-  theme_bw(base_size = 11) +
+  theme_bw(base_size = 12) +
   theme(legend.position = "none", 
         panel.grid.minor.x = element_blank()) +
   labs(x = "Parameter estimate", 
        y = "") + 
   scale_color_manual(values = "#062a9e")
-ggsave('Figures/large_parameter_estimates.png', width = 5, height = 3)
+ggsave('Figures/large_parameter_estimates.png', width = 4.5, height = 2.5)
 
 
 # ...visualization of NN/MF and Unit performance
@@ -333,7 +338,7 @@ hcnn.unit <- all.data %>%
               show.legend = FALSE) + 
   scale_color_manual(values = "#3AAADD") + 
   scale_fill_manual(values = "#3AAADD") + 
-  theme_bw(base_size = 11) +
+  theme_bw(base_size = 14) +
   theme(panel.grid = element_blank()) +
   labs(x = 'Highest Contiguous Next Number', 
        y = "Mean Unit Task performance") + 
@@ -355,13 +360,13 @@ mf.unit <- all.data %>%
   scale_color_manual(values = "#DE8141") + 
   scale_fill_manual(values = "#DE8141") +
   labs(x = "Mean Math Facts performance", 
-       y = "Mean Unit Task performance") + 
-  theme_bw(base_size = 11) + 
+       y = "") + 
+  theme_bw(base_size = 14) + 
   theme(panel.grid = element_blank())
 # ggsave("Figures/unit_by_mf.png", width = 4, height = 3.25)
 
 hcnn.unit +mf.unit
-ggsave("Figures/hcnn_mf_unit.png", width = 8, height = 3.25)
+ggsave("Figures/hcnn_mf_unit.png", units = "in", width = 8, height = 3.25)
 
                                                                                                                                                                  
 
@@ -444,7 +449,7 @@ all.data %>%
                position = position_dodge(width=0.95), width = 0.2, size = 1)+
   ylab("Mean task performance") + 
   xlab('Unit Task performance quartiles') + 
-  theme_bw(base_size = 11) + 
+  theme_bw(base_size = 14) + 
   theme(legend.position = "bottom") +
   theme(panel.grid.minor = element_blank(), 
         panel.grid.major = element_blank(),
@@ -456,7 +461,7 @@ all.data %>%
   scale_fill_manual(values = three.tasks.pal ) +
   scale_colour_manual(values = three.tasks.pal , guide = "none") + 
   facet_wrap(~sf.quartile, strip.position = "bottom", ncol = 4)
-ggsave("Figures/all_tasks_quartile.png", width = 7, height = 3.5)
+ggsave("Figures/all_tasks_quartile.png", units = "in", width = 8, height = 3.5)
 
 
 # Math facts and Unit Task comparison ----
@@ -502,8 +507,9 @@ comparison.sf.mf.int <- glmer(Correct ~ magnitude.match.c*Task + count_range + a
                                              optCtrl=list(maxfun=2e4)))
 
 #compare
-anova(comparison.sf.mf.mag,comparison.sf.mf.int, test = 'lrt')
-summary(comp.sf.mf.int)
+car::Anova(comparison.sf.mf.int)
+# anova(comparison.sf.mf.mag,comparison.sf.mf.int, test = 'lrt')
+summary(comparison.sf.mf.int)
 
 ## ...visualize - magnitude comparison between MF and Unit
 mf.unit.comparison %>%
@@ -514,19 +520,23 @@ mf.unit.comparison %>%
                                                       "32", "57", "63", "85", "93")))%>%
   group_by(Task, Magnitude_match)%>%
   multi_boot_standard("Correct", na.rm = TRUE) %>%
-  ggplot(aes(x = Magnitude_match, y = mean, colour = Task, group = Task)) +
-  geom_point(size = 2.2) + 
-  geom_line() +
-  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) +
-  theme_bw(base_size = 10) + 
+  ggplot(aes(x = Magnitude_match, y = mean, colour = Task, group = Task, shape = Task)) +
+  geom_point(size = .8) + 
+  geom_line(size = .25) +
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper), 
+                 size = .25) +
+  theme_bw(base_size = 4) +
   # facet_grid(~trial.type, scale = "free_x") +
   scale_colour_manual(values = two.tasks.pal) +
-  theme(legend.position = "right", 
+  theme(legend.key.size = unit(.35, "line"),
+        legend.position = c(.8, .88),
+        legend.title = element_blank(),
+        legend.margin = unit(-0.6,"cm"),
         panel.grid = element_blank()) +
   labs(x = "Magnitude of number queried", y = "Mean performance") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   scale_y_continuous(limits = c(0,1))
-ggsave("Figures/magnitude_overall_comp.png", width = 5, height = 3.5)
+ggsave("Figures/magnitude_overall_comp.png", units = "in", width = 1.2, height = 1)
 
 # ...does success on Unit translate into success on Math Facts?
 ##This analysis is restricted to kids who have at least minimal familiarity with the "MF" template - kids who succeed on 5+1
@@ -591,16 +601,17 @@ mf.unit.correct.comparison %>%
   mutate(total.n = sum(n), 
          prop = n/total.n)%>%
   ggplot(aes(x = Task_item, y = prop, fill = SF, group = SF)) +
-  geom_bar(stat = "identity", color = "black") +
+  geom_bar(stat = "identity", color = "black", size = .25) +
   facet_grid(~MF) + 
-  labs(y = 'Prop. children correct/incorrect on Math Facts', x = 'Number queried', 
+  labs(y = 'Prop. Math Facts correct/incorrect', x = 'Number queried', 
        fill = "Unit Task correct/incorrect") + 
   scale_fill_brewer(palette = "Set1") + 
-  theme_bw(base_size = 11) + 
+  theme_bw(base_size = 6) + 
   theme(panel.grid = element_blank(), 
         legend.position = "top", 
-        legend.title = element_blank()) 
-ggsave("Figures/mf_unit_comparison.png", width = 6, height = 4.5)
+        legend.title = element_blank(), 
+        legend.key.size = unit(.35, "line"))
+ggsave("Figures/mf_unit_comparison.png", units = "in", width = 2.75, height = 1.9)
 
 ## ... analysis: testing whether, for addition knowers, they are more accurate on math facts for items that they succeeded on in Unit Task ---- 
 
@@ -614,16 +625,20 @@ summary(addition.understander.comparison)
 ## make an indefinite next number dataset
 
 indefinite.df <- all.data %>%
-  filter(Task == "Indefinite")
+  filter(Task == "Indefinite")%>%
+  droplevels()
 
 #descriptives
 indefinite.df %>%
-  distinct(SID, Age, Correct)%>%
+  distinct(SID, Age)%>%
   summarise(n = n(), 
             mean_age = mean(Age), 
-            sd_age = sd(Age), 
-            mean_correct = mean(Correct, na.rm = TRUE), 
-            sd_correct = sd(Correct, na.rm = TRUE))
+            sd_age = sd(Age))
+
+# ...overal performance ----
+indefinite.df %>%
+  summarise(mean = mean(Correct, na.rm = TRUE), 
+            sd = sd(Correct, na.rm = TRUE))
 
 # ...is performance predicted by mean Unit Task performance for the largest items (81, 84, 93, 95)
 restricted_unit <- all.data %>%
@@ -657,7 +672,7 @@ indefinite.df %>%
 # ... does mean indefinite performance predict unit task performance? ----
 ##go back to model.df data frame
 indef.model.df <- model.df %>%
-  filter(!is.na(indef.mean))%>%
+  filter(SID %in% indefinite.df$SID)%>%
   mutate(indef.mean.c = as.vector(scale(indef.mean, center = TRUE, scale = TRUE)))
 
 unit.from.indef.base <- glmer(Correct ~ count_range + age.c + (1|SID) + 
@@ -700,19 +715,19 @@ large.indef.model.output %<>%
 large.indef.model.output %>%
   ggplot(aes(x = estimate, y = term, color = "#062a9e")) + 
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey") +
-  geom_point(size = 2) + 
+  geom_point(size = 1) + 
   geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height =0, 
                  size = .5) +
   geom_text(label = large.indef.model.output$p.stars, 
-            nudge_y = .2, 
-            size = 4.5) +
-  theme_bw(base_size = 11) +
+            nudge_y = .15, 
+            size = 3) +
+  theme_bw(base_size = 6) +
   theme(legend.position = "none", 
         panel.grid.minor.x = element_blank()) +
   labs(x = "Parameter estimate", 
        y = "") + 
   scale_color_manual(values = "#062a9e")
-ggsave('Figures/large_indef_parameter_estimates.png', width = 5, height = 3)
+ggsave('Figures/large_indef_parameter_estimates.png', units = "in", width = 2.5, height = 1.35)
 
 
 # ... visualize - relationship between Unit and Indefinite ----
@@ -750,3 +765,26 @@ all.data %>%
             min = min(delta.hc), 
             max = max(delta.hc), 
             median = median(delta.hc))
+
+##Follow up: Is there an effect of alternative order in Unit task?
+greater.first.trials <- as.vector(c("2", "4", "6", "8", 
+                                    "10", "12", "14", "16", "18"))
+
+unit.data <- all.data %>%
+  filter(Task == "SF", 
+         Trial_number != "Training")%>%
+  mutate(alt.order = ifelse(Trial_number %in% greater.first.trials, "greater_first", 
+                            "lesser_first"), 
+         Trial_number = as.numeric(as.character(Trial_number)))
+
+test <- unit.data %>%
+  group_by(SID, alt.order)%>%
+  summarise(mean = mean(Correct, na.rm = TRUE))
+
+t.test(subset(test, alt.order == "greater_first")$mean, 
+       subset(test, alt.order == "lesser_first")$mean, var.equal = TRUE)
+
+summary(glmer(Correct ~ alt.order + as.numeric(as.character(Task_item)) + (1|SID), 
+              family= "binomial", 
+              data = unit.data))
+
