@@ -21,9 +21,6 @@ library(patchwork)
 
 '%!in%' <- function(x,y)!('%in%'(x,y))
 
-## hello world! This is a change!
-#this is another change
-
 # leftover data manipulations
 ##mean sf, mf, wcn, and indefinite
 means <- all.data %>%
@@ -427,6 +424,25 @@ car::Anova(planned.contrasts.all)
 tidy(planned.contrasts.all, conf.int=T) %>% #coefficients, cis, and p values
   mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))
 
+##now check whether kids at ceiling on MF are also at ceiling on SF
+#add quartiles for unit task
+all.tasks.model %<>%
+  mutate(mf.ceiling = ifelse(mf.mean > 0.875, "ceiling", "not"))
+
+planned.contrasts.mf <- glmer(Correct ~ Task + count_range + age.c + (1|SID), 
+                           data = subset(all.tasks.model, mf.ceiling == "ceiling"), 
+                           family = "binomial",
+                           contrasts = list(Task = cMat), 
+                           control=glmerControl(optimizer="bobyqa",
+                                                optCtrl=list(maxfun=2e4)))
+car::Anova(planned.contrasts.mf)
+tidy(planned.contrasts.mf, conf.int=T) %>% #coefficients, cis, and p values
+  mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))
+
+##descriptives of mean task performance by SF quartile
+all.tasks.model %>%
+  group_by(Task, sf.quartile)%>%
+  summarise(mean = mean(Correct, na.rm= TRUE))
 
 # ...visualize - all three tasks by SF quartile ----
 all.data %>%
@@ -615,6 +631,22 @@ mf.unit.correct.comparison %>%
         legend.title = element_blank(), 
         legend.key.size = unit(.35, "line"))
 ggsave("Figures/mf_unit_comparison.png", units = "in", width = 2.75, height = 1.9)
+
+# ... count of how many incorrect MF are associated with correct Unit ----
+
+mf.unit.correct.comparison %>%
+  filter(addition.understander == 1)%>%
+  mutate(Task_item = factor(Task_item)) %>%
+  mutate(MF = factor(MF, levels = c(0,1), 
+                     labels = c("Math Facts Incorrect", "Math Facts Correct")), 
+         SF = factor(SF, levels = c(0, 1),
+                     labels = c("Unit Task Incorrect", "Unit Task Correct")))%>%
+  group_by(MF, SF)%>%
+  summarise(n = n())%>%
+  group_by(MF)%>%
+  mutate(total.n = sum(n), 
+         prop = n/total.n)
+
 
 ## ... analysis: testing whether, for addition knowers, they are more accurate on math facts for items that they succeeded on in Unit Task ---- 
 
