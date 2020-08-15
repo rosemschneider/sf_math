@@ -236,7 +236,7 @@ data.raw <- left_join(data.raw, lookup, by = "SID")
 
 # Highest count ----
 hc.df <- read.csv('../Data/sf_math_hc.csv', na.strings = c("NA", "NaN", "NA ", "", " "))%>%
-  dplyr::select(-IHC_single, - FHC_single, -Special_count, -Notes, -RMS.note)%>%
+  dplyr::select(-IHC_single, - FHC_single, -Special_count, -Notes)%>%
   filter(Exclude_trial != 1)%>%
   dplyr::rename(FHC = FHC_final, 
                 IHC = IHC_final)%>%
