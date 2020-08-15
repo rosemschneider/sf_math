@@ -21,35 +21,30 @@ data.raw <- read.csv('../Data/sf_math_data.csv') %>%
   mutate(Age = round(as.numeric(as.character(Age)), 2))%>%
   dplyr::select(-Response_single, -Response_double)%>% #remove double coding
   dplyr::rename(Response = Response_final)%>%#rename for code
-  mutate(Exclude_trial = ifelse(Exclude_trial == "#NAME?", 0, as.numeric(as.character(Exclude_trial))))
+  mutate(Exclude_trial = ifelse(Exclude_trial == "#NAME?", 0, as.numeric(as.character(Exclude_trial))))#anything that is not 1 is not excluded, and should be 0
 
 ## ...exclusions ----
 ## how many kids pre-exclusion?
 total.pre.excl <- data.raw %>%
-  distinct(SID, Age)
+  distinct(SID, Age) ##n =230
 
 ## why are kids excluded? 
+## Note: There is one kid who has more than 20% of data missing overall (checked below in code, so this is actually 38)
+## Note: 5 kids excluded manually for less than 50% data 
 data.raw %>%
   filter(Exclude_analysis == 1)%>%
   distinct(SID, Exclude_analysis_reason)%>%
   group_by(Exclude_analysis_reason)%>%
-  summarise(n = n())
-
-## why are kids excluded minus CP - this is plus 1, because there is one kid who has less than 20% of data, so 38
-data.raw %>%
-  filter(Exclude_analysis == 1, 
-         Exclude_analysis_reason != "NOT CP KNOWER")%>%
-  distinct(SID, Exclude_analysis_reason)%>%
-  group_by(Exclude_analysis_reason)%>%
   summarise(n = n())%>%
-  mutate(total.n = sum(n))
+  mutate(excl.type = ifelse(Exclude_analysis_reason == "NOT CP KNOWER", "NOT CP", "OTHER"))%>%
+  group_by(excl.type)%>%
+  mutate(total.n = sum(n))# n = 48 non-cp, n = 37 other exclusions
 
 ## Exclude these kids
 data.raw %<>%
   filter(Exclude_analysis != 1)
-  
-## Note: 5 kids excluded manually for less than 50% data
 
+##We are excluding kids because they don't have enough data below
 ## Task exclusions 
 ## check when kids are missing more than 20% of data within a task
 task.check <- data.raw %>%
@@ -88,7 +83,11 @@ overall.check <- data.raw %>%
          total.possible.n = 32, 
          prop = completed/total.possible.n, 
          exclude_overall_check = ifelse(prop < .8, "EXCLUDE", "INCLUDE"))%>%
-  dplyr::select(SID, exclude_overall_check) #one kid who needs to be excluded for less than 20% of data
+  dplyr::select(SID, exclude_overall_check) 
+
+overall.check %>%
+  filter(exclude_overall_check == "EXCLUDE")%>%
+  distinct(SID) #one kid who needs to be excluded for less than 20% of data
 
 #add this to data
 data.raw <- left_join(data.raw, overall.check, by = c("SID")) %>%
@@ -124,7 +123,11 @@ global.check <- data.raw %>%
          total.possible.n = 16+8+8, 
          prop = total.n/total.possible.n, 
          global.exclude = ifelse(prop < .8, "EXCLUDE", "INCLUDE"))%>%
-  distinct(SID, global.exclude) #n = 8 kids missing more than 20% of data post task exclusions
+  distinct(SID, global.exclude) 
+
+global.check %>%
+  filter(global.exclude == "EXCLUDE")%>%
+  distinct(SID) #n = 8 kids missing more than 20% of data post task exclusions
 
 # add to data 
 data.raw <- left_join(data.raw, global.check, by = "SID")
