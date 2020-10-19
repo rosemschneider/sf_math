@@ -1,11 +1,11 @@
 #SF-math data 
 
 # SETUP ----
-source("0-clean.R") # data cleaning script, produces cleaned data for study 1 and 2
+source("Analysis/0-clean.R") # data cleaning script, produces cleaned data for study 1 and 2
 # Load cleaned data - 2 dfs
 rm(list = ls())
-load("../Data/sf_math_data_cleaned.RData")
-load("../Data/highest_count_full.RData")
+load("Data/sf_math_data_cleaned.RData")
+load("Data/highest_count_full.RData")
 
 ## load libraries
 library(tidyverse)
@@ -37,7 +37,7 @@ means <- all.data %>%
 #add this to all.data 
 all.data <- left_join(all.data, means, by = "SID")
 
-#centering and scaling various things
+#centering and scaling various things for models
 all.data %<>%
   mutate(SID = factor(SID), 
          age.c = as.vector(scale(Age, center = TRUE, scale = TRUE)), 
@@ -100,7 +100,7 @@ highest_counts %>%
 highest_counts %>% 
   filter(IHC < 120)%>%
   distinct(SID)%>%
-  summarise(n = n())
+  summarise(n = n()) #125
 
 ## prompt descriptives for children who did not count to 120
 highest_counts %>%
@@ -120,7 +120,7 @@ all.data %>%
   summarise(mean = mean(Correct, na.rm = TRUE), 
             sd = sd(Correct, na.rm = TRUE))
 
-  # Models ----
+# Models ----
 model.df <- all.data %>%
   filter(Task == "SF")%>%
   mutate(starting_num.c = as.vector(scale(as.numeric(as.character(Task_item)), center = TRUE, scale = TRUE)), 
@@ -166,23 +166,23 @@ large.model.base <- hcnn.model
 large.plus.fhc <- glmer(Correct ~ fhc.c + highest_contig.c + count_range + age.c + (1|SID) + 
                           (1|starting_num.c), data = model.df, family = "binomial")
 #test
-anova(large.model.base, large.plus.fhc, test = 'LRT') #sig, p = .001, retain
+anova(large.model.base, large.plus.fhc, test = 'LRT') #sig, p = .001, retain FHC
 
 #add IHC
 large.plus.ihc <- glmer(Correct ~ ihc.c + fhc.c + highest_contig.c + count_range + age.c + 
                           (1|SID) + (1|starting_num.c), 
                           data = model.df, family = "binomial")
 #test
-anova(large.plus.fhc, large.plus.ihc, test = 'LRT') #ns, p = .23
+anova(large.plus.fhc, large.plus.ihc, test = 'LRT') #ns, p = .23, don't add
 
-#add resilience
+#add resilience just to check
 large.plus.resilience <- glmer(Correct ~ Productive + fhc.c + highest_contig.c + count_range + age.c + 
                           (1|SID) + (1|starting_num.c), 
                         data = model.df, family = "binomial", 
                         control=glmerControl(optimizer="bobyqa",
                                              optCtrl=list(maxfun=2e4)))
 #test
-anova(large.plus.fhc, large.plus.resilience, test = 'LRT') #ns, p = .13
+anova(large.plus.fhc, large.plus.resilience, test = 'LRT') #ns, p = .13, don't add
 
 ## FINAL PRODUCTIVITY MODEL: HCNN + FHC
 final.prod.model <- large.plus.fhc
@@ -195,7 +195,7 @@ tidy(final.prod.model, conf.int=T) %>% #coefficients, cis, and p values
 mf.model <- glmer(Correct ~ mean.mf.c + count_range + age.c + (1|SID) + (1|starting_num.c), 
                   data = model.df, family = "binomial")
 # compare
-anova(base.model, mf.model, test = 'LRT') #significant
+anova(base.model, mf.model, test = 'LRT') #significant, AIC = 2441.9, p < .0001
 
 summary(mf.model)
 
@@ -204,7 +204,7 @@ large.plus.mf <- glmer(Correct ~ mean.mf.c + fhc.c + highest_contig.c + count_ra
                          age.c + (1|SID) + (1|starting_num.c), 
                        data = model.df, family = "binomial")
 #compare
-anova(final.prod.model, large.plus.mf, test = 'lrt') #significant
+anova(final.prod.model, large.plus.mf, test = 'lrt') #significant, chisq = 14.92, p = .0001
 
 ## FINAL MODEL: MF + FHC + HCNN
 final.model <- large.plus.mf
@@ -394,6 +394,7 @@ task.contrasts <- rbind(c(1, -0.5, -0.5),     # MF vs. (SF + NN) / 2
                         c(0, 1, -1))                # SF vs. NN
 cMat <- MASS::ginv(task.contrasts)
 
+## first, run without contrasts
 no.planned.contrasts <- glmer(Correct ~ Task + count_range + age.c + (1|SID), 
                            data = subset(all.tasks.model, sf.quartile == "(0.875,1]"), 
                            family = "binomial",
@@ -401,6 +402,7 @@ no.planned.contrasts <- glmer(Correct ~ Task + count_range + age.c + (1|SID),
                                                 optCtrl=list(maxfun=2e4)))
 summary(no.planned.contrasts)
 
+##then run with contrasts
 #starting number is not going to be informative here, I think because everyone is at ceiling in the Unit Task and WCN
 planned.contrasts <- glmer(Correct ~ Task + count_range + age.c + (1|SID), 
                            data = subset(all.tasks.model, sf.quartile == "(0.875,1]"), 
@@ -429,15 +431,10 @@ tidy(planned.contrasts.all, conf.int=T) %>% #coefficients, cis, and p values
 all.tasks.model %<>%
   mutate(mf.ceiling = ifelse(mf.mean > 0.875, "ceiling", "not"))
 
-planned.contrasts.mf <- glmer(Correct ~ Task + count_range + age.c + (1|SID), 
-                           data = subset(all.tasks.model, mf.ceiling == "ceiling"), 
-                           family = "binomial",
-                           contrasts = list(Task = cMat), 
-                           control=glmerControl(optimizer="bobyqa",
-                                                optCtrl=list(maxfun=2e4)))
-car::Anova(planned.contrasts.mf)
-tidy(planned.contrasts.mf, conf.int=T) %>% #coefficients, cis, and p values
-  mutate_at(c("estimate", "conf.low", "conf.high"), list(EXP=exp))
+##how many kids at ceiling for math facts
+all.tasks.model %>%
+  filter(mf.ceiling == "ceiling")%>%
+  distinct(SID, sf.quartile, mf.mean) #n = 7
 
 ##descriptives of mean task performance by SF quartile
 all.tasks.model %>%
@@ -557,7 +554,8 @@ mf.unit.comparison %>%
   scale_y_continuous(limits = c(0,1))
 ggsave("Figures/magnitude_overall_comp.png", units = "in", width = 1.2, height = 1)
 
-# ...does success on Unit translate into success on Math Facts?
+# ...does success on Unit translate into success on Math Facts? 
+## NB: This analysis has been removed from paper
 ##This analysis is restricted to kids who have at least minimal familiarity with the "MF" template - kids who succeed on 5+1
 ##Testing whether, if they get an item correct on Unit, they also get it correct on MF
 ##This is analysis is restricted to items that appear on both tasks: 20, 32, 57, 93
@@ -670,7 +668,7 @@ indefinite.df %>%
             mean_age = mean(Age), 
             sd_age = sd(Age))
 
-# ...overal performance ----
+# ...overall performance ----
 indefinite.df %>%
   summarise(mean = mean(Correct, na.rm = TRUE), 
             sd = sd(Correct, na.rm = TRUE))
@@ -714,7 +712,7 @@ unit.from.indef.base <- glmer(Correct ~ count_range + age.c + (1|SID) +
                                 (1|starting_num.c), data = indef.model.df, family = 'binomial')
 unit.from.indef <- glmer(Correct ~ indef.mean.c + count_range + age.c + (1|SID) + 
                            (1|starting_num.c), data = indef.model.df, family = 'binomial')
-anova(unit.from.indef.base, unit.from.indef, test = 'lrt')
+anova(unit.from.indef.base, unit.from.indef, test = 'lrt') #sig, Chisq = 49.22, p < .0001
 summary(unit.from.indef)
 
 # ...finally, test whether indef explains anything above and beyond large model 
@@ -724,6 +722,7 @@ large.plus.indef <- glmer(Correct ~ indef.mean.c + mean.mf.c + fhc.c + highest_c
                             (1|starting_num.c), data = indef.model.df, family = 'binomial')
 anova(final.large, large.plus.indef, test = 'lrt')
 summary(large.plus.indef)
+car::Anova(large.plus.indef)
 
 # ... visualization of large indef model output ----
 large.indef.model.output <- tidy(large.plus.indef, conf.int=T) %>% #coefficients, cis, and p values
@@ -818,8 +817,3 @@ test <- unit.data %>%
 
 t.test(subset(test, alt.order == "greater_first")$mean, 
        subset(test, alt.order == "lesser_first")$mean, var.equal = TRUE)
-
-summary(glmer(Correct ~ alt.order + as.numeric(as.character(Task_item)) + (1|SID), 
-              family= "binomial", 
-              data = unit.data))
-

@@ -10,12 +10,13 @@ library(tidyverse)
 library(magrittr)
 library(tidylog)
 library(stringr)
+library(here)
 
 #filtering function
 '%!in%' <- function(x,y)!('%in%'(x,y))
 
 # Load trial data ----
-data.raw <- read.csv('../Data/sf_math_data.csv') %>%
+data.raw <- read.csv(here('Data/sf_math_data.csv')) %>%
   filter(SID != "?", 
          Exclude_analysis_reason != "ALREADY PARTICIPATED ON 4/20/18")%>% #hard-code, one participant with unrecorded SID
   mutate(Age = round(as.numeric(as.character(Age)), 2))%>%
@@ -138,12 +139,12 @@ data.raw %<>%
 
 #how many kids?
 data.raw %>%
-  distinct(SID, Age)
+  distinct(SID, Age) #n = 136
 
 # Highest contiguous Next Number ----
 
 ##Highest contiguous NN = highest number successfully generated,
-#provided that previous numbers were correct. Children who failed training given HCNN of 0 (N = 2). 
+#provided that previous numbers were correct. Children who failed training given HCNN of 0 (N = 1). 
 
 #Get kids who failed NN for highest contiguous
 failed.nn <- data.raw %>%
@@ -151,7 +152,7 @@ failed.nn <- data.raw %>%
          Correct == 0, 
          Trial_number == "Training")
 
-failed.nn.sids <- unique(as.vector(failed.nn$SID))
+failed.nn.sids <- unique(as.vector(failed.nn$SID)) #n = 1
 
 #get unique ids
 unique.nn <- data.raw %>%
@@ -235,7 +236,7 @@ lookup <- data.raw %>%
 data.raw <- left_join(data.raw, lookup, by = "SID")
 
 # Highest count ----
-hc.df <- read.csv('../Data/sf_math_hc.csv', na.strings = c("NA", "NaN", "NA ", "", " "))%>%
+hc.df <- read.csv('Data/sf_math_hc.csv', na.strings = c("NA", "NaN", "NA ", "", " "))%>%
   dplyr::select(-IHC_single, - FHC_single, -Special_count, -Notes)%>%
   filter(Exclude_trial != 1)%>%
   dplyr::rename(FHC = FHC_final, 
@@ -250,8 +251,8 @@ hc.df <- read.csv('../Data/sf_math_hc.csv', na.strings = c("NA", "NaN", "NA ", "
 #past an error without making more than 3 errors within those 2 decades. 
 
 #remove anyone not in trial data
-unique_SIDs <- as.vector(unique(hc.df$SID))
-unique_trial_SIDS <- as.vector(unique(data.raw$SID))
+unique_SIDs <- as.vector(unique(hc.df$SID)) #156
+unique_trial_SIDS <- as.vector(unique(data.raw$SID)) #136
 
 hc.df %<>%
   filter(SID %in% unique_trial_SIDS)
@@ -267,8 +268,8 @@ hc <- hc.df %>%
 
 
 #check ns
-unique_SIDs <- as.vector(unique(hc.df$SID)) #145
-unique_trial_SIDS <- as.vector(unique(data.raw$SID)) #145
+unique_SIDs <- as.vector(unique(hc.df$SID)) #136
+unique_trial_SIDS <- as.vector(unique(data.raw$SID)) #136
 
 #### Resilience classification ####
 
@@ -343,7 +344,7 @@ highest_counts <- left_join(hc, productive, by = "SID")
 
 # save and export
 
-save(highest_counts, file = '../Data/highest_count_full.RData')
+save(highest_counts, file = 'Data/highest_count_full.RData')
 
 #remove last-successful from hc so you can add IHC and FHC to data.raw
 hc %<>%
@@ -367,8 +368,8 @@ data.raw %<>%
 # Save data ----
 all.data <- data.raw
 
-save(all.data, file="../Data/sf_math_data_cleaned.RData")
+save(all.data, file="Data/sf_math_data_cleaned.RData")
 
-write.csv(all.data, file="../Data/sf_math_data_cleaned.csv")
+write.csv(all.data, file="Data/sf_math_data_cleaned.csv")
 
 

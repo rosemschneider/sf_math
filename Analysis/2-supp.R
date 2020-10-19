@@ -1,11 +1,14 @@
 #supplementary material for sf-math paper
 
 # SETUP ----
-source("0-clean.R") # data cleaning script, produces cleaned data for study 1 and 2
+source("Analysis/0-clean.R") # data cleaning script, produces cleaned data for study 1 and 2
 # Load cleaned data - 2 dfs
 rm(list = ls())
-load("../Data/sf_math_data_cleaned.RData")
-load("../Data/highest_count_full.RData")
+load("Data/sf_math_data_cleaned.RData")
+load("Data/highest_count_full.RData")
+
+##read in pilot data 
+pilot.data <- read.csv('Data/pilot_data.csv')
 
 ## load libraries
 library(tidyverse)
@@ -165,7 +168,7 @@ all.data %>%
                position = position_dodge(width=0.95), width = 0.2, size = 1)+
   ylab("Mean task performance") + 
   xlab('Task') + 
-  theme_bw(base_size = 11) + 
+  theme_bw(base_size = 14) + 
   theme(legend.position = "bottom") +
   theme(panel.grid.minor = element_blank(), 
         panel.grid.major = element_blank(),
@@ -176,4 +179,26 @@ all.data %>%
   scale_colour_manual(values = productivity.pal , guide = "none")
 ggsave("Figures/productivity_3_tasks.png", width = 6, height = 5)
 
+## Pilot data comparison ----
+#comparison of +1 unit free response and math facts and WCN
+##hidden = unit task
+unit.mf.compare <- pilot.data %>%
+  filter(Task == "Hidden" | 
+           Task == "MathFacts" |
+           Task == "WCN",
+         Addend == 1)
 
+#how many kids?
+unit.mf.compare %>%
+  distinct(SID, Age)%>%
+  summarise(n = n())
+
+#descriptives
+unit.mf.compare %>%
+  group_by(Task)%>%
+  summarise(mean = mean(Response.Accuracy, na.rm = TRUE))
+
+#GLMM
+summary(glmer(Response.Accuracy ~ Task + (1|SID), 
+              family = "binomial", 
+              data = unit.mf.compare))
